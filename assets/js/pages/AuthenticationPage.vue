@@ -46,16 +46,74 @@
                                     <!--end::forgetPassword head -->
                                 </div>
                                 <!--begin::form -->
-                                <div class="m-login__form m-form" @keydown.enter="handleSubmit">
+                                <form 
+                                    autocomplete="off"
+                                    class="m-login__form m-form" 
+                                    @keydown.enter="handleSubmit"
+                                    @submit.prevent="validateBeforeSubmit"
+                                >
                                     <!--begin::signin inputs -->
-                                        <div v-if="type == 'signin'">
-                                            <div class="form-group m-form__group">
-                                                <input v-model="user_auth.email" class="form-control m-input" type="text" placeholder="Email" name="email" autocomplete="off">
+                                        <div >
+                                            <div class="form-group m-form__group" v-if="type == 'signup'">
+                                                <input 
+                                                    v-model="user.firstname" 
+                                                    v-validate="'required|alpha'" 
+                                                    :class="{'input': true, 'is-danger': errors.has('firstname') }"
+                                                    class="form-control m-input" 
+                                                    type="text" 
+                                                    placeholder="Firstname" 
+                                                    name="firstname"
+                                                >
+                                            </div>
+                                            <div class="form-group m-form__group" v-if="type == 'signup'">
+                                                <input 
+                                                    v-model="user.lastname"
+                                                    v-validate="'required|alpha'" 
+                                                    :class="{'input': true, 'is-danger': errors.has('lastname') }"
+                                                    class="form-control m-input" 
+                                                    type="text" 
+                                                    placeholder="Lastname"
+                                                    name="lastname"
+                                                >
                                             </div>
                                             <div class="form-group m-form__group">
-                                                <input v-model="user_auth.password" class="form-control m-input m-login__form-input--last" type="password" placeholder="Password" name="password">
+                                                <input 
+                                                    v-model="user.email" 
+                                                    v-validate="'required|email'"
+                                                    :class="{'input': true, 'is-danger': errors.has('email') }"
+                                                    class="form-control m-input" 
+                                                    type="text" 
+                                                    placeholder="Email" 
+                                                    name="email" 
+                                                    autocomplete="off"
+                                                >
                                             </div>
-                                            <div class="row m-login__form-sub">
+                                            <div class="form-group m-form__group" v-if="type == 'signup' || type == 'signin'">
+                                                <input 
+                                                    autocomplete="off"
+                                                    v-model="user.password" 
+                                                    class="form-control m-input" 
+                                                    type="password" 
+                                                    placeholder="Password" 
+                                                    name="password"
+                                                    ref="password"
+                                                    v-validate="'required|min:6'"
+                                                    :class="{'input': true, 'is-danger': errors.has('password') }"
+                                                >
+                                            </div>
+                                            <div class="form-group m-form__group" v-if="type == 'signup'">
+                                                <input 
+                                                    autocomplete="off"
+                                                    v-model="user.password_confirmation" 
+                                                    class="form-control m-input m-login__form-input--last" 
+                                                    type="password" 
+                                                    placeholder="Confirm Password" 
+                                                    name="password_confirmation"
+                                                    v-validate="'required|confirmed:password'" 
+                                                    :class="{'input': true, 'is-danger': errors.has('password_confirmation') }"
+                                                >
+                                            </div>
+                                            <div class="row m-login__form-sub" v-if="type == 'signin'">
                                                 <div class="col m--align-left">
                                                     <label class="m-checkbox m-checkbox--focus">
                                                         <input type="checkbox" name="remember">
@@ -75,33 +133,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    <!--end::signin inputs -->
-                                    <!--begin::signup inputs -->
-                                        <div v-if="type == 'signup'">
-                                            <div class="form-group m-form__group">
-                                                <input v-model="user_auth.firstname" class="form-control m-input" type="text" placeholder="Firstname" name="firstname">
-                                            </div>
-                                            <div class="form-group m-form__group">
-                                                <input v-model="user_auth.lastname" class="form-control m-input" type="text" placeholder="Lastname" name="lastname">
-                                            </div>
-                                            <div class="form-group m-form__group">
-                                                <input v-model="user_auth.email" class="form-control m-input" type="text" placeholder="Email" name="email" autocomplete="off">
-                                            </div>
-                                            <div class="form-group m-form__group">
-                                                <input v-model="user_auth.password" class="form-control m-input" type="password" placeholder="Password" name="password">
-                                            </div>
-                                            <div class="form-group m-form__group">
-                                                <input v-model="user_auth.rpassword" class="form-control m-input m-login__form-input--last" type="password" placeholder="Confirm Password" name="rpassword">
-                                            </div>
-                                        </div>
-                                    <!--end::signup inputs -->
-                                    <!--begin::forgetPassword inputs -->
-                                        <div v-if="type == 'forgetPassword'">
-                                            <div class="form-group m-form__group">
-                                                <input v-model="user_auth.email" class="form-control m-input" type="text" placeholder="Email" name="email" id="m_email" autocomplete="off">
-                                            </div>
-                                        </div>
-                                    <!--end::forgetPassword inputs -->
                                     <!--begin::submit signin -->
                                         <div class="m-login__form-action" v-if="type == 'signin'">
                                             <button
@@ -151,9 +182,26 @@
                                             </router-link>
                                         </div>
                                     <!--end::submit forgetpassword -->
-                                </div>
+                                </form>
                                 <!--end::form -->
                             </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-danger" v-show="errors.any() && type!='signin'">
+                        <div v-show="errors.has('firstname')">
+                            {{ errors.first('firstname') }}
+                        </div>
+                        <div v-show="errors.has('lastname')">
+                            {{ errors.first('lastname') }}
+                        </div>
+                        <div v-show="errors.has('email')">
+                            {{ errors.first('email') }}
+                        </div>
+                        <div v-if="errors.has('password')">
+                            {{ errors.first('password') }}
+                        </div>
+                        <div v-if="errors.has('password_confirmation')">
+                            {{ errors.first('password_confirmation') }}
                         </div>
                     </div>
                     <div class="m-stack__item m-stack__item--center" v-if="type != 'signup'">
@@ -202,13 +250,12 @@
         name: 'AuthenticationPage',
         data() {
             return {
-                user_auth : {
+                user : {
                     firstname: '',
                     lastname: '',
                     email: '',
                     password: ''
-                },
-                user: {}
+                }
             }
         },
         // Notifications
@@ -270,8 +317,8 @@
                 axios
                     .post('http://127.0.0.1:8000/api/login_check',
                         {
-                            "username": this.user_auth.email,
-                            "password": this.user_auth.password
+                            "username": this.user.email,
+                            "password": this.user.password
                         },
                         {headers: { 'Content-Type': 'application/json' }}
                     )
@@ -294,16 +341,16 @@
             },
             handleSubmitSignup: function(){
                 console.log('Sending form Signup...');
-                console.log(this.user_auth);
+                console.log(this.user);
                 NProgress.start();
                 NProgress.set(0.4);
                 axios
                     .post('http://127.0.0.1:8000/api/signup',
                         {
-                            "firstname": this.user_auth.firstname,
-                            "lastname": this.user_auth.lastname,
-                            "email": this.user_auth.email,
-                            "password": this.user_auth.password
+                            "firstname": this.user.firstname,
+                            "lastname": this.user.lastname,
+                            "email": this.user.email,
+                            "password": this.user.password
                         },
                         {headers: { 'Content-Type': 'application/json' }}
                     )
@@ -326,6 +373,16 @@
                     });
             },
             handleSubmitForgetPassword: function(){ /**/ },
+            validateBeforeSubmit () {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        // eslint-disable-next-line
+                        this.showSuccessMsg({message: 'Form Submitted!', title: ''});
+                        return;
+                    }
+                    this.showWarnMsg({message: 'Correct them errors!', title: ''});
+                });
+            }
         },
     }
 </script>
@@ -337,5 +394,9 @@
     }
     .m-login__signin{
         display: block;
+    }
+    .is-danger {
+        border-color: #ff3860 !important;
+        color: #ff3860;
     }
 </style>
