@@ -1,0 +1,11 @@
+authentication_signup:
+    path: /signup
+    controller: App\Controller\AuthenticationController::signup
+    
+authentication_login_check:
+    path: /login_check
+    controller: App\Controller\AuthenticationController::getLoginCheck
+
+authentication_forget_password:
+    path: /forget_password
+    controller: App\Controller\AuthenticationController::forgetPassword

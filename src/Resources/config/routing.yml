@@ -1,0 +1,15 @@
+routing-api:
+    # loads routes from the given routing file stored in some bundle
+    prefix: '/api'
+    resource: 'routingApi/' 
+    type: directory
+routing-views:
+    # loads routes from the given routing file stored in some bundle
+    prefix: '/'
+    resource: 'routingViews/' 
+    type: directory    
+ 
+gesdinet_jwt_refresh_token:
+    path:     /api/token/refresh
+    # defaults: { _controller: gesdinet.jwtrefreshtoken:refresh }    
+    controller: gesdinet.jwtrefreshtoken:refresh

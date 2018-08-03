@@ -1,0 +1,78 @@
+App\Entity\Providers:
+    type: entity
+    table: providers
+    indexes:
+        user_id:
+            columns:
+                - user_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        brandName:
+            type: string
+            nullable: true
+            length: 120
+            options:
+                fixed: false
+            column: brand_name
+        businessName:
+            type: string
+            nullable: true
+            length: 100
+            options:
+                fixed: false
+            column: business_name
+        address:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        cif:
+            type: string
+            nullable: true
+            length: 20
+            options:
+                fixed: false
+            column: CIF
+        phone:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+        fax:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+        email:
+            type: string
+            nullable: true
+            length: 200
+            options:
+                fixed: false
+        createdOn:
+            type: datetime
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+            column: created_on
+    manyToOne:
+        user:
+            targetEntity: Users
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

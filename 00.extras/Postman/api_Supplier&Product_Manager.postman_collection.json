@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "afbc9fd5-2d2e-4b37-a0a1-3b2caf6a6c56",
+		"name": "api_Supplier&Product_Manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"_postman_id": "43f9436b-c3af-4781-a35d-83774feecc7f",
+			"name": "http://127.0.0.1:8000/api/signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstname\":\"Jhon\",\n\t\"lastname\":\"Marshall\",\n\t\"email\":\"test@tes.com\",\n\t\"password\":\"aA123\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/signup",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "e899c2da-d103-4600-b018-92b405f17cc3",
+			"name": "http://127.0.0.1:8000/api/login_check",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"test@tes.com\",\n\t\"password\":\"aA123\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/login_check",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login_check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "26b0a6fa-f7ef-48b0-88e3-4ccf0fd2dedd",
+			"name": "http://127.0.0.1:8000/api/forget_password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"test@tes.com\",\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/forget_password",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"forget_password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "c6374cf8-5530-417c-a205-fe8c8466f317",
+			"name": "http://127.0.0.1:8000/api/token/refresh",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"refresh_token\": \"59e29ee188aa03e036d2396535dad5d852e13e63d45bb92ad333cbccd81f8950983985ae6a9a7001e556272a5ae087fe2ef308f80080444c55cd27d95c736372\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/token/refresh",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"token",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "61d5e8bd-ff21-47cc-afd0-b3a70b7f5c15",
+			"name": "http://127.0.0.1:8000/api/get_settings",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstname\":\"Jhon\",\n\t\"lastname\":\"Marshall\",\n\t\"email\":\"test@tes.com\",\n\t\"password\":\"aA123\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/get_settings",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"get_settings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "3cf0f382-67cf-4418-a729-9f444550225f",
+			"name": "http://127.0.0.1:8000/api/auth/get_settings",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJpYXQiOjE1MzI5NDExNTQsImV4cCI6MTUzMjk0NDc1NCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidGVzdEB0ZXMuY29tIn0.dhM3zixszHU79t8gM8bwjgXQwXWLscwe6kDMxI_8AW2Bh1jOLU5qscYqqUyBj92c5LKDGxa82RqKuzy9zxb3AcsTBcswX3bqQgP79EvLowFj3MZPwqmMlQTm2E9iu8ZSUN-Mc3D3rWt-DqcQjxY43HPK1maGHsm0TdqrvAeEzxus3-mvffVFOcRCQJAHlEXEQ9SbdbhtJU74Rrndrn_VI59xBOzZvZsilYayjt4XZIpYyFVofqM1GdhoCQAkwDsKbNknCyIH3W0mOWu8s8jiMCfIpAah2uK3lMxv3tpR452e8XL3KbH9dfn4wjVGM8K03GOWDCmEu7DuKtiIEPNN8Rpw6OLPcgvv3yUbr7lGnC2ZBVVeJ4aYkg7qlDwi-z60uPtQwR80C3SAzePtztEFJNdleAqoDpj7jH2olnkwVNFmNkc73pc88CHM8Y1_atSJ7xSQ6RFFjpHLJYeUQz8lcVHuhwHg3J6IyFSdFA0xDV5ITW4zD8s34fZYTXlMyuEsDjXe4eGjbJZ8j9WtJ9TBV7mhsXdgCKsjqvIYlJ8_BhKoQ0YfSuZl-WCyXT-A4ADzm5uRdxB9xRDlPKPjXzTvWKOtYR2hLKD4bBVxwvPPAY7P2Zc2JkH8DpjCSUA7IOb-crNkgcdbD-HSpHu4bDdBzan3a33IE8GInJKfeFDf22g"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstname\":\"Jhon\",\n\t\"lastname\":\"Marshall\",\n\t\"email\":\"test@tes.com\",\n\t\"password\":\"aA123\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/auth/get_settings",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"auth",
+						"get_settings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "d03fc350-46aa-47d3-b796-beb2180f66ae",
+			"name": "http://127.0.0.1:8000/api/get_translations",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstname\":\"Jhon\",\n\t\"lastname\":\"Marshall\",\n\t\"email\":\"test@tes.com\",\n\t\"password\":\"aA123\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/get_translations",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"get_translations"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

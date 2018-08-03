@@ -1,0 +1,17 @@
+# Important in files with the extension .yaml each indentation equals 4 spaces!!!!!
+
+login:
+    path: /login
+    controller: App\Controller\ViewsController::index
+signup:
+    path: /signup
+    controller: App\Controller\ViewsController::index
+forget_password:
+    path: /forget-password
+    controller: App\Controller\ViewsController::index
+indexpage:
+    path: /
+    controller: App\Controller\ViewsController::index
+homepage:
+    path: /home
+    controller: App\Controller\ViewsController::index

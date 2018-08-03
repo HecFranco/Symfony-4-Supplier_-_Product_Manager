@@ -1,0 +1,29 @@
+/* Bootstrap 4 *******************************************************************************************/
+  @import '~bootstrap/dist/css/bootstrap.css';
+/* Bootstrap 4 - VUE *************************************************************************************/
+  @import '~bootstrap-vue/dist/bootstrap-vue.css';
+/* Begin::Animate.scss ***********************************************************************************/
+  // Source : https://www.npmjs.com/package/animate.scss
+  // Source: https://daneden.github.io/animate.css/
+  @import '~animate.scss/vendor/assets/stylesheets/animate';
+/* End::Animate.scss *************************************************************************************/
+/* Begin::NProgress **************************************************************************************/
+  // Source : https://www.npmjs.com/package/nprogress
+  @import '~nprogress/nprogress.css';
+  #nprogress .bar {
+    background: #9816F4;
+  }
+  #nprogress .spinner-icon {
+    border-top-color: #4A1796;
+    border-left-color: #4F1A41;
+  }
+/* End::NProgress ***************************************************************************************/
+$acceVerde: #84a640;
+$acceAzul: #396696;
+
+h1 {
+  color: $acceVerde;
+  s {
+    color: $acceAzul;
+  }
+}

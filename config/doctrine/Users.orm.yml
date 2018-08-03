@@ -1,0 +1,139 @@
+App\Entity\Users:
+    type: entity
+    table: users
+    indexes:
+        gender:
+            columns:
+                - gender
+    uniqueConstraints:
+        users_uniques_fields:
+            columns:
+                - email
+                - username
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        image:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        username:
+            type: string
+            nullable: false
+            length: 250
+            options:
+                fixed: false
+        email:
+            type: string
+            nullable: false
+            length: 250
+            options:
+                fixed: false
+        password:
+            type: string
+            nullable: false
+            length: 250
+            options:
+                fixed: false
+        plainPassword:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+            column: plain_password
+        firstName:
+            type: string
+            nullable: false
+            length: 250
+            options:
+                fixed: false
+            column: first_name
+        lastName:
+            type: string
+            nullable: false
+            length: 250
+            options:
+                fixed: false
+            column: last_name
+        address:
+            type: string
+            nullable: true
+            length: 250
+            options:
+                fixed: false
+        postalCode:
+            type: string
+            nullable: true
+            length: 25
+            options:
+                fixed: false
+            column: postal_code
+        phone:
+            type: string
+            nullable: true
+            length: 25
+            options:
+                fixed: false
+        phone2:
+            type: string
+            nullable: true
+            length: 25
+            options:
+                fixed: false
+        birthdate:
+            type: date
+            nullable: true
+        yearOfBirth:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: year_of_birth
+        timezone:
+            type: string
+            nullable: true
+            length: 50
+            options:
+                fixed: false
+        isActive:
+            type: boolean
+            nullable: false
+            column: is_active
+        disabledOn:
+            type: datetime
+            nullable: true
+            column: disabled_on
+        lastModifiedOn:
+            type: datetime
+            nullable: false
+            column: last_modified_on
+        createdOn:
+            type: datetime
+            nullable: false
+            column: created_on
+    manyToOne:
+        gender:
+            targetEntity: ListGenders
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                gender:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        userRoles:
+            targetEntity: UsersRoles
+            mappedBy: user
+    lifecycleCallbacks: {  }

@@ -1,0 +1,50 @@
+App\Entity\Settings:
+    type: entity
+    repositoryClass: App\Repository\SettingsRepository
+    table: settings
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        description:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+        value:
+            type: string
+            nullable: true
+            length: 100
+            options:
+                fixed: false
+        auth:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+        modifiedOn:
+            type: datetime
+            nullable: true
+            options:
+                default: CURRENT_TIMESTAMP
+            column: modified_on
+        createdOn:
+            type: datetime
+            nullable: true
+            options:
+                default: CURRENT_TIMESTAMP
+            column: created_on
+    lifecycleCallbacks: {  }

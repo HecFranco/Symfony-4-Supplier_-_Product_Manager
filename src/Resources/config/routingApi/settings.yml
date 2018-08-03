@@ -1,0 +1,12 @@
+get_settings:
+    path: /get_settings
+    controller: App\Controller\SettingsController::getSettings
+    methods: [GET]
+get_settings_auth:
+    path: /auth/get_settings
+    controller: App\Controller\SettingsController::getSettingsAuth
+    methods: [GET]
+get_translations:
+    path: /get_translations
+    controller: App\Controller\SettingsController::getTranslations
+    methods: [GET]
