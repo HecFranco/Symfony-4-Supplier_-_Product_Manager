@@ -61,6 +61,16 @@
 
     Vue.use(VueNotifications, options)
 /* End::VueNotifications*******************************************************************/
+/* Begin::Vee-validate ********************************************************************/
+    import VeeValidate, {Validator} from 'vee-validate';
+    // To make validator with translations......
+    import validatorEs from './validator/es';
+    import validatorEn from './validator/en';
+    Validator.localize('es', validatorEs);
+    // To make validator with translations......
+    Vue.use(VeeValidate);
+/* End::Vee-validate **********************************************************************/
+
 Vue.config.productionTip = false
 
 /***************************************************************************************** /
