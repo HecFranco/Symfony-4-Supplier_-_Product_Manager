@@ -68,9 +68,9 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title;
     // check if the route need authentication and the user is auth
     if (to.meta.Auth && ((window.localStorage.token == undefined ) || (window.localStorage.refresh_token == undefined )) ) {
-      next({ path: '/login' });
-    } else if (window.localStorage._token && window.localStorage._refresh_token) {
-        this.$router.replace(this.$route.query.redirect || '/home')
+        next({ path: '/login' });
+    } else if (!to.meta.Auth && ((window.localStorage.token != undefined ) || (window.localStorage.refresh_token != undefined )) ) {
+        next({ path: '/home' }); 
     }
     next();
 });
