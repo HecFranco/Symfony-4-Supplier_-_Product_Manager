@@ -97,7 +97,7 @@
                                                     placeholder="Password" 
                                                     name="password"
                                                     ref="password"
-                                                    v-validate="'required|min:6'"
+                                                    v-validate="'required|min:4'"
                                                     :class="{'input': true, 'is-danger': errors.has('password') }"
                                                 >
                                             </div>

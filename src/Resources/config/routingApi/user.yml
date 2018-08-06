@@ -1,0 +1,3 @@
+user_getData:
+    path: /auth/get_data_user
+    controller: App\Controller\UserController::getDataUser

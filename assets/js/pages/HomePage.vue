@@ -12,7 +12,6 @@
         </left-aside-component>
     </div>
 </template>
-
 <script>
     import axios from 'axios';
     import HeaderComponent from '../components/Header/HeaderComponent';
