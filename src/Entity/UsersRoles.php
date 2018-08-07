@@ -24,7 +24,7 @@ class UsersRoles
     /**
      * @var \ListRoles
      *
-     * @ORM\ManyToOne(targetEntity="ListRoles")
+     * @ORM\ManyToOne(targetEntity="ListRoles", cascade={"remove", "persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      * })
@@ -34,7 +34,7 @@ class UsersRoles
     /**
      * @var \Users
      *
-     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\ManyToOne(targetEntity="Users", cascade={"remove", "persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })

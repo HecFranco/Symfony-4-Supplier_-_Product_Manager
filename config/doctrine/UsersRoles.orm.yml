@@ -20,7 +20,9 @@ App\Entity\UsersRoles:
     manyToOne:
         role:
             targetEntity: ListRoles
-            cascade: {  }
+            cascade: 
+                - persist
+                - remove     
             fetch: LAZY
             mappedBy: null
             inversedBy: null
@@ -30,7 +32,9 @@ App\Entity\UsersRoles:
             orphanRemoval: false
         user:
             targetEntity: Users
-            cascade: {  }
+            cascade: 
+                - persist
+                - remove
             fetch: LAZY
             mappedBy: null
             inversedBy: userRoles

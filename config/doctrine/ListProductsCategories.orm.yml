@@ -1,6 +1,6 @@
-App\Entity\ListCategories:
+App\Entity\ListProductsCategories:
     type: entity
-    table: list_categories
+    table: list_products_categories
     indexes:
         user_id:
             columns:

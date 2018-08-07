@@ -5,12 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ListCategories
+ * ListProductsSubcategory
  *
- * @ORM\Table(name="list_categories", indexes={@ORM\Index(name="user_id", columns={"user_id"})})
+ * @ORM\Table(name="list_products_subcategory", indexes={@ORM\Index(name="user_id", columns={"user_id"}), @ORM\Index(name="products_categories", columns={"products_categories_id"})})
  * @ORM\Entity
  */
-class ListCategories
+class ListProductsSubcategory
 {
     /**
      * @var int
@@ -29,11 +29,28 @@ class ListCategories
     private $name;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="order_weight", type="smallint", nullable=false)
+     */
+    private $orderWeight;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $createdOn = 'CURRENT_TIMESTAMP';
+
+    /**
+     * @var \ListProductsCategories
+     *
+     * @ORM\ManyToOne(targetEntity="ListProductsCategories")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="products_categories_id", referencedColumnName="id")
+     * })
+     */
+    private $productsCategories;
 
     /**
      * @var \Users
@@ -62,6 +79,18 @@ class ListCategories
         return $this;
     }
 
+    public function getOrderWeight(): ?int
+    {
+        return $this->orderWeight;
+    }
+
+    public function setOrderWeight(int $orderWeight): self
+    {
+        $this->orderWeight = $orderWeight;
+
+        return $this;
+    }
+
     public function getCreatedOn(): ?\DateTimeInterface
     {
         return $this->createdOn;
@@ -70,6 +99,18 @@ class ListCategories
     public function setCreatedOn(\DateTimeInterface $createdOn): self
     {
         $this->createdOn = $createdOn;
+
+        return $this;
+    }
+
+    public function getProductsCategories(): ?ListProductsCategories
+    {
+        return $this->productsCategories;
+    }
+
+    public function setProductsCategories(?ListProductsCategories $productsCategories): self
+    {
+        $this->productsCategories = $productsCategories;
 
         return $this;
     }

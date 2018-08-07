@@ -29,16 +29,6 @@ class Translations
     private $translation;
 
     /**
-     * @var \ListLanguages
-     *
-     * @ORM\ManyToOne(targetEntity="ListLanguages")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="list_language_id", referencedColumnName="id")
-     * })
-     */
-    private $listLanguage;
-
-    /**
      * @var \ListContents
      *
      * @ORM\ManyToOne(targetEntity="ListContents")
@@ -47,6 +37,16 @@ class Translations
      * })
      */
     private $listContent;
+
+    /**
+     * @var \ListLanguages
+     *
+     * @ORM\ManyToOne(targetEntity="ListLanguages")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="list_language_id", referencedColumnName="id")
+     * })
+     */
+    private $listLanguage;
 
     public function getId(): ?int
     {
@@ -65,18 +65,6 @@ class Translations
         return $this;
     }
 
-    public function getListLanguage(): ?ListLanguages
-    {
-        return $this->listLanguage;
-    }
-
-    public function setListLanguage(?ListLanguages $listLanguage): self
-    {
-        $this->listLanguage = $listLanguage;
-
-        return $this;
-    }
-
     public function getListContent(): ?ListContents
     {
         return $this->listContent;
@@ -85,6 +73,18 @@ class Translations
     public function setListContent(?ListContents $listContent): self
     {
         $this->listContent = $listContent;
+
+        return $this;
+    }
+
+    public function getListLanguage(): ?ListLanguages
+    {
+        return $this->listLanguage;
+    }
+
+    public function setListLanguage(?ListLanguages $listLanguage): self
+    {
+        $this->listLanguage = $listLanguage;
 
         return $this;
     }

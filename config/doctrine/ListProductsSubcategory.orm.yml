@@ -1,16 +1,13 @@
-App\Entity\ProductsCategories:
+App\Entity\ListProductsSubcategory:
     type: entity
-    table: products_categories
+    table: list_products_subcategory
     indexes:
-        product_id:
-            columns:
-                - product_id
-        category_id:
-            columns:
-                - category_id
         user_id:
             columns:
                 - user_id
+        products_categories:
+            columns:
+                - products_categories_id
     id:
         id:
             type: integer
@@ -21,6 +18,18 @@ App\Entity\ProductsCategories:
             generator:
                 strategy: IDENTITY
     fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+        orderWeight:
+            type: smallint
+            nullable: false
+            options:
+                unsigned: false
+            column: order_weight
         createdOn:
             type: datetime
             nullable: false
@@ -28,24 +37,14 @@ App\Entity\ProductsCategories:
                 default: CURRENT_TIMESTAMP
             column: created_on
     manyToOne:
-        category:
-            targetEntity: ListCategories
+        productsCategories:
+            targetEntity: ListProductsCategories
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
-                category_id:
-                    referencedColumnName: id
-            orphanRemoval: false
-        product:
-            targetEntity: Products
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                product_id:
+                products_categories_id:
                     referencedColumnName: id
             orphanRemoval: false
         user:

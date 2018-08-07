@@ -1,6 +1,6 @@
 App\Entity\Translations:
     type: entity
-    repositoryClass: App\Repository\TranslationsRepository
+    repositoryClass: App\Repository\TranslationsRepository    
     table: translations
     indexes:
         list_translations_content:
@@ -26,16 +26,6 @@ App\Entity\Translations:
             options:
                 fixed: false
     manyToOne:
-        listLanguage:
-            targetEntity: ListLanguages
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                list_language_id:
-                    referencedColumnName: id
-            orphanRemoval: false
         listContent:
             targetEntity: ListContents
             cascade: {  }
@@ -44,6 +34,16 @@ App\Entity\Translations:
             inversedBy: null
             joinColumns:
                 list_content_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        listLanguage:
+            targetEntity: ListLanguages
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                list_language_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }
