@@ -2,10 +2,10 @@ import Vue from 'vue';
 import Router from 'vue-router'
 Vue.use(Router);
 
+// Libraries Progress used to transitions between pages
 var NProgress  = require('../libraries/nprogress.js');
 
 //types, pages and components
-import HomePage from '../pages/HomePage';
 import AuthenticationPage from '../pages/AuthenticationPage';
 //.types and components
 
@@ -14,25 +14,12 @@ const router = new Router({
     mode: 'history',
     routes: [
         {
-            path: '/',
-            redirect:
-            { 
-                name: 'loginPage'
-            },
-            name: 'indexPage',
-            component: AuthenticationPage,
-            meta: { Auth: false, title: 'Login'},
-            props : {
-                type: 'signin'
-            }
-        },
-        {
             path: '/login',
             name: 'loginPage',
             component: AuthenticationPage,
             meta: { Auth: false, title: 'Login'},
-            props : {
-                type: 'signin'
+            props:{
+                type_auth: "signIn"
             }
         },
         {
@@ -40,41 +27,22 @@ const router = new Router({
             name: 'signupPage',
             component: AuthenticationPage,
             meta: { Auth: false, title: 'Signup'},
-            props : {
-                type: 'signup'
-            }
+            props:{
+                type_auth: "signUp"
+            }            
         },
         {
             path: '/forget-password',
             name: 'forgetPasswordPage',
             component: AuthenticationPage,
             meta: { Auth: false, title: 'Forget Password'},
-            props : {
-                type: 'forgetPassword'
-            }
-        },
-        {
-            path: '/home',
-            name: 'homePage',
-            component: HomePage,
-            meta: { Auth: true, title: 'Home' },
+            props:{
+                type_auth: "forgetPassword"
+            }            
         },
     ]
 });
-//.configure the router
-
-//beforeEach route change
-router.beforeEach((to, from, next) => {
-    document.title = to.meta.title;
-    // check if the route need authentication and the user is auth
-    if (to.meta.Auth && ((window.localStorage.token == undefined ) || (window.localStorage.refresh_token == undefined )) ) {
-        next({ path: '/login' });
-    } else if (!to.meta.Auth && ((window.localStorage.token != undefined ) || (window.localStorage.refresh_token != undefined )) ) {
-        next({ path: '/home' }); 
-    }
-    next();
-});
-//.beforeEach route change
+//.configure the router        
 
 /*
  * NProgress Loading ...

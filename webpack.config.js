@@ -29,9 +29,13 @@ Encore
     // uncomment for legacy applications that require $/jQuery as a global variable
     //.autoProvidejQuery()
     .autoProvidejQuery()
+    // Neccesary to use spread operator in Vuex
+    // install npm -i --dev babel-preset-stage-2
+    .configureBabel((config) => {
+        config.presets.push('stage-2');
+    })
     // Enable Vue loader
     .enableVueLoader()
-
     .addPlugin(new VueLoaderPlugin())
 ;
 
