@@ -3,16 +3,11 @@
 		<header id="m_header" class="m-grid__item m-header"  m-minimize-offset="200" m-minimize-mobile-offset="200" >
 			<div class="m-container m-container--fluid m-container--full-height">
 				<div class="m-stack m-stack--ver m-stack--desktop">
-				    <brand-component 
-                        v-if="urlImgLogo() != null" 
-                        :url_img_logo="urlImgLogo()"
-                    >
-                    </brand-component>
+				    <brand-component></brand-component>
 					<div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
-						<horizontal-menu-component
-                            :window_width="getWindowWidth()"
-                        >
-                        </horizontal-menu-component>
+                        <!--
+						<horizontal-menu-component></horizontal-menu-component>
+                        -->
                         <topbar-component></topbar-component>
 					</div>
 				</div>
@@ -25,7 +20,6 @@
     import Brand from './_brand.vue';
     import HorizontalMenu from './_horizontal_menu.vue';
     import Topbar from './_topbar.vue';
-
     export default {
         name: 'HeaderComponent',
         components: {
@@ -33,20 +27,15 @@
             'horizontal-menu-component' : HorizontalMenu,
             'topbar-component' : Topbar
         },
-        data () {
-            return {
-            }
-        },
-        props: {
-            'settings': Object,
-            'window_data': Object,
-        },
 		methods: {
             urlImgLogo(){
-                return (this.settings.url_img_logo_horizontal !== undefined ) ? this.settings.url_img_logo_horizontal.value : null;
+                console.log(this.$store.state.global.settings.url_img_logo_horizontal.value);
+                return 
+                    (this.$store.state.global.settings.url_img_logo_horizontal.value !== undefined ) 
+                    ? this.$store.state.global.settings.url_img_logo_horizontal.value : null;
             },
             getWindowWidth(){
-                return this.window_data.window_width;
+                return this.$store.state.global.window_data.window_width;
             },
         },
         created () {
@@ -56,8 +45,6 @@
         mounted () {
         }
     }
-
-
     // window.localStorage.removeItem('_token');
 </script>
 <style scoped lang="scss">

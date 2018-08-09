@@ -8,6 +8,7 @@
     import Vue from 'vue';
     import App from './App.vue';
 /* End::Vue *******************************************************************************/
+
 /* Begin::bootstrapVue ********************************************************************/
     import BootstrapVue from 'bootstrap-vue'
     Vue.use(BootstrapVue);
@@ -25,7 +26,10 @@
 /* End::Vue Axios *************************************************************************/
 
 //modules and types
-// Todo
+import * as authTypes from './types/authentication';
+import authentication from './store/modules/Authentication';
+import * as globalTypes from './types/global';
+import global from './store/modules/Global';
 //.modules and types
 
 /* Begin::vue-router **********************************************************************/
@@ -70,7 +74,9 @@
     // To make validator with translations......
     Vue.use(VeeValidate);
 /* End::Vee-validate **********************************************************************/
-
+/* Begin::Vuex ****************************************************************************/
+import { store } from './store/store';
+/* End::Vuex ******************************************************************************/
 Vue.config.productionTip = false
 
 /***************************************************************************************** /
@@ -79,8 +85,9 @@ Vue.config.productionTip = false
 const app = new Vue({
     render:
         h => h(App),
+        store,
         router,
-        i18n
+        i18n,
         // Todo
 }).$mount('#app')
 

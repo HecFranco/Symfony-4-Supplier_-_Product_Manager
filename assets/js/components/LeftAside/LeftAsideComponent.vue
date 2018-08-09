@@ -78,15 +78,11 @@
 
 <script>
     export default {
-        name: 'LeftAsideComponent',
-        props: {
-            'settings': Object,
-            'window_data': Object,
-        },        
+        name: 'LeftAsideComponent',    
         methods: {
             isTablet(){
-                console.log(this.window_data.window_width);
-                return (this.window_data.window_width < 1025)? true : false;
+                console.log(this.$store.state.global.window_data.window_width);
+                return (this.$store.state.global.window_data.window_width < 1025)? true : false;
             },
         },
         created () {
