@@ -27,11 +27,6 @@
                 <!--  -->
                 </a>
                 <!-- END -->
-                <!-- BEGIN: Responsive Header Menu Toggler -->
-                <a id="m_aside_header_menu_mobile_toggle" href="javascript:;" class="m-brand__icon m-brand__toggler m--visible-tablet-and-mobile-inline-block">
-                <span></span>
-                </a>
-                <!-- END -->
                 <!-- BEGIN: Topbar Toggler -->
                 <a 
                     id="m_aside_header_topbar_mobile_toggle" 
