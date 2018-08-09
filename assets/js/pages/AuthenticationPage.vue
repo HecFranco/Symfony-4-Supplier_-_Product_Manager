@@ -229,9 +229,6 @@
           <h3 class="m-login__welcome">
             {{ $t("authentication.app_manager") }}
           </h3>
-          <p class="m-login__msg">
-            {{ $t("authentication.supplier_and_product_manager", {controller : type }) }}
-          </p>
         </div>
       </div>
     </div>
@@ -263,7 +260,7 @@ export default {
   props: {
     type_auth: String
   },
-  // Notifications
+  // Notifications System
   notifications: {
     showSuccessMsg: {
       type: VueNotifications.types.success,
@@ -338,31 +335,19 @@ export default {
   methods: {
     // Views and Animations
     urlImgLogo: function() {
-      console.log(
-        'image loaded...', 
-        this.$store.state.global.settings.url_img_logo_vertical.value
-      );
       return (this.$store.state.global.settings !== undefined)
         ? this.$store.state.global.settings.url_img_logo_vertical.value
         : null;
     },
     getWindowWidth: function() {
-      console.log(
-        "window width loaded...",
-        this.$store.state.global.window_data.window_width
-      );
       return this.$store.state.global.window_data.window_width;
     },
     signupAnimation: function(to) {
-      // eslint-disable-next-line
-      console.log("signupAnimation running...");
       this.$store.commit(authTypes.MUTATE_TYPE_AUTHENTICATION, to);
       var form = document.getElementById("block-form-authentication");
       form.classList.add("flipInX");
       form.classList.add("animated");
       setTimeout(function() {
-        // eslint-disable-next-line
-        console.log("removing class...");
         form.classList.remove("flipInX");
         form.classList.remove("animated");
       }, 700);
@@ -372,16 +357,7 @@ export default {
       NProgress.start();
       NProgress.set(0.4);
       this.$store.dispatch(authTypes.ACTION_LOGIN);
-      // Is logged the user?
-      if(
-        window.localStorage['token'] != undefined &&
-        window.localStorage['refresh_token'] != undefined && 
-        this.$store.state.authentication.logged === true
-      ){
-        this.showSuccessMsg({ message: "User logged", title: "" });
-        // redirect to route
-        this.$router.replace(this.$route.query.redirect || "/home");
-      }
+      this.$router.replace(this.$route.query.redirect || "/");
       // Finally progress Bar
       NProgress.done();
     },

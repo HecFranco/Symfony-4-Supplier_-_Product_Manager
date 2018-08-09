@@ -10,6 +10,7 @@ const state = {
       email: '',
       password: ''
   },
+  // convert to boolean the _token in localStorage
   logged: !!window.localStorage.getItem('_token'),
   auth_type: ''
 };
@@ -88,11 +89,11 @@ const actions = {
             response.data.refresh_token != undefined
           ) {
             window.localStorage.setItem(
-              "token",
+              "_token",
               response.data.token
             );
             window.localStorage.setItem(
-              "refresh_token",
+              "_refresh_token",
               response.data.refresh_token
             );
             commit(authTypes.MUTATE_LOGGED);

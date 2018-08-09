@@ -26,7 +26,10 @@
 /* End::Vue Axios *************************************************************************/
 
 //modules and types
-// Todo
+import * as authTypes from './types/authentication';
+import authentication from './store/modules/Authentication';
+import * as globalTypes from './types/global';
+import global from './store/modules/Global';
 //.modules and types
 
 /* Begin::vue-router **********************************************************************/

@@ -2,11 +2,16 @@ import Vue from 'vue';
 import Router from 'vue-router'
 Vue.use(Router);
 
+//global store
+import { store } from '../store/store';
+//.global store
+
 // Libraries Progress used to transitions between pages
 var NProgress  = require('../libraries/nprogress.js');
 
 //types, pages and components
 import AuthenticationPage from '../pages/AuthenticationPage';
+import HomePage from '../pages/HomePage';
 //.types and components
 
 //configure the router
@@ -40,6 +45,12 @@ const router = new Router({
                 type_auth: "forgetPassword"
             }            
         },
+        {
+            path: '/',
+            name: 'homePage',
+            component: HomePage,
+            meta: { Auth: true, title: 'Home'},           
+        },        
     ]
 });
 //.configure the router        
@@ -69,5 +80,22 @@ router.afterEach((to, from) => {
 })
 export default router;
 //.afterEach route change
+
+//for each route change
+router.beforeEach((to, from, next) => {
+    document.title = to.meta.title;
+    // console.log('user is logged...', store.state.authentication.logged);
+    // console.log('route is auth...', to.meta.Auth);
+    // check if the route need authentication and the user is auth
+    if ( !to.meta.Auth && store.state.authentication.logged) {
+        console.log('redirect to homePage!!');
+        router.push('/');
+    } else if ( to.meta.Auth && !store.state.authentication.logged ){
+        console.log('redirect to loginPage!!');
+        router.push('/login');
+    }
+    next();
+  });
+//.for each route change
 
 // Todo : Loading system https://scotch.io/tutorials/add-loading-indicators-to-your-vuejs-application

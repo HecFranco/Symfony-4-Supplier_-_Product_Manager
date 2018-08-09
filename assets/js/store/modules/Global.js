@@ -61,7 +61,7 @@ const actions = {
         {headers: { 'Content-Type': 'application/json' }}
       ).then(response => {
         // eslint-disable-next-line
-        console.log(response);
+        // console.log('Response... settings...!!!', response);
         commit(types.MUTATE_SETTINGS, {apiResponse: response.data} );
         resolve(response.data);
         commit(types.STOP_PROCESSING);
