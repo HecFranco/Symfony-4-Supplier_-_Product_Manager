@@ -241,13 +241,13 @@ import globalSettings from '../settings';
 // Types
 import * as authTypes from '../types/authentication';
 import * as globalTypes from '../types/global';
-
-/* NProgress *************************************************************************/
+// NProgress System
 var NProgress = require('../libraries/nprogress.js');
 // Component Show Notifications
 import VueNotifications from 'vue-notifications';
+// Axios Plugin
 import axios from 'axios';
-
+// Begin::Component
 export default {
   name: 'AuthenticationPage',
   // Data from father component
@@ -353,13 +353,15 @@ export default {
       }, 700);
     },
     handleSubmitSignin: function() {
-      // Start progress Bar
+      // Start progress Bar      
       NProgress.start();
       NProgress.set(0.4);
-      this.$store.dispatch(authTypes.ACTION_LOGIN);
-      this.$router.replace(this.$route.query.redirect || "/");
-      // Finally progress Bar
-      NProgress.done();
+      this.$store.dispatch(authTypes.ACTION_LOGIN)
+        .then(result =>{
+          NProgress.done();
+          this.$router.push('/');
+        });
+      // Finally progress Bar      
     },
     handleSubmitSignup: function() {
       // Todo

@@ -6,12 +6,16 @@
 </template>
 
 <script>
+// Types
+import * as globalTypes from './types/global';
+import * as authTypes from './types/authentication';
+// Vuex Plugin
 import { mapActions } from "vuex";
-import * as globalTypes from "./types/global";
-
+// NProgress System
+var NProgress = require('./libraries/nprogress.js');
+// Components
 import LocaleChangerComponent from './components/LocaleChanger/LocaleChangerComponent';
-
-
+// Begin::Component
 export default {
   name: "app",
   components: {
@@ -33,7 +37,15 @@ export default {
     window.addEventListener("resize", this.handleSize);
   },
   mounted () {
+    // Start progress Bar
+    NProgress.start();
+    NProgress.set(0.4);
     this.$store.dispatch(globalTypes.UPDATE_SETTINGS);
+    if( this.$store.state.authentication.logged === true ){
+      this.$store.dispatch(authTypes.UPDATE_USER);
+    }  
+    // Finally progress Bar
+    NProgress.done();
   },
 };
 </script>

@@ -5,7 +5,9 @@
 				<div class="m-stack m-stack--ver m-stack--desktop">
 				    <brand-component></brand-component>
 					<div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
+                        <!--
 						<horizontal-menu-component></horizontal-menu-component>
+                        -->
                         <topbar-component></topbar-component>
 					</div>
 				</div>

@@ -145,9 +145,7 @@
     }
 </script>
 <style scoped lang="scss">
-    /*
     #m_header_menu{
         padding-top:23px;
     }
-    */
 </style>

@@ -4,7 +4,7 @@
         <div class="m-stack m-stack--ver m-stack--general">
             <div class="m-stack__item m-stack__item--middle m-brand__logo">
                 <a href="index.html" class="m-brand__logo-wrapper">
-                <img alt="" :src="url_img_logo" class="img_logo"/>
+                <img alt="" :src="url_img_logo()" class="img_logo"/>
                 </a>
             </div>
             <div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -38,7 +38,7 @@
                     v-on:click="topbarToggler()" 
                     class="m-brand__icon m--visible-tablet-and-mobile-inline-block"
                 >
-                <i class="flaticon-more"></i>
+                    <i class="flaticon-more"></i>
                 </a>
                 <!-- BEGIN: Topbar Toggler -->
             </div>
@@ -50,14 +50,14 @@
 <script>
     export default {
         name: 'Brand',
-        data(){
-            return{
-                'url_img_logo': this.$store.state.global.settings.url_img_logo_horizontal.value,
-            }
-        },
         methods: {
             topbarToggler: function(){
-                document.getElementsByTagName('body')[0].classList.toggle('m-topbar--on');
+                document.getElementsByTagName('body')[0].classList.toggle('m-topbar--on'); 
+                if (document.getElementById('m_header_topbar').style.top === '0px') {
+                    document.getElementById('m_header_topbar').style.top = '-60px';
+                }else{
+                    document.getElementById('m_header_topbar').style.top = '0px';
+                }
             },
             leftAsideToggler: function(){
                 document.getElementsByTagName('body')[0].classList.toggle('m-aside-left--minimize');
@@ -70,7 +70,10 @@
                 document.getElementsByTagName('body')[0].classList.toggle('m-aside-left--on');
                 document.getElementById('m_aside_left_offcanvas_toggle').classList.toggle('m-brand__toggler--active');
                 document.getElementById('m_aside_left').classList.toggle('m-aside-left--on');
-            }         
+            },
+            url_img_logo: function(){
+                return this.$store.state.global.settings.url_img_logo_horizontal.value;
+            },     
         }
     }
 </script>

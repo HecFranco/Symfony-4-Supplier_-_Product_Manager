@@ -5,10 +5,10 @@ import globalSettings from '../../settings';
 
 const state = {
   user: {
-      firstname: '',
-      lastname: '',
-      email: '',
-      password: ''
+    firstname: '',
+    lastname: '',
+    email: '',
+    password: '',
   },
   // convert to boolean the _token in localStorage
   logged: !!window.localStorage.getItem('_token'),
@@ -17,13 +17,13 @@ const state = {
 const getters = {
   [authTypes.USER]: state => {
     return state.user;
-  }, 
+  },
   [authTypes.LOGGED]: state => {
     return state.logged;
-  }, 
+  },
   [authTypes.TYPE_AUTHENTICATION]: state => {
     return state.auth_type;
-  }, 
+  },
 };
 const mutations = {
   // to establish the user's status
@@ -39,50 +39,74 @@ const mutations = {
   [authTypes.MUTATE_USER_PASSWORD]: (state, payload) => {
     state.user.password = payload;
   },
-  [authTypes.MUTATE_LOGGED]: (state) => {
-    state.logged = true;
-  },
-  [authTypes.MUTATE_UNLOGGED]: (state) => {
+  [authTypes.MUTATE_LOGOUT]: (state) => {
+    console.log('mutation logout working...!!', state);
+    window.localStorage.clear();
     state.logged = false;
+    state.user = {
+      firstname: '',
+      lastname: '',
+      email: '',
+      password: ''
+    };
   },
-  [authTypes.MUTATE_LOGIN]: (state) => {
-    //
-  },    
+  [authTypes.MUTATE_SET_USER]: (state, payload) => {
+    state.logged = true;
+    state.user = payload.user;
+  },
   [authTypes.MUTATE_TYPE_AUTHENTICATION]: (state, payload) => {
     state.auth_type = payload;
   },
 };
 const actions = {
-  [authTypes.UPDATE_USER_FIRSTNAME]: ({commit}, payload) => {
+  [authTypes.UPDATE_USER_FIRSTNAME]: ({ commit }, payload) => {
     commit(authTypes.MUTATE_USER_FIRSTNAME, payload);
   },
-  [authTypes.UPDATE_USER_LASTNAME]: ({commit}, payload) => {
+  [authTypes.UPDATE_USER_LASTNAME]: ({ commit }, payload) => {
     commit(authTypes.MUTATE_USER_LASTNAME, payload);
   },
-  [authTypes.UPDATE_USER_EMAIL]: ({commit}, payload) => {
+  [authTypes.UPDATE_USER_EMAIL]: ({ commit }, payload) => {
     commit(authTypes.MUTATE_USER_EMAIL, payload);
   },
-  [authTypes.UPDATE_USER_PASSWORD]: ({commit}, payload) => {
+  [authTypes.UPDATE_USER_PASSWORD]: ({ commit }, payload) => {
     commit(authTypes.MUTATE_USER_PASSWORD, payload);
   },
-  [authTypes.UPDATE_LOGGED]: ({commit}) => {
-    commit(authTypes.MUTATE_LOGGED);
+  [authTypes.UPDATE_USER]: ({ commit }) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(
+          globalSettings.http + 'api/auth/get_data_user',
+          { headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem('_token') } }
+        )
+        .then(response => {
+          console.log('getDataUser...!!!', response.data.result);
+          commit(authTypes.MUTATE_SET_USER, {user: response.data.result});
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        })
+        .finally(() => {
+        })
+    });  
   },
-  [authTypes.UPDATE_UNLOGGED]: ({commit}) => {
-    commit(authTypes.MUTATE_UNLOGGED);
-  }, 
-  [authTypes.ACTION_LOGIN]: ({commit}) => {
-    commit(globalTypes.START_PROCESSING); 
-    axios
+  [authTypes.ACTION_LOGOUT]: ({ commit }) => {
+    commit(authTypes.MUTATE_LOGOUT);
+  },
+  [authTypes.ACTION_LOGIN]: ({ commit , dispatch}) => {
+    commit(globalTypes.START_PROCESSING);
+    console.log('mutate login working...!!!');
+    return new Promise((resolve, reject) => {
+      axios
         .post(
           globalSettings.http + "api/login_check",
           {
-            username: state.user.email ,
-            password: state.user.password 
+            username: state.user.email,
+            password: state.user.password
           },
           { headers: { "Content-Type": "application/json" } }
         )
-        .then(response => { 
+        .then(response => {
           // save token and refreh token
           if (
             response.data.token != undefined &&
@@ -96,18 +120,23 @@ const actions = {
               "_refresh_token",
               response.data.refresh_token
             );
-            commit(authTypes.MUTATE_LOGGED);
-            const jwtDecode = require("jwt-decode");
-            this.user = jwtDecode(response.data.token);
-            commit(globalTypes.STOP_PROCESSING);
-          }          
-        });
-  },            
-  [authTypes.UPDATE_TYPE_AUTHENTICATION]: ({commit}, payload) => {
+            dispatch(authTypes.UPDATE_USER);
+          }
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        })
+        .finally(() => {
+
+        })
+    })
+    commit(globalTypes.STOP_PROCESSING);
+  },
+  [authTypes.UPDATE_TYPE_AUTHENTICATION]: ({ commit }, payload) => {
     commit(authTypes.MUTATE_TYPE_AUTHENTICATION, payload)
   },
 };
-
 export default {
   state,
   mutations,
