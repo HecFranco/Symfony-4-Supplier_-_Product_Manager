@@ -7,7 +7,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import * as types from "./types/global";
+import * as globalTypes from "./types/global";
 
 import LocaleChangerComponent from './components/LocaleChanger/LocaleChangerComponent';
 
@@ -22,9 +22,9 @@ export default {
   },
   methods: {
     ...mapActions({
-      handleSize: types.UPDATE_WINDOW_DATA_RESIZE,
-      handleScroll: types.UPDATE_WINDOW_DATA_SCROLL,
-      handleSettings: types.UPDATE_SETTINGS,
+      handleSize: globalTypes.UPDATE_WINDOW_DATA_RESIZE,
+      handleScroll: globalTypes.UPDATE_WINDOW_DATA_SCROLL,
+      handleSettings: globalTypes.UPDATE_SETTINGS,
     })
   },
   created() {
@@ -33,7 +33,7 @@ export default {
     window.addEventListener("resize", this.handleSize);
   },
   mounted () {
-    this.$store.dispatch(types.UPDATE_SETTINGS);
+    this.$store.dispatch(globalTypes.UPDATE_SETTINGS);
   },
 };
 </script>

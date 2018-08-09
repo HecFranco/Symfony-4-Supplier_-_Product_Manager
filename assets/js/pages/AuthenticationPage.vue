@@ -239,21 +239,24 @@
 </template>
 
 <script>
-import * as types from "../types/authentication";
-import * as types_Global from "../types/global";
-import globalSettings from "../settings";
+// Global Settings
+import globalSettings from '../settings';
+// Types
+import * as authTypes from '../types/authentication';
+import * as globalTypes from '../types/global';
+
 /* NProgress *************************************************************************/
-var NProgress = require("../libraries/nprogress.js");
+var NProgress = require('../libraries/nprogress.js');
 // Component Show Notifications
-import VueNotifications from "vue-notifications";
-import axios from "axios";
+import VueNotifications from 'vue-notifications';
+import axios from 'axios';
 
 export default {
-  name: "AuthenticationPage",
+  name: 'AuthenticationPage',
   // Data from father component
   data() {
     return {
-      password_confirmation: ""
+      password_confirmation: ''
     };
   },
   // Data from father component or url
@@ -287,47 +290,47 @@ export default {
     this.$store.state.authentication.auth_type = this.type_auth;
   },
   updated() {
-    this.$store.commit(types.MUTATE_TYPE_AUTHENTICATION, this.type_auth);
+    this.$store.commit(authTypes.MUTATE_TYPE_AUTHENTICATION, this.type_auth);
   },
   computed: {
     firstname: {
       get() {
-        return types.USER.firstname;
+        return authTypes.USER.firstname;
       },
       set(value) {
-        this.$store.commit(types.MUTATE_USER_FIRSTNAME, value);
+        this.$store.commit(authTypes.MUTATE_USER_FIRSTNAME, value);
       }
     },
     lastname: {
       get() {
-        return types.USER.lastname;
+        return authTypes.USER.lastname;
       },
       set(value) {
-        this.$store.commit(types.MUTATE_USER_LASTNAME, value);
+        this.$store.commit(authTypes.MUTATE_USER_LASTNAME, value);
       }
     },
     email: {
       get() {
-        return types.USER.email;
+        return authTypes.USER.email;
       },
       set(value) {
-        this.$store.commit(types.MUTATE_USER_EMAIL, value);
+        this.$store.commit(authTypes.MUTATE_USER_EMAIL, value);
       }
     },
     password: {
       get() {
-        return types.USER.password;
+        return authTypes.USER.password;
       },
       set(value) {
-        this.$store.commit(types.MUTATE_USER_PASSWORD, value);
+        this.$store.commit(authTypes.MUTATE_USER_PASSWORD, value);
       }
     },
     auth_type: {
       get() {
-        return types.TYPE_AUTHENTICATION;
+        return authTypes.TYPE_AUTHENTICATION;
       },
       set() {
-        this.$store.commit(types.MUTATE_TYPE_AUTHENTICATION, this.type_auth);
+        this.$store.commit(authTypes.MUTATE_TYPE_AUTHENTICATION, this.type_auth);
       }
     }
   },
@@ -335,8 +338,11 @@ export default {
   methods: {
     // Views and Animations
     urlImgLogo: function() {
-      // console.log('image loaded...');
-      return this.$store.state.global.settings !== undefined
+      console.log(
+        'image loaded...', 
+        this.$store.state.global.settings.url_img_logo_vertical.value
+      );
+      return (this.$store.state.global.settings !== undefined)
         ? this.$store.state.global.settings.url_img_logo_vertical.value
         : null;
     },
@@ -350,7 +356,7 @@ export default {
     signupAnimation: function(to) {
       // eslint-disable-next-line
       console.log("signupAnimation running...");
-      this.$store.commit(types.MUTATE_TYPE_AUTHENTICATION, to);
+      this.$store.commit(authTypes.MUTATE_TYPE_AUTHENTICATION, to);
       var form = document.getElementById("block-form-authentication");
       form.classList.add("flipInX");
       form.classList.add("animated");
@@ -362,41 +368,22 @@ export default {
       }, 700);
     },
     handleSubmitSignin: function() {
+      // Start progress Bar
       NProgress.start();
       NProgress.set(0.4);
-      axios
-        .post(
-          globalSettings.http + "api/login_check",
-          {
-            username: this.$store.state.authentication.user.email,
-            password: this.$store.state.authentication.user.password
-          },
-          { headers: { "Content-Type": "application/json" } }
-        )
-        .then(response => {
-          // save token and refreh token
-          if (
-            response.data.token != undefined &&
-            response.data.refresh_token != undefined
-          ) {
-            window.localStorage.setItem("token", response.data.token);
-            window.localStorage.setItem(
-              "refresh_token",
-              response.data.refresh_token
-            );
-            this.$store.authentication.logged = true;
-            const jwtDecode = require("jwt-decode");
-            this.user = jwtDecode(response.data.token);
-            this.showSuccessMsg({ message: "User logged", title: "" });
-            // redirect to route
-            this.$router.replace(this.$route.query.redirect || "/home");
-            NProgress.done();
-          }
-        })
-        .catch(error => {
-          this.showWarnMsg({ message: "User no logged", title: "" });
-          NProgress.done();
-        });
+      this.$store.dispatch(authTypes.ACTION_LOGIN);
+      // Is logged the user?
+      if(
+        window.localStorage['token'] != undefined &&
+        window.localStorage['refresh_token'] != undefined && 
+        this.$store.state.authentication.logged === true
+      ){
+        this.showSuccessMsg({ message: "User logged", title: "" });
+        // redirect to route
+        this.$router.replace(this.$route.query.redirect || "/home");
+      }
+      // Finally progress Bar
+      NProgress.done();
     },
     handleSubmitSignup: function() {
       // Todo
