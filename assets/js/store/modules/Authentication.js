@@ -84,6 +84,7 @@ const actions = {
           resolve(response);
         })
         .catch(error => {
+          // we capture the error in the component
           reject(error);
         })
         .finally(() => {
@@ -108,6 +109,7 @@ const actions = {
         )
         .then(response => {
           // save token and refreh token
+          console.log('action login working...', response);
           if (
             response.data.token != undefined &&
             response.data.refresh_token != undefined
@@ -125,6 +127,7 @@ const actions = {
           resolve(response);
         })
         .catch(error => {
+          // we capture the error in the component
           reject(error);
         })
         .finally(() => {

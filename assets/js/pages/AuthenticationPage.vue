@@ -1,9 +1,9 @@
 <template>
 <!-- begin:: Page -->
-  <div class="m-grid m-grid--hor m-grid--root m-page" style="height: 100vh;">
-    <div
+  <div
       class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-grid--tablet-and-mobile m-grid--hor-tablet-and-mobile m-login m-login--1 m-login--signin"
-      id="m_login">
+      id="m_login" style="height: 100vh;"
+    >
       <div class="m-grid__item m-grid__item--order-tablet-and-mobile-2 m-login__aside">
         <div class="m-stack m-stack--hor m-stack--desktop">
           <div class="m-stack__item m-stack__item--fluid">
@@ -231,8 +231,7 @@
           </h3>
         </div>
       </div>
-    </div>
-  </div>  
+  </div>
 </template>
 
 <script>
@@ -285,6 +284,10 @@ export default {
   },
   created() {
     this.$store.state.authentication.auth_type = this.type_auth;
+    // we solve together with the routing configurator the access to login being authenticated.
+    if(this.$store.state.authentication.logged === true){
+      this.$router.push('/');
+    }
   },
   updated() {
     this.$store.commit(authTypes.MUTATE_TYPE_AUTHENTICATION, this.type_auth);
@@ -358,8 +361,12 @@ export default {
       NProgress.set(0.4);
       this.$store.dispatch(authTypes.ACTION_LOGIN)
         .then(result =>{
-          NProgress.done();
           this.$router.push('/');
+          NProgress.done();
+        })
+        .catch(error => {
+          NProgress.done();
+          this.showWarnMsg({message: 'Error Login.', title: ''});
         });
       // Finally progress Bar      
     },

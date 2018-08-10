@@ -9,6 +9,7 @@ var NProgress  = require('../libraries/nprogress.js');
 //types, pages and components
 import AuthenticationPage from '../pages/AuthenticationPage';
 import HomePage from '../pages/HomePage';
+import MyProfilePage from '../pages/MyProfilePage';
 //.types and components
 //configure the router
 const router = new Router({
@@ -46,6 +47,12 @@ const router = new Router({
             name: 'homePage',
             component: HomePage,
             meta: { Auth: true, title: 'Home'},           
+        },
+        {
+            path: '/my-profile',
+            name: 'myProfilePage',
+            component: MyProfilePage,
+            meta: { Auth: true, title: 'My Profile'},           
         },        
     ]
 });

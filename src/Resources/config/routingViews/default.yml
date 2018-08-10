@@ -9,9 +9,12 @@ signup:
 forget_password:
     path: /forget-password
     controller: App\Controller\ViewsController::index
-indexpage:
+index_page:
     path: /
     controller: App\Controller\ViewsController::index
-homepage:
+home_page:
     path: /home
     controller: App\Controller\ViewsController::index
+my_profile_page:
+    path: /my-profile
+    controller: App\Controller\ViewsController::index    

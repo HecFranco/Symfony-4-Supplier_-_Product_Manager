@@ -3,9 +3,12 @@
     <div class="m-stack__item m-brand  m-brand--skin-dark">
         <div class="m-stack m-stack--ver m-stack--general">
             <div class="m-stack__item m-stack__item--middle m-brand__logo">
-                <a href="index.html" class="m-brand__logo-wrapper">
-                <img alt="" :src="url_img_logo()" class="img_logo"/>
-                </a>
+                <router-link 
+                    :to="{name:'homePage'}" 
+                    class="m-brand__logo-wrapper"
+                >
+                    <img :src="url_img_logo()" class="img_logo" alt="Logo App"/>
+                </router-link>
             </div>
             <div class="m-stack__item m-stack__item--middle m-brand__tools">
                 <!-- BEGIN: Left Aside Minimize Toggle -->

@@ -8,10 +8,10 @@
                 >
                     <a href="#" class="m-nav__link m-dropdown__toggle">
                     <span class="m-topbar__userpic">
-                        <img src="assets/images/default/user_default.png" class="m--img-rounded m--marginless" alt=""/>
+                        <img :src="urlImageUser()" class="m--img-rounded m--marginless" alt=""/>
                     </span>
                     <span class="m-topbar__username m--hide">
-                    Nick
+                        {{userData.firstname}}
                     </span>
                     </a>
                     <div class="m-dropdown__wrapper">
@@ -20,15 +20,15 @@
                             <div class="m-dropdown__header m--align-center" style="background:url(assets/images/media/misc/user_profile_bg.jpg); background-size: cover;">
                                 <div class="m-card-user m-card-user--skin-dark">
                                     <div class="m-card-user__pic">
-                                        <img src="assets/images/default/user_default.png" class="m--img-rounded m--marginless"
+                                        <img :src="urlImageUser()" class="m--img-rounded m--marginless"
                                              alt=""/>
                                     </div>
                                     <div class="m-card-user__details">
                                         <span class="m-card-user__name m--font-weight-500">
-                                        Mark Andre
+                                        {{userData.first_name}} {{userData.last_name}}
                                         </span>
                                         <a href="" class="m-card-user__email m--font-weight-300 m-link">
-                                        mark.andre@gmail.com
+                                        {{userData.email}}
                                         </a>
                                     </div>
                                 </div>
@@ -42,16 +42,23 @@
                                             </span>
                                         </li>
                                         <li class="m-nav__item">
-                                            <a href="header/profile.html" class="m-nav__link">
+                                            <router-link
+                                                :to="{ name: 'myProfilePage'}"
+                                                class="m-nav__link"
+                                            >
+                                            
                                             <i class="m-nav__link-icon flaticon-profile-1"></i>
                                             <span class="m-nav__link-title">
                                                 <span class="m-nav__link-wrap">
-                                                    <span class="m-nav__link-text">
+                                                    <router-link
+                                                        :to="{ name: 'myProfilePage'}"
+                                                        class="m-nav__link-text"
+                                                        >
                                                         {{ $t("navigation.my_profile") }}
-                                                    </span>
+                                                    </router-link>
                                                 </span>
                                             </span>
-                                            </a>
+                                            </router-link>
                                         </li>
                                         <li class="m-nav__separator m-nav__separator--fit"></li>
                                         <li class="m-nav__item">
@@ -76,6 +83,7 @@
 
 <script>
 import * as authTypes from "../../types/authentication";
+import { mapGetters } from "vuex";
 export default {
   name: "Topbar",
   methods: {
@@ -84,8 +92,23 @@ export default {
       this.$store.dispatch(authTypes.ACTION_LOGOUT);
       // redirect to route
       this.$router.replace(this.$route.query.redirect || "/login");
-    }
-  }
+    },
+    urlImageUser(){
+        if(
+            this.$store.state.authentication.user.image === undefined || 
+            this.$store.state.authentication.user.image === null
+        ){
+            return 'assets/images/default/user_default.png';
+        }else{
+            return this.$store.state.authentication.user.image;
+        }
+    },
+  },
+  computed: {
+    ...mapGetters({
+      userData: authTypes.USER,
+    })    
+  }   
 };
 </script>
 <style scoped lang="scss">
