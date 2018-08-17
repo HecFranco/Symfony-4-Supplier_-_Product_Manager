@@ -1,7 +1,8 @@
-import * as authTypes from '../../types/authentication';
-import * as globalTypes from '../../types/global';
 import axios from 'axios';
 import globalSettings from '../../settings';
+import * as authTypes from '../../types/authentication';
+
+import * as globalTypes from '../../types/global';
 
 const state = {
   user: {
@@ -40,7 +41,7 @@ const mutations = {
     state.user.password = payload;
   },
   [authTypes.MUTATE_LOGOUT]: (state) => {
-    console.log('mutation logout working...!!', state);
+    // console.log('mutation logout working...!!', state);
     window.localStorage.clear();
     state.logged = false;
     state.user = {
@@ -71,7 +72,7 @@ const actions = {
   [authTypes.UPDATE_USER_PASSWORD]: ({ commit }, payload) => {
     commit(authTypes.MUTATE_USER_PASSWORD, payload);
   },
-  [authTypes.UPDATE_USER]: ({ commit }) => {
+  [authTypes.UPDATE_USER]: ({ commit, dispatch }) => {
     return new Promise((resolve, reject) => {
       axios
         .get(
@@ -79,24 +80,54 @@ const actions = {
           { headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem('_token') } }
         )
         .then(response => {
-          console.log('getDataUser...!!!', response.data.result);
-          commit(authTypes.MUTATE_SET_USER, {user: response.data.result});
+          // console.log('getDataUser...!!!', response.data.result);
+          commit(authTypes.MUTATE_SET_USER, { user: response.data.result });
           resolve(response);
         })
         .catch(error => {
+          if (error.response.data.message === 'Expired JWT Token') {
+            dispatch(authTypes.REFRESH_TOKEN);
+          }
           // we capture the error in the component
           reject(error);
         })
         .finally(() => {
         })
-    });  
+    });
+  },
+  [authTypes.REFRESH_TOKEN]: ({ commit, dispatch }) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(
+          globalSettings.http + 'api/token/refresh',
+          {
+            refresh_token: window.localStorage['_refresh_token'],
+          },
+          { headers: { 'Content-Type': 'application/json' } }
+        )
+        .then(response => {
+          window.localStorage['_refresh_token'] = response.data['refresh_token'];
+          window.localStorage['_token'] = response.data['token'];
+          dispatch(authTypes.UPDATE_USER);
+          resolve(response);
+        })
+        .catch(error => {
+          if (error.response.data.message === 'Expired JWT Token') {
+            dispatch(authTypes.ACTION_LOGOUT);
+          }
+          // we capture the error in the component
+          reject(error);
+        })
+        .finally(() => {
+        })
+    });
   },
   [authTypes.ACTION_LOGOUT]: ({ commit }) => {
     commit(authTypes.MUTATE_LOGOUT);
   },
-  [authTypes.ACTION_LOGIN]: ({ commit , dispatch}) => {
+  [authTypes.ACTION_LOGIN]: ({ commit, dispatch }) => {
     commit(globalTypes.START_PROCESSING);
-    console.log('mutate login working...!!!');
+    // console.log('mutate login working...!!!');
     return new Promise((resolve, reject) => {
       axios
         .post(
@@ -109,7 +140,7 @@ const actions = {
         )
         .then(response => {
           // save token and refreh token
-          console.log('action login working...', response);
+          // console.log('action login working...', response);
           if (
             response.data.token != undefined &&
             response.data.refresh_token != undefined

@@ -1,10 +1,14 @@
 App\Entity\Users:
     type: entity
+    repositoryClass: App\Repository\UsersRepository
     table: users
     indexes:
         gender:
             columns:
                 - gender
+        business_id:
+            columns:
+                - business_id
     uniqueConstraints:
         users_uniques_fields:
             columns:
@@ -132,8 +136,18 @@ App\Entity\Users:
                 gender:
                     referencedColumnName: id
             orphanRemoval: false
+        business:
+            targetEntity: Business
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                business_id:
+                    referencedColumnName: id
+            orphanRemoval: false
     oneToMany:
         userRoles:
             targetEntity: UsersRoles
-            mappedBy: user
+            mappedBy: user            
     lifecycleCallbacks: {  }

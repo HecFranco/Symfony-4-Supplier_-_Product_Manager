@@ -19,7 +19,7 @@ First steps in the development of the Frontend of a SPA application "supplier an
 * Ajv: Another JSON Schema Validator, `npm i ajv`
 * Ajv-keywords, `npm i ajv-keywords`
 * Sass-loader Component, `npm install sass-loader --only=dev`
-* Node Sass Component, `npm install node-sass --dev`
+* Node Sass Component, `npm install node-sass --only=dev`
 * Vue plugin, `npm install --save vue`
 * Bootstrap-Vue, `npm i bootstrap-vue`
 * Vue-loader, `npm i vue-loader`
@@ -27,6 +27,7 @@ First steps in the development of the Frontend of a SPA application "supplier an
 * Axios, `npm i axios`
 * Vue-router, `npm i vue-router`
 * font-awesome, `npm i font-awesome`
+* Vuex, `npm i vuex`
 
 ## Summary Console command`s to be used
 

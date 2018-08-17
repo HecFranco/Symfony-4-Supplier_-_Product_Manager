@@ -5,7 +5,7 @@
       <div class="d-flex align-items-center">
         <div class="mr-auto">
           <h3 class="m-subheader__title ">
-            My Profile
+            {{ $t("my_profile.title") }}
           </h3>
         </div>
       </div>
@@ -30,12 +30,12 @@
                   <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1" role="tab">
                     <i class="flaticon-share m--hide"></i>
-                    Update Profile
+                      {{ $t("my_profile.update_profile") }}
                     </a>
                   </li>
                   <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
-                    Settings
+                      {{ $t("my_profile.settings") }}
                     </a>
                   </li>
                 </ul>
@@ -45,24 +45,19 @@
               <div class="tab-pane active" id="m_user_profile_tab_1">
                 <form class="m-form m-form--fit m-form--label-align-right">
                   <div class="m-portlet__body">
-                    <div class="form-group m-form__group m--margin-top-10 m--hide">
-                      <div class="alert m-alert m-alert--default" role="alert">
-                        The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional classes.
-                      </div>
-                    </div>
                     <div class="form-group m-form__group row">
                       <div class="col-10 ml-auto">
                         <h3 class="m-form__section">
-                          1. Personal Details
+                          1. {{ $t("my_profile.personal_details") }}
                         </h3>
                       </div>
                     </div>
                     <div class="form-group m-form__group row">
                       <label for="example-text-input" class="col-2 col-form-label">
-                      Full Name
+                      First Name
                       </label>
                       <div class="col-7">
-                        <input class="form-control m-input" type="text" value="Mark Andre">
+                        <input class="form-control m-input" type="text" v-model="firstname">
                       </div>
                     </div>
                     <div class="form-group m-form__group row">
@@ -205,10 +200,9 @@
 <script>
 // Plugins
 import { mapGetters } from "vuex";
-// Global Settings
-import globalSettings from "../settings";
 // Types
-import * as authTypes from "../types/authentication";
+import * as myProfileTypes from "../types/myProfile";
+import * as authTypes from '../types/authentication';
 // Components
 import SummaryUserData from '../components/MyProfile/SummaryUserDataComponent.vue';
 
@@ -217,7 +211,21 @@ export default {
   components: {
     'summary-user-data-component': SummaryUserData,
   },
+  computed: {
+    ...mapGetters({
+      userData: authTypes.USER,
+    }),
+    firstname: {
+      get() {
+        return myProfileTypes.USER.firstname;
+      },
+      set(value) {
+        this.$store.commit(myProfileTypes.MUTATE_USER_FIRSTNAME, value);
+      }
+    },
+  },
   methods: {
+    // Views and Animations
     urlImageUser() {
       if (
         this.$store.state.authentication.user.image === undefined ||
@@ -227,13 +235,8 @@ export default {
       } else {
         return this.$store.state.authentication.user.image;
       }
-    }
+    },
   },
-  computed: {
-    ...mapGetters({
-      userData: authTypes.USER,
-    })    
-  }   
 };
 </script>
 

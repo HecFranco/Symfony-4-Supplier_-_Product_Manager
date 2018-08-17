@@ -27,12 +27,13 @@ class UserController extends Controller
         $userId = $this->getUser()->getId();
         // Load User_repo
         $user_repo = $em->getRepository(Users::class);
-        $user = $user_repo->findOneBy(array('id'=>$userId));
+        $user = $user_repo->getDataUser($userId);
+        // $user = $user_repo->findOneBy(array('id'=>$userId));
         $result = [
             'result'=>$user,
         ];
-        return new Response($serializer->serialize($result, "json"));
-        // return new JsonResponse($result);
+        // return new Response($serializer->serialize($result, "json"));
+        return new JsonResponse($result);
     }
 
 }

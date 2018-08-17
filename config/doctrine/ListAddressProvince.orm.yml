@@ -1,10 +1,10 @@
-App\Entity\ListContents:
+App\Entity\ListAddressProvince:
     type: entity
-    table: list_contents
+    table: list_address_province
     indexes:
-        list_translations_sections_id:
+        ccaa:
             columns:
-                - list_sections_id
+                - ccaa
     id:
         id:
             type: integer
@@ -15,27 +15,21 @@ App\Entity\ListContents:
             generator:
                 strategy: IDENTITY
     fields:
-        name:
+        province:
             type: string
-            nullable: false
-            length: 255
+            nullable: true
+            length: 45
             options:
                 fixed: false
-        createdOn:
-            type: datetime
-            nullable: false
-            options:
-                default: CURRENT_TIMESTAMP
-            column: created_on
     manyToOne:
-        listSections:
-            targetEntity: ListSections
+        ccaa:
+            targetEntity: ListAddressCcaa
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
-                list_sections_id:
+                ccaa:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

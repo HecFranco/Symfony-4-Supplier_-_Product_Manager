@@ -12,11 +12,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\Serializer\Annotation as Serializer;
 
 use DateTime;
-
 /**
  * Users
  *
- * @ORM\Table(name="users", uniqueConstraints={@ORM\UniqueConstraint(name="users_uniques_fields", columns={"email", "username"})}, indexes={@ORM\Index(name="gender", columns={"gender"})})
+ * @ORM\Table(name="users", uniqueConstraints={@ORM\UniqueConstraint(name="users_uniques_fields", columns={"email", "username"})}, indexes={@ORM\Index(name="gender", columns={"gender"}), @ORM\Index(name="business_id", columns={"business_id"})})
  * @ORM\Entity
  */
 class Users implements UserInterface
@@ -166,6 +165,16 @@ class Users implements UserInterface
      */
     private $gender;
 
+    /**
+     * @var \Business
+     *
+     * @ORM\ManyToOne(targetEntity="Business")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="business_id", referencedColumnName="id")
+     * })
+     */
+    private $business;
+
     private $userRoles;
 
     public function __construct()
@@ -240,7 +249,7 @@ class Users implements UserInterface
 
         return $this;
     }
-
+    
     public function getRoles() {
         $user_roles_array = $this->userRoles->toArray();
         $roles = [];
@@ -432,6 +441,18 @@ class Users implements UserInterface
     public function setGender(?ListGenders $gender): self
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getBusiness(): ?Business
+    {
+        return $this->business;
+    }
+
+    public function setBusiness(?Business $business): self
+    {
+        $this->business = $business;
 
         return $this;
     }

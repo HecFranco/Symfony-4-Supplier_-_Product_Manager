@@ -18,28 +18,24 @@ App\Entity\UsersRoles:
             generator:
                 strategy: IDENTITY
     manyToOne:
-        role:
-            targetEntity: ListRoles
-            cascade: 
-                - persist
-                - remove     
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                role_id:
-                    referencedColumnName: id
-            orphanRemoval: false
         user:
             targetEntity: Users
-            cascade: 
-                - persist
-                - remove
+            cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: userRoles
             joinColumns:
                 user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        role:
+            targetEntity: ListRoles
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                role_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

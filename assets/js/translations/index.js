@@ -19,6 +19,12 @@ const messages = {
         navigation: {
             logout: 'Salir',
             my_profile: 'Mi Perfil'
+        },
+        my_profile: {
+            title: 'Mi Perfil',
+            update_profile: 'Actualizar Perfil',
+            settings: 'Configuración',
+            personal_details: 'Detalles Personales',
         }
     },
     en: {
@@ -41,6 +47,12 @@ const messages = {
         navigation: {
             logout: 'Logout',
             my_profile: 'My Profile'
+        },
+        my_profile: {
+            title: 'My Profile',
+            update_profile: 'Update Profile',
+            settings: 'Settings',
+            personal_details: 'Personal Details',
         }
     }
 };

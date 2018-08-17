@@ -22,40 +22,28 @@ class UsersRoles
     private $id;
 
     /**
-     * @var \ListRoles
-     *
-     * @ORM\ManyToOne(targetEntity="ListRoles", cascade={"remove", "persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="role_id", referencedColumnName="id")
-     * })
-     */
-    private $role;
-
-    /**
      * @var \Users
      *
-     * @ORM\ManyToOne(targetEntity="Users", cascade={"remove", "persist"})
+     * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
     private $user;
 
+    /**
+     * @var \ListRoles
+     *
+     * @ORM\ManyToOne(targetEntity="ListRoles")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="role_id", referencedColumnName="id")
+     * })
+     */
+    private $role;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getRole(): ?ListRoles
-    {
-        return $this->role;
-    }
-
-    public function setRole(?ListRoles $role): self
-    {
-        $this->role = $role;
-
-        return $this;
     }
 
     public function getUser(): ?Users
@@ -66,6 +54,18 @@ class UsersRoles
     public function setUser(?Users $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getRole(): ?ListRoles
+    {
+        return $this->role;
+    }
+
+    public function setRole(?ListRoles $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }

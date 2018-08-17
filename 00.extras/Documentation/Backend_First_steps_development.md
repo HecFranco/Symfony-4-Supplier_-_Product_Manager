@@ -35,8 +35,10 @@ First steps in the development of the Backend of a SPA application "supplier and
 * `php bin/console doctrine:schema:update --force`
 * `php bin/console doctrine:schema:validate`, validate database and entities.
 
-* `php bin/console doctrine:mapping:import App\Entity yaml --path=config/doctrine`, to generate the metadata files into XML or YAML (source [How to Generate Entities from an Existing Database](https://symfony.com/doc/current/doctrine/reverse_engineering.html).
-* `php bin/console doctrine:mapping:import App\Entity annotation --path=src/Entity`, this command line tool asks Doctrine to introspect the database and generate new PHP classes with annotation metadata into src/Entity (source [How to Generate Entities from an Existing Database](https://symfony.com/doc/current/doctrine/reverse_engineering.html).
+* `php bin/console doctrine:mapping:import App\\Entity yaml --path=config/doctrine`, to generate the metadata files 
+into XML or YAML (source [How to Generate Entities from an Existing Database](https://symfony.com/doc/current/doctrine/reverse_engineering.html).
+* `php bin/console doctrine:mapping:import App\\Entity annotation --path=src/Entity`, this command line tool asks 
+Doctrine to introspect the database and generate new PHP classes with annotation metadata into src/Entity (source [How to Generate Entities from an Existing Database](https://symfony.com/doc/current/doctrine/reverse_engineering.html).
 * `php bin/console make:entity --regenerate App`, generates getter/setter methods [Generating the Getters & Setters or PHP Classes](https://symfony.com/doc/current/doctrine/reverse_engineering.html#generating-the-getters-setters-or-php-classes).
 
 * `php bin/console debug:container`, show all service of app.

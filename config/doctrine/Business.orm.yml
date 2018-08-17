@@ -1,6 +1,6 @@
-App\Entity\Providers:
+App\Entity\Business:
     type: entity
-    table: providers
+    table: business
     indexes:
         user_id:
             columns:
@@ -15,6 +15,13 @@ App\Entity\Providers:
             generator:
                 strategy: IDENTITY
     fields:
+        image:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: image
         brandName:
             type: string
             nullable: true

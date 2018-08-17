@@ -1,10 +1,10 @@
-App\Entity\ListProductsCategories:
+App\Entity\ListAddressCity:
     type: entity
-    table: list_products_categories
+    table: list_address_city
     indexes:
-        user_id:
+        address_province:
             columns:
-                - user_id
+                - province
     id:
         id:
             type: integer
@@ -15,27 +15,26 @@ App\Entity\ListProductsCategories:
             generator:
                 strategy: IDENTITY
     fields:
-        name:
+        cp:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+        city:
             type: string
-            nullable: false
-            length: 100
+            nullable: true
+            length: 500
             options:
                 fixed: false
-        createdOn:
-            type: datetime
-            nullable: false
-            options:
-                default: CURRENT_TIMESTAMP
-            column: created_on
     manyToOne:
-        user:
-            targetEntity: Users
+        province:
+            targetEntity: ListAddressProvince
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
-                user_id:
+                province:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

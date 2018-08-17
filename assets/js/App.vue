@@ -44,7 +44,7 @@ export default {
       handleSettings: globalTypes.UPDATE_SETTINGS,
     }),
     viewToolBar(){
-      console.log(this.$store.state.authentication.logged);
+      // console.log(this.$store.state.authentication.logged);
       return this.$store.state.authentication.logged;
     }
   },

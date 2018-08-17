@@ -444,7 +444,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
 INSERT INTO `settings` (`id`, `name`, `description`, `value`, `auth`, `modified_on`, `created_on`) VALUES
 (1, 'name_app', NULL, 'unnamed', 0, '2018-07-26 14:18:54', '2018-07-26 14:18:54'),
 (2, 'url_img_logo_vertical', NULL, '/assets/images/logo_only_without_background.png', 0, '2018-07-26 14:18:54', '2018-07-26 14:18:54'),
-(3, 'url_img_logo_horizontal', NULL, '/assets/images/logo_horizontal_plus_white_without_background.png', 0, '2018-07-26 14:18:54', '2018-07-26 14:18:54');
+(3, 'url_img_logo_horizontal', NULL, '/assets/images/logo.png', 0, '2018-07-26 14:18:54', '2018-07-26 14:18:54');
 
 -- --------------------------------------------------------
 

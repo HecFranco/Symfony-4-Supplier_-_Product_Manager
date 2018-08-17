@@ -1,7 +1,7 @@
 <template>
-    <div>
-        Home
-    </div>
+  <div>
+    Home
+  </div>
 </template>
 
 <script>
@@ -9,7 +9,7 @@
 import globalSettings from "../settings";
 
 export default {
-  name: "HomePage",
+  name: "HomePage"
 };
 </script>
 

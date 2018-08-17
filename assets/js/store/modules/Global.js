@@ -57,20 +57,22 @@ const actions = {
   [globalTypes.UPDATE_SETTINGS]: ({ commit }) => {
     commit(globalTypes.START_PROCESSING);
     return new Promise((resolve, reject) => {
-      axios.get(globalSettings.http+'api/get_settings',
-        {headers: { 'Content-Type': 'application/json' }}
-      ).then(response => {
-        // eslint-disable-next-line
-        // console.log('Response... settings...!!!', response);
-        commit(globalTypes.MUTATE_SETTINGS, {apiResponse: response.data} );
-        resolve(response.data);
-        commit(globalTypes.STOP_PROCESSING);
-      })
-      .catch(error => {
-        reject(error);
-      })
-      .finally(() => {
-      })
+      axios
+        .get(
+          globalSettings.http+'api/get_settings',
+          {headers: { 'Content-Type': 'application/json' }}
+        ).then(response => {
+          // eslint-disable-next-line
+          // console.log('Response... settings...!!!', response);
+          commit(globalTypes.MUTATE_SETTINGS, {apiResponse: response.data} );
+          resolve(response.data);
+          commit(globalTypes.STOP_PROCESSING);
+        })
+        .catch(error => {
+          reject(error);
+        })
+        .finally(() => {
+        })
     })
   },  
 };

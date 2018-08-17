@@ -5,12 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Providers
+ * Business
  *
- * @ORM\Table(name="providers", indexes={@ORM\Index(name="user_id", columns={"user_id"})})
+ * @ORM\Table(name="business", indexes={@ORM\Index(name="user_id", columns={"user_id"})})
  * @ORM\Entity
  */
-class Providers
+class Business
 {
     /**
      * @var int
@@ -20,6 +20,13 @@ class Providers
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    private $image;
 
     /**
      * @var string|null
@@ -90,6 +97,18 @@ class Providers
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
     }
 
     public function getBrandName(): ?string

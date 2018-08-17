@@ -1,6 +1,7 @@
 ## Summary Plugins and Components
-1. [Nprogress](#nprogress)
-2. [Vee Validate]()
+1. [Animate.scss](#animatecss)
+2. [Nprogress](#nprogress)
+3. [Vee Validate]()
 3. [Vue Notifications]()
 
 ---------------------------------------------------------------------------------------
@@ -140,3 +141,21 @@ npm i vue-notifications --save
 ##### Official sources :
         * [](https://se-panfilov.github.io/vue-notifications/)
         * [GitHub](https://github.com/se-panfilov/vue-notifications)
+
+---------------------------------------------------------------------------------------
+
+### Vue Bootstrap - Table
+
+---------------------------------------------------------------------------------------
+
+##### Official sources :
+        *  [Vue Bootstrap - Table - Complete Example](https://bootstrap-vue.js.org/docs/components/table/#complete-example)
+
+---------------------------------------------------------------------------------------
+
+### Export HTML Table to Excel & CSV using jQuery
+
+---------------------------------------------------------------------------------------
+
+##### Official sources :
+        *  [Export HTML Table to Excel & CSV using jQuery](https://w3lessons.info/2015/07/13/export-html-table-to-excel-csv-json-pdf-png-using-jquery/)
