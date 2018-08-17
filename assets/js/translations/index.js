@@ -25,6 +25,12 @@ const messages = {
             update_profile: 'Actualizar Perfil',
             settings: 'Configuración',
             personal_details: 'Detalles Personales',
+            first_name:'Nombe',
+            last_name:'Apellidos',
+            email:'Email',
+            password:'Password',
+            save_changes:'Guadar cambios',
+            cancel:'Cancelar',                
         }
     },
     en: {
@@ -53,6 +59,12 @@ const messages = {
             update_profile: 'Update Profile',
             settings: 'Settings',
             personal_details: 'Personal Details',
+            first_name:'First Name',
+            last_name:'Last Name',
+            email:'Email',
+            password:'Password',  
+            save_changes:'Save changes',
+            cancel:'Cancel',        
         }
     }
 };

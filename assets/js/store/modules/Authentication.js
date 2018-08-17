@@ -6,8 +6,8 @@ import * as globalTypes from '../../types/global';
 
 const state = {
   user: {
-    firstname: '',
-    lastname: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
   },

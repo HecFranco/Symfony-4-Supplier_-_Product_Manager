@@ -7,12 +7,12 @@
         </div>
         <div class="m-card-profile__pic">
           <div class="m-card-profile__pic-wrapper">
-            <img :src="urlImageUser" alt="">
+            <img :src="urlImageUser" alt="" style="width:80px;height:80px;">
           </div>
         </div>
         <div class="m-card-profile__details">
           <span class="m-card-profile__name">
-          {{userData.first_name}} {{userData.last_name}}
+          {{userData.firstName}} {{userData.lastName}}
           </span>
           <a href="" class="m-card-profile__email m-link">
           {{userData.email}}
