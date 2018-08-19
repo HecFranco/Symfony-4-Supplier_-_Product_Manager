@@ -66,12 +66,12 @@ const actions = {
           // console.log('Response... settings...!!!', response);
           commit(globalTypes.MUTATE_SETTINGS, {apiResponse: response.data} );
           resolve(response.data);
-          commit(globalTypes.STOP_PROCESSING);
         })
         .catch(error => {
           reject(error);
         })
         .finally(() => {
+          commit(globalTypes.STOP_PROCESSING);
         })
     })
   },  

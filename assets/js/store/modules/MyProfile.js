@@ -1,17 +1,23 @@
 import * as myProfileTypes from '../../types/myProfile';
+import * as authTypes from './Authentication';
 
 const state = {
   updateDataUser: {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
+    firstName: null,
+    lastName: null,
+    email: null,
+    password: null,
+    passwordConfirmation: null,
   },
+  processing: false,  
 };
 const getters = {
   [myProfileTypes.USER]: state => {
     return state.updateDataUser;
   },
+  [myProfileTypes.PROCESSING]: state => {
+    return state.processing;
+  },    
 };
 const mutations = {
   // to establish the user's status
@@ -27,9 +33,18 @@ const mutations = {
   [myProfileTypes.MUTATE_USER_PASSWORD]: (state, payload) => {
     state.updateDataUser.password = payload;
   },
+  [myProfileTypes.MUTATE_USER_PASSWORD_CONFIRMATION]: (state, payload) => {
+    state.updateDataUser.passwordConfirmation = payload;
+  },
   [myProfileTypes.MUTATE_USER]: (state, user) => {
     state.updateDataUser = user;
   },
+  [myProfileTypes.STOP_PROCESSING]: (state) => {
+    state.processing = false;
+  },
+  [myProfileTypes.START_PROCESSING]: (state) => {
+    state.processing = true;
+  },   
 };
 const actions = {
   [myProfileTypes.UPDATE_USER_FIRSTNAME]: ({ commit }, payload) => {

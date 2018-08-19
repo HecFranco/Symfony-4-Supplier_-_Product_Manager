@@ -6,14 +6,15 @@ import * as globalTypes from '../../types/global';
 
 const state = {
   user: {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
+    firstName: null,
+    lastName: null,
+    email: null,
+    password: null,
   },
   // convert to boolean the _token in localStorage
   logged: !!window.localStorage.getItem('_token'),
-  auth_type: ''
+  auth_type: null,
+  processing: false,
 };
 const getters = {
   [authTypes.USER]: state => {
@@ -25,6 +26,9 @@ const getters = {
   [authTypes.TYPE_AUTHENTICATION]: state => {
     return state.auth_type;
   },
+  [authTypes.PROCESSING]: state => {
+    return state.processing;
+  },  
 };
 const mutations = {
   // to establish the user's status
@@ -58,6 +62,12 @@ const mutations = {
   [authTypes.MUTATE_TYPE_AUTHENTICATION]: (state, payload) => {
     state.auth_type = payload;
   },
+  [authTypes.STOP_PROCESSING]: (state) => {
+    state.processing = false;
+  },
+  [authTypes.START_PROCESSING]: (state) => {
+    state.processing = true;
+  },   
 };
 const actions = {
   [authTypes.UPDATE_USER_FIRSTNAME]: ({ commit }, payload) => {
@@ -73,6 +83,7 @@ const actions = {
     commit(authTypes.MUTATE_USER_PASSWORD, payload);
   },
   [authTypes.UPDATE_USER]: ({ commit, dispatch }) => {
+    commit(authTypes.START_PROCESSING);    
     return new Promise((resolve, reject) => {
       axios
         .get(
@@ -92,10 +103,12 @@ const actions = {
           reject(error);
         })
         .finally(() => {
+          commit(authTypes.STOP_PROCESSING);          
         })
     });
   },
   [authTypes.REFRESH_TOKEN]: ({ commit, dispatch }) => {
+    commit(authTypes.START_PROCESSING);    
     return new Promise((resolve, reject) => {
       axios
         .post(
@@ -119,6 +132,7 @@ const actions = {
           reject(error);
         })
         .finally(() => {
+          commit(authTypes.STOP_PROCESSING);          
         })
     });
   },
@@ -126,7 +140,7 @@ const actions = {
     commit(authTypes.MUTATE_LOGOUT);
   },
   [authTypes.ACTION_LOGIN]: ({ commit, dispatch }) => {
-    commit(globalTypes.START_PROCESSING);
+    commit(authTypes.START_PROCESSING);
     // console.log('mutate login working...!!!');
     return new Promise((resolve, reject) => {
       axios
@@ -162,10 +176,9 @@ const actions = {
           reject(error);
         })
         .finally(() => {
-
+          commit(authTypes.STOP_PROCESSING);
         })
     })
-    commit(globalTypes.STOP_PROCESSING);
   },
   [authTypes.UPDATE_TYPE_AUTHENTICATION]: ({ commit }, payload) => {
     commit(authTypes.MUTATE_TYPE_AUTHENTICATION, payload)

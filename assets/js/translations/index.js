@@ -31,7 +31,16 @@ const messages = {
             password:'Password',
             save_changes:'Guadar cambios',
             cancel:'Cancelar',                
-        }
+        },
+        errors_form: {
+            string_required: 'Campo de texto requerido',
+            email_required: 'Campo de email requerido',
+            password_required: 'Campo password requerido',
+            password_confirmation_confirmed: 'El password no coincide',
+        },
+        messages: {
+            processing: 'Procesando datos...',
+        },
     },
     en: {
         authentication: {
@@ -65,7 +74,16 @@ const messages = {
             password:'Password',  
             save_changes:'Save changes',
             cancel:'Cancel',        
-        }
+        },
+        errors_form: {
+            string_required: 'Text field required',
+            email_required: 'Email field required',
+            password_required: 'Password field required',
+            password_confirmation_confirmed: 'The password does not match',
+        },
+        messages: {
+            processing: 'Processing data...',
+        },        
     }
 };
 export default messages;

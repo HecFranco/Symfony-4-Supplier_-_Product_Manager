@@ -65,6 +65,12 @@ import global from './store/modules/Global';
 
     Vue.use(VueNotifications, options)
 /* End::VueNotifications*******************************************************************/
+
+
+/* Begin::blockui *************************************************************************/
+import BlockUI from 'vue-blockui';
+Vue.use(BlockUI);
+/* End::blockui ***************************************************************************/
 /* Begin::Vee-validate ********************************************************************/
     import VeeValidate, {Validator} from 'vee-validate';
     // To make validator with translations......

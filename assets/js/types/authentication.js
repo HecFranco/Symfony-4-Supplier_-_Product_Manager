@@ -1,10 +1,13 @@
 // Getters
+export const PROCESSING = 'authentication/PROCESSING';
 export const USER = 'authentication/USER';
 export const LOGGED = 'authentication/LOGGED';
 export const TYPE_AUTHENTICATION = 'authentication/TYPE_AUTHENTICATION';
 export const VALUE = 'shared/VALUE';
 
 // Mutations
+export const START_PROCESSING = 'authentication/START_PROCESSING';
+export const STOP_PROCESSING = 'authentication/STOP_PROCESSING';
 export const MUTATE_USER_FIRSTNAME = 'authentication_MUTATE_USER_FIRSTNAME';
 export const MUTATE_USER_LASTNAME = 'authentication/MUTATE_USER_LASTNAME';
 export const MUTATE_USER_EMAIL = 'authentication/MUTATE_USER_EMAIL';

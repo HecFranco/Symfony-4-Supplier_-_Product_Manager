@@ -37,21 +37,21 @@
 import { mapGetters } from "vuex";
 // Types
 import * as myProfileTypes from "../types/myProfile";
-import * as authTypes from '../types/authentication';
+import * as authTypes from "../types/authentication";
 // Components
-import SummaryUserData from '../components/MyProfile/SummaryUserDataComponent.vue';
-import EditDataUser from '../components/MyProfile/EditDataUser.vue';
+import SummaryUserData from "../components/MyProfile/SummaryUserDataComponent.vue";
+import EditDataUser from "../components/MyProfile/EditDataUser.vue";
 
 export default {
   name: "MyProfilePage",
   components: {
-    'summary-user-data-component': SummaryUserData,
-    'edit-data-user-component': EditDataUser,
+    "summary-user-data-component": SummaryUserData,
+    "edit-data-user-component": EditDataUser
   },
   computed: {
     ...mapGetters({
-      userData: authTypes.USER,
-    }),    
+      userData: authTypes.USER
+    })
   },
   methods: {
     // Views and Animations
@@ -65,7 +65,7 @@ export default {
         return this.$store.state.authentication.user.image;
       }
     },
-  },
+  }
 };
 </script>
 

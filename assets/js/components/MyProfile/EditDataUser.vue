@@ -20,7 +20,10 @@
             </div>
             <div class="tab-content">
               <div class="tab-pane active" id="m_user_profile_tab_1">
-                <form class="m-form m-form--fit m-form--label-align-right">
+                <form 
+                  class="m-form m-form--fit m-form--label-align-right" 
+                  @submit.prevent="validateBeforeSubmit"
+                >
                   <div class="m-portlet__body">
                     <div class="form-group m-form__group row">
                       <div class="col-10 ml-auto">
@@ -39,7 +42,15 @@
                           class="form-control m-input"
                           type="text"
                           v-model="firstName"
+                          name="firstName"
+                          v-on:input="validateFirstNameString"                       
                         >
+                        <span
+                          v-show="errors_form.firstName === true"
+                          class="text_danger"
+                        >    
+                          {{ $t("errors_form.string_required") }}
+                        </span>                          
                       </div>
                     </div>
                     <div class="form-group m-form__group row">
@@ -48,11 +59,19 @@
                       </label>
                       <div class="col-9">
                         <input
-                          id="myProfileInput_firstname"
+                          id="myProfileInput_lastname"
                           class="form-control m-input"
                           type="text"
                           v-model="lastName"
+                          name="lastName"   
+                          v-on:input="validateLastNameString"                                                 
                         >
+                        <span
+                          v-show="errors_form.lastName === true"
+                          class="text_danger"
+                        >    
+                          {{ $t("errors_form.string_required") }}
+                        </span>                         
                       </div>
                     </div>       
                     <div class="form-group m-form__group row">
@@ -61,11 +80,19 @@
                       </label>
                       <div class="col-9">
                         <input
-                          id="myProfileInput_firstname"
+                          id="myProfileInput_email"
                           class="form-control m-input"
                           type="text"
                           v-model="email"
+                          name="email"    
+                          v-on:input="validateEmail"                                                
                         >
+                        <span
+                          v-show="errors_form.email === true"
+                          class="text_danger"
+                        >    
+                          {{ $t("errors_form.email_required") }}
+                        </span>                          
                       </div>
                     </div>  
                     <div class="form-group m-form__group row">
@@ -74,24 +101,53 @@
                       </label>
                       <div class="col-9">
                         <input
-                          id="myProfileInput_firstname"
+                          id="myProfileInput_password"
                           class="form-control m-input"
-                          type="text"
+                          type="password"
                           v-model="password"
+                          name="password"  
+                          v-on:input="validatePassword"                                                   
                         >
+                        <span
+                          v-show="errors_form.password === true"
+                          class="text_danger"
+                        >    
+                          {{ $t("errors_form.password_required") }}
+                        </span>                                            
                       </div>                      
-                    </div>                                  
+                    </div>    
+                    <div class="form-group m-form__group row">
+                      <label for="example-text-input" class="col-3 col-form-label">
+                      {{ $t("my_profile.password") }}
+                      </label>
+                      <div class="col-9">
+                        <input
+                          id="myProfileInput_password_confirmation"
+                          class="form-control m-input"
+                          type="password"
+                          v-model="passwordConfirmation"
+                          name="passwordConfirmation"  
+                          v-on:input="validatePasswordConfirmation"                                                  
+                        >
+                        <span
+                          v-show="errors_form.passwordConfirmation === true"
+                          class="text_danger"
+                        >    
+                          {{ $t("errors_form.password_confirmation_confirmed") }}
+                        </span>                                            
+                      </div>                      
+                    </div>                                                    
                   </div>
                   <div class="m-portlet__foot m-portlet__foot--fit">
                     <div class="m-form__actions">
                       <div class="row">
                         <div class="col-3"></div>
                         <div class="col-9">
-                          <button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+                          <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">
                           {{ $t("my_profile.save_changes") }}
                           </button>
                           &nbsp;&nbsp;
-                          <button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom" style="color:black;">
+                          <button type="cancel" class="btn btn-secondary m-btn m-btn--air m-btn--custom" style="color:black;">
                           {{ $t("my_profile.cancel") }}
                           </button>
                         </div>
@@ -108,19 +164,34 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from 'vuex';
 // Types
 import * as myProfileTypes from "../../types/myProfile";
 
 export default {
   name: "EditDataUserComponent",
+  data(){
+    return {
+      errors_form: {
+        firstName: false,
+        lastName : false,
+        passwordConfirmation : false,
+      },
+    }
+  },
   props: {
     userData: Object,
   },
   computed: {
+    ...mapGetters({
+      userEditData: myProfileTypes.USER
+    }),
     firstName: {
       get() {
-        //return myProfileTypes.USER.firstName;
-        return this.userData.firstName;
+        if(this.userEditData.firstName === null){
+          this.$store.commit(myProfileTypes.MUTATE_USER_FIRSTNAME, this.userData.firstName);          
+        }
+        return this.userEditData.firstName;
       },
       set(value) {
         this.$store.commit(myProfileTypes.MUTATE_USER_FIRSTNAME, value);
@@ -128,7 +199,10 @@ export default {
     },
     lastName: {
       get() {
-        return this.userData.lastName;
+        if(this.userEditData.lastName === null){
+          this.$store.commit(myProfileTypes.MUTATE_USER_LASTNAME, this.userData.lastName);          
+        }
+        return this.userEditData.lastName;
       },
       set(value) {
         this.$store.commit(myProfileTypes.MUTATE_USER_LASTNAME, value);
@@ -136,7 +210,10 @@ export default {
     },
     email: {
       get() {
-        return this.userData.email;
+        if(this.userEditData.email === null){
+          this.$store.commit(myProfileTypes.MUTATE_USER_EMAIL, this.userData.email);          
+        }
+        return this.userEditData.email;
       },
       set(value) {
         this.$store.commit(myProfileTypes.MUTATE_USER_EMAIL, value);
@@ -144,14 +221,93 @@ export default {
     },   
     password: {
       get() {
-        return myProfileTypes.USER.password;
+        return this.userEditData.password;
       },
       set(value) {
         this.$store.commit(myProfileTypes.MUTATE_USER_PASSWORD, value);
       }
-    },      
+    },  
+    passwordConfirmation: {
+      get() {
+        return this.userEditData.passwordConfirmation;
+      },
+      set(value) {
+        this.$store.commit(myProfileTypes.MUTATE_USER_PASSWORD_CONFIRMATION, value);
+      }
+    },               
   },  
+  methods: {
+    validateBeforeSubmit() {
+      let firstName = document.getElementById('myProfileInput_firstname').value;
+      let lastName = document.getElementById('myProfileInput_lastname').value;
+      let email = document.getElementById('myProfileInput_email').value;
+      let password = document.getElementById('myProfileInput_password').value;
+      let passwordConfirmation = document.getElementById('myProfileInput_password_confirmation').value;
+      console.log(password, passwordConfirmation);
+      if(password !== passwordConfirmation){
+        console.log('differents passwords');
+        this.errors_form.passwordConfirmation = true ;
+        console.log(this.errors);
+        // console.log(this.$i18n.locale);
+        // console.log(this.$i18n.messages);
+      }
+    },
+    validateFirstNameString(event){
+      console.log(event.target);
+      if(event.target.value.length < 5){
+        this.errors_form.firstName = true;
+        event.target.classList.add("input_error");
+      }else{
+        this.errors_form.firstName = false ;
+        event.target.classList.remove("input_error");
+      }
+    },
+    validateLastNameString(event){
+      if(event.target.value.length < 5){
+        this.errors_form.lastName = true ;
+        event.target.classList.add("input_error");
+      }else{
+        this.errors_form.lastName = false ;
+        event.target.classList.remove("input_error");
+      }
+    },   
+    validatePassword(event){
+      if(event.target.value.length < 5){
+        this.errors_form.lastName = true ;
+        event.target.classList.add("input_error");
+      }else{
+        this.errors_form.lastName = false ;
+        event.target.classList.remove("input_error");
+      }
+    },
+    validatePasswordConfirmation(event){
+      if(event.target.value.length < 5){
+        this.errors_form.lastName = true ;
+        event.target.classList.add("input_error");
+      }else{
+        this.errors_form.lastName = false ;
+        event.target.classList.remove("input_error");
+      }
+    },      
+    validateEmail(event){
+      if(event.target.value.length < 5){
+        this.errors_form.passwordConfirmation = true ;
+        event.target.classList.add("input_error");
+      }else{
+        this.errors_form.passwordConfirmation = false ;
+        event.target.classList.remove("input_error");
+      }
+      //if(event.target.value)
+    },    
+  }  
 };
 </script>
 <style scoped lang="scss">
+.text_danger{
+  color:red;
+  display:block;
+}
+.input_error{
+  border-color:red;
+}
 </style>

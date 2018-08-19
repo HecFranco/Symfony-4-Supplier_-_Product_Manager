@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <div class="m-grid m-grid--hor m-grid--root m-page"> 
+      <div v-if="processing()" class="processing">
+        <BlockUI :message="$t('messages.processing')"></BlockUI>
+      </div>      
       <header-component v-if="viewToolBar()"></header-component>
       <div 
         v-if="viewToolBar()" 
@@ -17,55 +20,69 @@
 
 <script>
 // Types
-import * as globalTypes from './types/global';
-import * as authTypes from './types/authentication';
+import * as globalTypes from "./types/global";
+import * as authTypes from "./types/authentication";
+import * as myProfileTypes from "./types/myProfile";
 // Vuex Plugin
 import { mapActions, mapGetters } from "vuex";
 // NProgress System
-var NProgress = require('./libraries/nprogress.js');
+var NProgress = require("./libraries/nprogress.js");
 // Components
-import LocaleChangerComponent from './components/LocaleChanger/LocaleChangerComponent';
+import LocaleChangerComponent from "./components/LocaleChanger/LocaleChangerComponent";
 import HeaderComponent from "./components/Header/HeaderComponent";
 import LeftAsideComponent from "./components/LeftAside/LeftAsideComponent";
 // Begin::Component
 export default {
   name: "app",
   components: {
-    'left-aside-component': LeftAsideComponent,
-    'header-component': HeaderComponent,
-    'locale-changer-component': LocaleChangerComponent,    
+    "left-aside-component": LeftAsideComponent,
+    "header-component": HeaderComponent,
+    "locale-changer-component": LocaleChangerComponent
   },
   computed: {
-  },
-  methods: {
+    ...mapGetters({
+      processingGlobal: globalTypes.PROCESSING,
+      processingDataUser: authTypes.PROCESSING,
+      processingMyProfile: myProfileTypes.PROCESSING
+    }),    
     ...mapActions({
       handleSize: globalTypes.UPDATE_WINDOW_DATA_RESIZE,
       handleScroll: globalTypes.UPDATE_WINDOW_DATA_SCROLL,
-      handleSettings: globalTypes.UPDATE_SETTINGS,
-    }),
-    viewToolBar(){
+      handleSettings: globalTypes.UPDATE_SETTINGS
+    }),    
+  },
+  methods: {
+    viewToolBar() {
       // console.log(this.$store.state.authentication.logged);
       return this.$store.state.authentication.logged;
-    }
+    },
+    processing(){
+      return this.processingGlobal ||
+      this.processingDataUser ||
+      this.processingMyProfile
+    },
   },
   created() {
     // We use eventlistener because vue has no event of its own for resizing and scrolling
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener("scroll", this.handleScroll);
     window.addEventListener("resize", this.handleSize);
   },
-  mounted () {
+  mounted() {
     // Start progress Bar
     NProgress.start();
     NProgress.set(0.4);
     this.$store.dispatch(globalTypes.UPDATE_SETTINGS);
-    if( this.$store.state.authentication.logged === true ){
+    if (this.$store.state.authentication.logged === true) {
       this.$store.dispatch(authTypes.UPDATE_USER);
-    }  
+    }
     // Finally progress Bar
     NProgress.done();
-  },
+  }
 };
 </script>
 
 <style>
+.processing {
+  z-index: 100000000;
+}
 </style>
