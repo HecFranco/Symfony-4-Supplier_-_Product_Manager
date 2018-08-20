@@ -1,0 +1,49 @@
+App\Entity\Translations:
+    type: entity
+    repositoryClass: App\Repository\TranslationsRepository    
+    table: translations
+    indexes:
+        list_translations_content:
+            columns:
+                - list_content_id
+        list_translations_languages:
+            columns:
+                - list_language_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        translation:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+    manyToOne:
+        content:
+            targetEntity: ListContents
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                content:
+                    referencedColumnName: id
+            orphanRemoval: false
+        language:
+            targetEntity: ListLanguages
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                language:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

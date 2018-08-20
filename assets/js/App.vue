@@ -2,7 +2,7 @@
   <div id="app">
     <div class="m-grid m-grid--hor m-grid--root m-page"> 
       <div v-if="processing()" class="processing">
-        <BlockUI :message="$t('messages.processing')"></BlockUI>
+        <BlockUI :message="$t('messages.processing')" :html="loadingLogo()"></BlockUI>
       </div>      
       <header-component v-if="viewToolBar()"></header-component>
       <div 
@@ -61,6 +61,9 @@ export default {
       this.processingDataUser ||
       this.processingMyProfile
     },
+    loadingLogo(){
+      return "<img src='assets/images/default/loading.gif'>"
+    },
   },
   created() {
     // We use eventlistener because vue has no event of its own for resizing and scrolling
@@ -72,6 +75,14 @@ export default {
     NProgress.start();
     NProgress.set(0.4);
     this.$store.dispatch(globalTypes.UPDATE_SETTINGS);
+    this.$store.dispatch(globalTypes.UPDATE_TRANSLATIONS)
+      .then(response =>{
+        // we reload translations from the database.
+        for ( var languages in response.result){
+          this.$i18n.setLocaleMessage(languages, response.result[languages]);
+          // console.log(this.$i18n.messages)
+        }
+      });    
     if (this.$store.state.authentication.logged === true) {
       this.$store.dispatch(authTypes.UPDATE_USER);
     }

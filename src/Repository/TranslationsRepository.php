@@ -31,17 +31,16 @@ class TranslationsRepository extends ServiceEntityRepository
      */
     public function getTranslationsRefactored(): array
     {
-
         // we extract the complete list of settings
         $qb = $this->createQueryBuilder('t')
             ->select('t.translation', 'lTL.name as language', 'lTC.name as content', 'lTS.name as section')
-            ->innerJoin('t.listLanguage', 'lTL', 'lTL.id = t.listLanguage')
-            ->innerJoin('t.listContent', 'lTC', 'lTC.id = t.listContent')
-            ->innerJoin('lTC.listSections', 'lTS', 'lTS.id = t.listSections')
-            ->orderBy('t.listLanguage', 'ASC')
+            ->innerJoin('t.language', 'lTL', 'lTL.id = t.language')
+            ->innerJoin('t.content', 'lTC', 'lTC.id = t.content')
+            ->innerJoin('lTC.section', 'lTS', 'lTS.id = t.section')
+            ->orderBy('t.language', 'ASC')
             ->getQuery();
         $query = $qb->execute();
-        $translationsData = $this->getStructureLanguages();
+        // $translationsData = $this->getStructureLanguages();
         foreach ( $query as $key => $value ){
             $translationsData[$value['language']][$value['section']][$value['content']] = $value['translation'];
         }
@@ -61,7 +60,7 @@ class TranslationsRepository extends ServiceEntityRepository
         foreach ($allLanguages as $keyLanguage => $valueLanguage) {
             foreach ($allSections as $keySection => $valueSection) {
                 foreach ($allContents as $keyContent => $valueContent) {
-                    $translationsData[$valueLanguage->getName()][$valueSection->getName()] [$valueContent->getName()] = null;
+                    $translationsData[$valueLanguage->getName()][$valueSection->getName()][$valueContent->getName()] = null;
                 }
             }
         }
