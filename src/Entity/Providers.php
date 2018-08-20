@@ -4,15 +4,13 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 /**
- * ListRoles
+ * Providers
  *
- * @ORM\Table(name="list_roles", indexes={@ORM\Index(name="user_id", columns={"user_id"})})
+ * @ORM\Table(name="providers", indexes={@ORM\Index(name="user_id", columns={"user_id"}), @ORM\Index(name="business_id", columns={"business_id"})})
  * @ORM\Entity
  */
-class ListRoles
+class Providers
 {
     /**
      * @var int
@@ -24,18 +22,18 @@ class ListRoles
     private $id;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="role", type="string", length=50, nullable=false)
+     * @ORM\Column(name="business_id", type="integer", nullable=false)
      */
-    private $role;
+    private $businessId;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_on", type="datetime", nullable=false)
+     * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $createdOn;
+    private $createdOn = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \Users
@@ -47,37 +45,19 @@ class ListRoles
      */
     private $user;
 
-    private $listPermissions;
-
-	public function __construct() {
-		$this->listPermissions = new ArrayCollection();
-    }  
-
-    public function getListPermissions() { 
-        return $this->listPermissions; 
-    }
-    
-    public function addPermission(RolesPermissions $listPermissions) { 
-        $this->listPermissions[] = $listPermissions; return $this; 
-    } 
-
-    public function removePermission(RolesPermissions $listPermissions) { 
-        $this->listPermissions->removeElement($listPermissions); 
-    }  	    
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getRole(): ?string
+    public function getBusinessId(): ?int
     {
-        return $this->role;
+        return $this->businessId;
     }
 
-    public function setRole(string $role): self
+    public function setBusinessId(int $businessId): self
     {
-        $this->role = $role;
+        $this->businessId = $businessId;
 
         return $this;
     }

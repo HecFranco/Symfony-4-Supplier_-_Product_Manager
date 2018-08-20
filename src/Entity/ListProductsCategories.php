@@ -4,15 +4,13 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 /**
- * ListRoles
+ * ListProductsCategories
  *
- * @ORM\Table(name="list_roles", indexes={@ORM\Index(name="user_id", columns={"user_id"})})
+ * @ORM\Table(name="list_products_categories", indexes={@ORM\Index(name="user_id", columns={"user_id"})})
  * @ORM\Entity
  */
-class ListRoles
+class ListProductsCategories
 {
     /**
      * @var int
@@ -26,16 +24,16 @@ class ListRoles
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=50, nullable=false)
+     * @ORM\Column(name="name", type="string", length=100, nullable=false)
      */
-    private $role;
+    private $name;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_on", type="datetime", nullable=false)
+     * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $createdOn;
+    private $createdOn = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \Users
@@ -47,37 +45,19 @@ class ListRoles
      */
     private $user;
 
-    private $listPermissions;
-
-	public function __construct() {
-		$this->listPermissions = new ArrayCollection();
-    }  
-
-    public function getListPermissions() { 
-        return $this->listPermissions; 
-    }
-    
-    public function addPermission(RolesPermissions $listPermissions) { 
-        $this->listPermissions[] = $listPermissions; return $this; 
-    } 
-
-    public function removePermission(RolesPermissions $listPermissions) { 
-        $this->listPermissions->removeElement($listPermissions); 
-    }  	    
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getRole(): ?string
+    public function getName(): ?string
     {
-        return $this->role;
+        return $this->name;
     }
 
-    public function setRole(string $role): self
+    public function setName(string $name): self
     {
-        $this->role = $role;
+        $this->name = $name;
 
         return $this;
     }

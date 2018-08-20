@@ -1,10 +1,13 @@
-App\Entity\ListRoles:
+App\Entity\RolesPermissions:
     type: entity
-    table: list_roles
+    table: roles_permissions
     indexes:
-        user_id:
+        permission:
             columns:
-                - user_id
+                - permission
+        role:
+            columns:
+                - role
     id:
         id:
             type: integer
@@ -14,32 +17,34 @@ App\Entity\ListRoles:
             id: true
             generator:
                 strategy: IDENTITY
-    fields:
-        role:
-            type: string
+    fields:                
+        value:
+            type: boolean
             nullable: false
-            length: 50
-            options:
-                fixed: false
+            column: value
         createdOn:
             type: datetime
             nullable: false
             column: created_on
     manyToOne:
-        user:
-            targetEntity: Users
+        permission:
+            targetEntity: ListPermissions
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
-                user_id:
+                permission:
                     referencedColumnName: id
             orphanRemoval: false
-    oneToMany:
-        # listPermissions # is not inside the DB, but is defined in the entity to list the elements
-        listPermissions:
-            targetEntity: RolesPermissions
-            # mappedBy # refers to the column of the table # role # inside the DB related to the table # RolesPermissions #
-            mappedBy: role                
+        role:
+            targetEntity: ListRoles
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: listPermissions
+            joinColumns:
+                role:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }

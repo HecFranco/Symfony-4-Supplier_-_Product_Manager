@@ -1,10 +1,13 @@
-App\Entity\ListRoles:
+App\Entity\ListProductsSubcategory:
     type: entity
-    table: list_roles
+    table: list_products_subcategory
     indexes:
         user_id:
             columns:
                 - user_id
+        products_categories:
+            columns:
+                - products_categories_id
     id:
         id:
             type: integer
@@ -15,17 +18,35 @@ App\Entity\ListRoles:
             generator:
                 strategy: IDENTITY
     fields:
-        role:
+        name:
             type: string
             nullable: false
-            length: 50
+            length: 100
             options:
                 fixed: false
+        orderWeight:
+            type: smallint
+            nullable: false
+            options:
+                unsigned: false
+            column: order_weight
         createdOn:
             type: datetime
             nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
             column: created_on
     manyToOne:
+        productsCategories:
+            targetEntity: ListProductsCategories
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                products_categories_id:
+                    referencedColumnName: id
+            orphanRemoval: false
         user:
             targetEntity: Users
             cascade: {  }
@@ -36,10 +57,4 @@ App\Entity\ListRoles:
                 user_id:
                     referencedColumnName: id
             orphanRemoval: false
-    oneToMany:
-        # listPermissions # is not inside the DB, but is defined in the entity to list the elements
-        listPermissions:
-            targetEntity: RolesPermissions
-            # mappedBy # refers to the column of the table # role # inside the DB related to the table # RolesPermissions #
-            mappedBy: role                
     lifecycleCallbacks: {  }

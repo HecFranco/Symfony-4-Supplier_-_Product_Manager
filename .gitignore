@@ -30,3 +30,5 @@ package-lock.json
 /public/assets/images/logo/*
 /public/assets/images/media/misc/*
 /public/assets/images/users/*
+
+*.zip

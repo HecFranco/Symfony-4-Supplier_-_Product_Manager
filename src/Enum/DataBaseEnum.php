@@ -130,7 +130,22 @@ abstract class DataBaseEnum
                 'processing' => 'Processing data...',
             ],        
         ]     
-    ];    
+    ];  
+    public const LISTPERMISSIONS = [
+        [
+            'name'=>'see_complete_company_information',
+            'description'=>'ver información completa de empresa'
+        ],[
+            'name'=>'edit_company_information',
+            'description'=>'editar información completa de empresa'
+        ],[
+            'name'=>'edit_company_see_complete_user_informationinformation',
+            'description'=>'ver información completa de usuario'
+        ],[
+            'name'=>'edit_user_information',
+            'description'=>'editar información completa de usuario'
+        ]              
+    ];      
     public static function getListGenders()
     {
         return self::LISTGENDERS;
@@ -146,5 +161,9 @@ abstract class DataBaseEnum
     public static function getListTranslations()
     {
         return self::LISTTRANSLATIONS;
-    }    
+    } 
+    public static function getListPermissions()
+    {
+        return self::LISTPERMISSIONS;
+    }        
 }

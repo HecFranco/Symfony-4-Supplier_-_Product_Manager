@@ -19,7 +19,8 @@ use App\Entity\ListLanguages;
 use App\Entity\ListSections;
 use App\Entity\ListContents;
 use App\Entity\Translations;
-
+use App\Entity\ListPermissions;
+use App\Entity\RolesPermissions;
 
 class InitializationDatabase
 {
@@ -34,6 +35,7 @@ class InitializationDatabase
         $this->uploadDataListRole();
         $this->uploadDataListSettings();
         $this->uploadTranslations();
+        $this->uploadPermissionsRoles();
         return 'Initialized database';
     }
 
@@ -76,7 +78,7 @@ class InitializationDatabase
         $settings = DataBaseEnum::getListSettings();
         $settings_repo = $this->em->getRepository(Settings::class);
         foreach ( $settings as $key => $value) {
-            $setting = $settings_repo->findOneBy(array('name'=>$key));
+            $setting = $settings_repo->findOneBy(array('name'=>$value['name']));
             $existSetting = ( $setting === NULL )? false : true ;
             if ( !$existSetting ) {
                 $newSetting = new Settings();
@@ -91,6 +93,7 @@ class InitializationDatabase
             }
         }
     }
+
     public function uploadTranslations()
     {
         $translations = DataBaseEnum::getListTranslations();
@@ -121,7 +124,7 @@ class InitializationDatabase
                     $section = $newSection;
                 }
                 foreach ( $valueSection as $keyContent => $valueContent) {
-                    $content = $listContents_repo->findOneBy(array('name'=>$keyContent, 'section'=>$keySection));
+                    $content = $listContents_repo->findOneBy(array('name'=>$keyContent, 'section'=>$section));
                     $existContent = ( $content === NULL )? false : true ;
                     if ( !$existContent ) {
                         $newContent = new ListContents();
@@ -146,4 +149,41 @@ class InitializationDatabase
             }
         }
     }
+    
+    public function uploadPermissionsRoles()
+    {
+        $permissions = DataBaseEnum::getListPermissions();
+        $listPermissions_repo = $this->em->getRepository(ListPermissions::class);
+        $rolesPermissions_repo = $this->em->getRepository(RolesPermissions::class);
+        $listRole_repo = $this->em->getRepository(ListRoles::class);
+        $allRoles = $listRole_repo->findAll();
+        foreach ( $permissions as $keyPermission => $valuePermission) {
+            $permission = $listPermissions_repo->findOneBy(array('name'=>$valuePermission['name']));
+            $existPermission = ( $permission === NULL )? false : true ;
+            if ( !$existPermission ) {
+                $newPermission = new ListPermissions();
+                $newPermission->setName($valuePermission['name']);
+                $newPermission->setDescription($valuePermission['description']);
+                $newPermission->setCreatedOn(new \DateTime());
+                $this->em->persist($newPermission);
+                $this->em->flush();
+                $permission = $newPermission;
+            }
+            foreach ( $allRoles as $keyRole => $valueRole){
+                $rolePermission = $rolesPermissions_repo->findOneBy(array('role'=>$valueRole, 'permission'=>$permission));
+                var_dump($rolePermission);
+                $existRolePermission = ( $rolePermission === NULL )? false : true ;
+                if ( !$existRolePermission ) {
+                    var_dump(!$existPermission);
+                    $newRolePermission = new RolesPermissions();
+                    $newRolePermission->setRole($valueRole);
+                    $newRolePermission->setPermission($permission);
+                    $newRolePermission->setValue(1);
+                    $newRolePermission->setCreatedOn(new \DateTime());
+                    $this->em->persist($newRolePermission);
+                    $this->em->flush();
+                }
+            }
+        }     
+    }    
 }

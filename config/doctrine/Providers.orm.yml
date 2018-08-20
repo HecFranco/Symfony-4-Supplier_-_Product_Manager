@@ -1,10 +1,13 @@
-App\Entity\ListRoles:
+App\Entity\Providers:
     type: entity
-    table: list_roles
+    table: providers
     indexes:
         user_id:
             columns:
                 - user_id
+        business_id:
+            columns:
+                - business_id
     id:
         id:
             type: integer
@@ -15,15 +18,17 @@ App\Entity\ListRoles:
             generator:
                 strategy: IDENTITY
     fields:
-        role:
-            type: string
+        businessId:
+            type: integer
             nullable: false
-            length: 50
             options:
-                fixed: false
+                unsigned: false
+            column: business_id
         createdOn:
             type: datetime
             nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
             column: created_on
     manyToOne:
         user:
@@ -36,10 +41,4 @@ App\Entity\ListRoles:
                 user_id:
                     referencedColumnName: id
             orphanRemoval: false
-    oneToMany:
-        # listPermissions # is not inside the DB, but is defined in the entity to list the elements
-        listPermissions:
-            targetEntity: RolesPermissions
-            # mappedBy # refers to the column of the table # role # inside the DB related to the table # RolesPermissions #
-            mappedBy: role                
     lifecycleCallbacks: {  }

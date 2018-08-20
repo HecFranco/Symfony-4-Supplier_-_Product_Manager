@@ -13,6 +13,8 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 use App\Entity\Users;
 use App\Entity\Business;
+use App\Entity\UsersRoles;
+use App\Entity\RolesPermissions;
 
 class UsersRepository extends ServiceEntityRepository
 {
@@ -36,15 +38,27 @@ class UsersRepository extends ServiceEntityRepository
             ->execute();
         foreach($qb[0] as $key=>$value){
             $businessName = 'business_';
-            $permissionsName = 'permissions_';
             $businessField = str_replace($businessName, '', $key);
             if (strpos($key, $businessName) !== false){
                 $result['business'][$businessField] = $value;
-            }elseif(strpos($key, $permissionsName) !== false){
-                // Todo
             }else{
                 $result[$key] = $value;
             }
+        }
+        $em = $this->getEntityManager();
+        $users_repo = $em->getRepository(Users::class);
+        $usersRoles_repo = $em->getRepository(UsersRoles::class);  
+        $rolesPermissions_repo = $em->getRepository(RolesPermissions::class);             
+        $user = $users_repo->findOneById($userId);
+        $userRole = $usersRoles_repo->findOneBy(array('user'=>$user));
+        $role = $userRole->getRole();
+                
+        $roleName = $role->getRole();
+        $permissions = $role->getListPermissions();     
+        foreach($permissions as $key => $value){
+            $permission = $rolesPermissions_repo->findOneBy(array('role'=>$role, 'permission'=>$value->getPermission()));
+            $valuePermission = $permission->getValue();
+            $result['permissions'][$value->getPermission()->getName()]= $valuePermission;
         }
         return $result;
     }

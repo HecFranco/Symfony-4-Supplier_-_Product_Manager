@@ -11,6 +11,8 @@
         "lexik/jwt-authentication-bundle": "^2.5",
         "symfony/asset": "^4.1",
         "symfony/console": "^4.1",
+        "symfony/debug": "^4.1",
+        "symfony/debug-bundle": "^4.1",
         "symfony/dotenv": "^4.1",
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^4.1",
@@ -19,6 +21,7 @@
         "symfony/orm-pack": "^1.0",
         "symfony/serializer": "^4.1",
         "symfony/twig-bundle": "^4.1",
+        "symfony/var-dumper": "^4.1",
         "symfony/webpack-encore-pack": "^1.0",
         "symfony/yaml": "^4.1"
     },
