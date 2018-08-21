@@ -3,7 +3,10 @@ import * as globalTypes from '../../types/global';
 import axios from 'axios';
 
 const state = {
-  processing: false,
+  processing: {
+    update_settings: false,
+    update_translations: false,
+  },
   window_data: {
     window_width: window.innerWidth,
     window_height: window.innerHeight,
@@ -22,7 +25,13 @@ const state = {
 };
 const getters = {
   [globalTypes.PROCESSING]: state => {
-    return state.processing;
+    let processing = false
+    for(let index in state.processing ){
+      if( state.processing[index] == true) {
+        processing = true
+      }
+    }
+    return processing;
   },    
   [globalTypes.WINDOW_DATA]: state => {
     return state.window_data;
@@ -35,11 +44,17 @@ const getters = {
   },   
 };
 const mutations = {
-  [globalTypes.STOP_PROCESSING]: (state) => {
-    state.processing = false;
+  [globalTypes.STOP_PROCESSING_UPDATE_SETTINGS]: (state) => {
+    state.processing.update_settings = false;
   },
-  [globalTypes.START_PROCESSING]: (state) => {
-    state.processing = true;
+  [globalTypes.START_PROCESSING_UPDATE_SETTINGS]: (state) => {
+    state.processing.update_settings = true;
+  }, 
+  [globalTypes.STOP_PROCESSING_UPDATE_TRANSLATIONS]: (state) => {
+    state.processing.update_translations = false;
+  },
+  [globalTypes.START_PROCESSING_UPDATE_TRANSLATIONS]: (state) => {
+    state.processing.update_translations = true;
   },      
   [globalTypes.MUTATE_WINDOW_DATA_RESIZE]: (state) => {
     state.window_data.window_width = window.innerWidth;
@@ -64,7 +79,7 @@ const actions = {
     commit(globalTypes.MUTATE_WINDOW_DATA_SCROLL);
   },   
   [globalTypes.UPDATE_SETTINGS]: ({ commit }) => {
-    commit(globalTypes.START_PROCESSING);
+    commit(globalTypes.START_PROCESSING_UPDATE_SETTINGS);
     return new Promise((resolve, reject) => {
       axios
         .get(
@@ -80,14 +95,14 @@ const actions = {
           reject(error);
         })
         .finally(() => {
-          commit(globalTypes.STOP_PROCESSING);
+          commit(globalTypes.STOP_PROCESSING_UPDATE_SETTINGS);
         })
     })
   },  
   [globalTypes.UPDATE_TRANSLATIONS]: ({ commit }) => {
     // Todo
     // api/get_translations
-    commit(globalTypes.START_PROCESSING);
+    commit(globalTypes.START_PROCESSING_UPDATE_TRANSLATIONS);
     return new Promise((resolve, reject) => {
       axios
         .get(
@@ -103,7 +118,7 @@ const actions = {
           reject(error);
         })
         .finally(() => {
-          commit(globalTypes.STOP_PROCESSING);
+          commit(globalTypes.STOP_PROCESSING_UPDATE_TRANSLATIONS);
         })
     })    
   },    

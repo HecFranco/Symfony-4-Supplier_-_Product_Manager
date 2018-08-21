@@ -12,7 +12,7 @@
         </div>
         <div class="m-card-profile__details">
           <span class="m-card-profile__name">
-          {{userData.firstName}} {{userData.lastName}}
+          {{userData.firstname}} {{userData.lastname}}
           </span>
           <a href="" class="m-card-profile__email m-link">
           {{userData.email}}

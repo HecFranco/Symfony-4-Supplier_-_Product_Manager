@@ -6,8 +6,12 @@ export const TYPE_AUTHENTICATION = 'authentication/TYPE_AUTHENTICATION';
 export const VALUE = 'shared/VALUE';
 
 // Mutations
-export const START_PROCESSING = 'authentication/START_PROCESSING';
-export const STOP_PROCESSING = 'authentication/STOP_PROCESSING';
+export const START_PROCESSING_REFRESH_TOKEN = 'authentication/START_PROCESSING_REFRESH_TOKEN';
+export const STOP_PROCESSING_REFRESH_TOKEN = 'authentication/STOP_PROCESSING_REFRESH_TOKEN';
+export const START_PROCESSING_UPDATE_USER = 'authentication/START_PROCESSING_UPDATE_USER';
+export const STOP_PROCESSING_UPDATE_USER = 'authentication/STOP_PROCESSING_UPDATE_USER';
+export const START_PROCESSING_ACTION_LOGIN = 'authentication/START_PROCESSING_ACTION_LOGIN';
+export const STOP_PROCESSING_ACTION_LOGIN = 'authentication/STOP_PROCESSING_ACTION_LOGIN';
 export const MUTATE_USER_FIRSTNAME = 'authentication_MUTATE_USER_FIRSTNAME';
 export const MUTATE_USER_LASTNAME = 'authentication/MUTATE_USER_LASTNAME';
 export const MUTATE_USER_EMAIL = 'authentication/MUTATE_USER_EMAIL';

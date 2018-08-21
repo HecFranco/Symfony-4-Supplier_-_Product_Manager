@@ -41,9 +41,8 @@
                           id="myProfileInput_firstname"
                           class="form-control m-input"
                           type="text"
-                          v-model="firstName"
-                          name="firstName"
-                          v-on:input="validateFirstNameString"                       
+                          v-model="firstname"
+                          name="firstName"                      
                         >
                         <span
                           v-show="errors_form.firstName === true"
@@ -62,9 +61,8 @@
                           id="myProfileInput_lastname"
                           class="form-control m-input"
                           type="text"
-                          v-model="lastName"
-                          name="lastName"   
-                          v-on:input="validateLastNameString"                                                 
+                          v-model="lastname"
+                          name="lastName"                                                 
                         >
                         <span
                           v-show="errors_form.lastName === true"
@@ -84,9 +82,16 @@
                           class="form-control m-input"
                           type="text"
                           v-model="email"
-                          name="email"    
-                          v-on:input="validateEmail"                                                
+                          name="email"     
+                          v-validate
+                          data-vv-rules="required|email"                                                                       
                         >
+                        <span
+                          v-show="errors.has('email')"
+                          class="text-danger"
+                        >
+                          {{ errors.first('email') }}
+                        </span>                        
                         <span
                           v-show="errors_form.email === true"
                           class="text_danger"
@@ -101,13 +106,22 @@
                       </label>
                       <div class="col-9">
                         <input
+                          autocomplete="off"
                           id="myProfileInput_password"
                           class="form-control m-input"
                           type="password"
                           v-model="password"
-                          name="password"  
-                          v-on:input="validatePassword"                                                   
+                          name="password"    
+                          v-validate
+                          data-vv-rules="required|min:6"
+                          ref="password"                                                                          
                         >
+                        <span
+                          v-show="errors.has('password')"
+                          class="text-danger"
+                        >
+                          {{ errors.first('password') }}
+                        </span>                        
                         <span
                           v-show="errors_form.password === true"
                           class="text_danger"
@@ -122,13 +136,20 @@
                       </label>
                       <div class="col-9">
                         <input
+                          autocomplete="off"
                           id="myProfileInput_password_confirmation"
                           class="form-control m-input"
                           type="password"
                           v-model="passwordConfirmation"
-                          name="passwordConfirmation"  
-                          v-on:input="validatePasswordConfirmation"                                                  
+                          name="passwordConfirmation"     
+                          v-validate="'required|confirmed:password'"                                                                         
                         >
+                        <span
+                          v-show="errors.has('passwordConfirmation')"
+                          class="text-danger"
+                        >
+                          {{ errors.first('passwordConfirmation') }}
+                        </span>                        
                         <span
                           v-show="errors_form.passwordConfirmation === true"
                           class="text_danger"
@@ -143,8 +164,14 @@
                       <div class="row">
                         <div class="col-3"></div>
                         <div class="col-9">
-                          <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">
-                          {{ $t("my_profile.save_changes") }}
+                          <button 
+                            id="submit_form_update_data_user"
+                            v-on:click="sendFormDataUser"
+                            type="submit" 
+                            class="btn btn-accent m-btn m-btn--air m-btn--custom"
+                            :disabled="errors.any() || !isComplete"
+                          >
+                            {{ $t("my_profile.save_changes") }}
                           </button>
                           &nbsp;&nbsp;
                           <button type="cancel" class="btn btn-secondary m-btn m-btn--air m-btn--custom" style="color:black;">
@@ -164,45 +191,53 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 // Types
 import * as myProfileTypes from "../../types/myProfile";
+// NProgress System
+var NProgress = require("../../libraries/nprogress.js");
 
 export default {
   name: "EditDataUserComponent",
-  data(){
+  data() {
     return {
       errors_form: {
-        firstName: false,
-        lastName : false,
-        passwordConfirmation : false,
-      },
-    }
+        firstname: false,
+        lastname: false,
+        passwordConfirmation: false
+      }
+    };
   },
   props: {
-    userData: Object,
+    userData: Object
   },
   computed: {
     ...mapGetters({
       userEditData: myProfileTypes.USER
     }),
-    firstName: {
+    firstname: {
       get() {
-        if(this.userEditData.firstName === null){
-          this.$store.commit(myProfileTypes.MUTATE_USER_FIRSTNAME, this.userData.firstName);          
+        if (this.userEditData.firstname === null) {
+          this.$store.commit(
+            myProfileTypes.MUTATE_USER_FIRSTNAME,
+            this.userData.firstname
+          );
         }
-        return this.userEditData.firstName;
+        return this.userEditData.firstname;
       },
       set(value) {
         this.$store.commit(myProfileTypes.MUTATE_USER_FIRSTNAME, value);
       }
     },
-    lastName: {
+    lastname: {
       get() {
-        if(this.userEditData.lastName === null){
-          this.$store.commit(myProfileTypes.MUTATE_USER_LASTNAME, this.userData.lastName);          
+        if (this.userEditData.lastname === null) {
+          this.$store.commit(
+            myProfileTypes.MUTATE_USER_LASTNAME,
+            this.userData.lastname
+          );
         }
-        return this.userEditData.lastName;
+        return this.userEditData.lastname;
       },
       set(value) {
         this.$store.commit(myProfileTypes.MUTATE_USER_LASTNAME, value);
@@ -210,15 +245,18 @@ export default {
     },
     email: {
       get() {
-        if(this.userEditData.email === null){
-          this.$store.commit(myProfileTypes.MUTATE_USER_EMAIL, this.userData.email);          
+        if (this.userEditData.email === null) {
+          this.$store.commit(
+            myProfileTypes.MUTATE_USER_EMAIL,
+            this.userData.email
+          );
         }
         return this.userEditData.email;
       },
       set(value) {
         this.$store.commit(myProfileTypes.MUTATE_USER_EMAIL, value);
       }
-    },   
+    },
     password: {
       get() {
         return this.userEditData.password;
@@ -226,88 +264,44 @@ export default {
       set(value) {
         this.$store.commit(myProfileTypes.MUTATE_USER_PASSWORD, value);
       }
-    },  
+    },
     passwordConfirmation: {
       get() {
         return this.userEditData.passwordConfirmation;
       },
       set(value) {
-        this.$store.commit(myProfileTypes.MUTATE_USER_PASSWORD_CONFIRMATION, value);
+        this.$store.commit(
+          myProfileTypes.MUTATE_USER_PASSWORD_CONFIRMATION,
+          value
+        );
       }
-    },               
-  },  
+    },
+    isComplete () {
+      return this.firstname && this.lastname && this.email && this.password && this.passwordConfirmation;
+    }
+  },
   methods: {
+    sendFormDataUser() {
+      this.$emit("sendFormDataUser");
+    },
     validateBeforeSubmit() {
-      let firstName = document.getElementById('myProfileInput_firstname').value;
-      let lastName = document.getElementById('myProfileInput_lastname').value;
-      let email = document.getElementById('myProfileInput_email').value;
-      let password = document.getElementById('myProfileInput_password').value;
-      let passwordConfirmation = document.getElementById('myProfileInput_password_confirmation').value;
-      console.log(password, passwordConfirmation);
-      if(password !== passwordConfirmation){
-        console.log('differents passwords');
-        this.errors_form.passwordConfirmation = true ;
-        console.log(this.errors);
-        // console.log(this.$i18n.locale);
-        // console.log(this.$i18n.messages);
-      }
-    },
-    validateFirstNameString(event){
-      console.log(event.target);
-      if(event.target.value.length < 5){
-        this.errors_form.firstName = true;
-        event.target.classList.add("input_error");
-      }else{
-        this.errors_form.firstName = false ;
-        event.target.classList.remove("input_error");
-      }
-    },
-    validateLastNameString(event){
-      if(event.target.value.length < 5){
-        this.errors_form.lastName = true ;
-        event.target.classList.add("input_error");
-      }else{
-        this.errors_form.lastName = false ;
-        event.target.classList.remove("input_error");
-      }
-    },   
-    validatePassword(event){
-      if(event.target.value.length < 5){
-        this.errors_form.lastName = true ;
-        event.target.classList.add("input_error");
-      }else{
-        this.errors_form.lastName = false ;
-        event.target.classList.remove("input_error");
-      }
-    },
-    validatePasswordConfirmation(event){
-      if(event.target.value.length < 5){
-        this.errors_form.lastName = true ;
-        event.target.classList.add("input_error");
-      }else{
-        this.errors_form.lastName = false ;
-        event.target.classList.remove("input_error");
-      }
-    },      
-    validateEmail(event){
-      if(event.target.value.length < 5){
-        this.errors_form.passwordConfirmation = true ;
-        event.target.classList.add("input_error");
-      }else{
-        this.errors_form.passwordConfirmation = false ;
-        event.target.classList.remove("input_error");
-      }
-      //if(event.target.value)
-    },    
-  }  
+      this.$validator.validateAll().then(result => {
+        if (!result) {
+          //hay errores
+        } else {
+          this.$emit("sendFormDataUser");
+        }
+      });
+    }
+  }
 };
 </script>
 <style scoped lang="scss">
-.text_danger{
-  color:red;
-  display:block;
+.text_danger {
+  color: red;
+  display: block;
 }
-.input_error{
-  border-color:red;
+.input_error {
+  border-color: red;
 }
 </style>

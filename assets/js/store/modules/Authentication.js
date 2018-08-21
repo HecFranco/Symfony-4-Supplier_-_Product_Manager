@@ -5,18 +5,31 @@ import * as authTypes from '../../types/authentication';
 import * as globalTypes from '../../types/global';
 
 const state = {
+  processing: {
+    refresh_token: false,
+    update_user: false,
+    action_login: false,    
+  },  
   user: {
-    firstName: null,
-    lastName: null,
+    firstname: null,
+    lastname: null,
     email: null,
     password: null,
   },
   // convert to boolean the _token in localStorage
   logged: !!window.localStorage.getItem('_token'),
   auth_type: null,
-  processing: false,
 };
 const getters = {
+  [authTypes.PROCESSING]: state => {
+    let processing = false
+    for(let index in state.processing ){
+      if( state.processing[index] == true) {
+        processing = true
+      }
+    }
+    return processing;
+  },    
   [authTypes.USER]: state => {
     return state.user;
   },
@@ -26,11 +39,26 @@ const getters = {
   [authTypes.TYPE_AUTHENTICATION]: state => {
     return state.auth_type;
   },
-  [authTypes.PROCESSING]: state => {
-    return state.processing;
-  },  
 };
 const mutations = {
+  [authTypes.STOP_PROCESSING_REFRESH_TOKEN]: (state) => {
+    state.processing.refresh_token = false;
+  },
+  [authTypes.START_PROCESSING_REFRESH_TOKEN]: (state) => {
+    state.processing.refresh_token = true;
+  },    
+  [authTypes.STOP_PROCESSING_UPDATE_USER]: (state) => {
+    state.processing.update_user = false;
+  },
+  [authTypes.START_PROCESSING_UPDATE_USER]: (state) => {
+    state.processing.update_user = true;
+  },    
+  [authTypes.STOP_PROCESSING_ACTION_LOGIN]: (state) => {
+    state.processing.action_login = false;
+  },
+  [authTypes.START_PROCESSING_ACTION_LOGIN]: (state) => {
+    state.processing.action_login = true;
+  },     
   // to establish the user's status
   [authTypes.MUTATE_USER_FIRSTNAME]: (state, payload) => {
     state.user.firstname = payload;
@@ -62,12 +90,7 @@ const mutations = {
   [authTypes.MUTATE_TYPE_AUTHENTICATION]: (state, payload) => {
     state.auth_type = payload;
   },
-  [authTypes.STOP_PROCESSING]: (state) => {
-    state.processing = false;
-  },
-  [authTypes.START_PROCESSING]: (state) => {
-    state.processing = true;
-  },   
+
 };
 const actions = {
   [authTypes.UPDATE_USER_FIRSTNAME]: ({ commit }, payload) => {
@@ -83,7 +106,7 @@ const actions = {
     commit(authTypes.MUTATE_USER_PASSWORD, payload);
   },
   [authTypes.UPDATE_USER]: ({ commit, dispatch }) => {
-    commit(authTypes.START_PROCESSING);    
+    commit(authTypes.START_PROCESSING_UPDATE_USER);    
     return new Promise((resolve, reject) => {
       axios
         .get(
@@ -103,12 +126,12 @@ const actions = {
           reject(error);
         })
         .finally(() => {
-          commit(authTypes.STOP_PROCESSING);          
+          commit(authTypes.STOP_PROCESSING_UPDATE_USER);          
         })
     });
   },
   [authTypes.REFRESH_TOKEN]: ({ commit, dispatch }) => {
-    commit(authTypes.START_PROCESSING);    
+    commit(authTypes.START_PROCESSING_REFRESH_TOKEN);    
     return new Promise((resolve, reject) => {
       axios
         .post(
@@ -132,7 +155,7 @@ const actions = {
           reject(error);
         })
         .finally(() => {
-          commit(authTypes.STOP_PROCESSING);          
+          commit(authTypes.STOP_PROCESSING_REFRESH_TOKEN);          
         })
     });
   },
@@ -140,7 +163,7 @@ const actions = {
     commit(authTypes.MUTATE_LOGOUT);
   },
   [authTypes.ACTION_LOGIN]: ({ commit, dispatch }) => {
-    commit(authTypes.START_PROCESSING);
+    commit(authTypes.START_PROCESSING_ACTION_LOGIN);
     // console.log('mutate login working...!!!');
     return new Promise((resolve, reject) => {
       axios
@@ -176,7 +199,7 @@ const actions = {
           reject(error);
         })
         .finally(() => {
-          commit(authTypes.STOP_PROCESSING);
+          commit(authTypes.STOP_PROCESSING_ACTION_LOGIN);
         })
     })
   },

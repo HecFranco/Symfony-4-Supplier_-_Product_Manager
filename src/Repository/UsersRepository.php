@@ -30,7 +30,7 @@ class UsersRepository extends ServiceEntityRepository
     {
         // we extract the complete list of settings
         $qb = $this->createQueryBuilder('u')
-            ->select('u.email, u.image, u.firstName, u.lastName, b.image as business_image, b.brandName as business_brandName')
+            ->select('u.email, u.image, u.firstname, u.lastname, b.image as business_image, b.brandName as business_brandName')
             ->innerJoin('u.business', 'b', 'b.id = u.business')
             ->where('u.id =:userId')
             ->setParameter('userId', $userId)

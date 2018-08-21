@@ -24,6 +24,7 @@
         <!-- Begin::Edit User Data -->
           <edit-data-user-component
             :userData = "userData"
+            @sendFormDataUser = "handleSubmitUpdateDataUser"
           >
           </edit-data-user-component>
         <!-- Begin::Edit User Data -->
@@ -38,6 +39,8 @@ import { mapGetters } from "vuex";
 // Types
 import * as myProfileTypes from "../types/myProfile";
 import * as authTypes from "../types/authentication";
+// NProgress System
+var NProgress = require('../libraries/nprogress.js');
 // Components
 import SummaryUserData from "../components/MyProfile/SummaryUserDataComponent.vue";
 import EditDataUser from "../components/MyProfile/EditDataUser.vue";
@@ -65,6 +68,20 @@ export default {
         return this.$store.state.authentication.user.image;
       }
     },
+    handleSubmitUpdateDataUser: function() {
+      // Start progress Bar      
+      NProgress.start();
+      NProgress.set(0.4);    
+      // Todo
+      this.$store.dispatch(myProfileTypes.SEND_FORM_DATA_USER)
+        .then(result =>{
+          NProgress.done();
+        })
+        .catch(error => {
+          NProgress.done();
+        });
+      // Finally progress Bar      
+    },    
   }
 };
 </script>

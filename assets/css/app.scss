@@ -10,6 +10,9 @@
 /* Begin::NProgress **************************************************************************************/
   // Source : https://www.npmjs.com/package/nprogress
   @import '~nprogress/nprogress.css';
+  #nprogress{
+    z-index : 1000000000000000000000000000000000;
+  }
   #nprogress .bar {
     background: #9816F4;
   }

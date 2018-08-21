@@ -67,16 +67,16 @@ class Users implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="first_name", type="string", length=250, nullable=false)
+     * @ORM\Column(name="firstname", type="string", length=250, nullable=false)
      */
-    private $firstName;
+    private $firstname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="last_name", type="string", length=250, nullable=false)
+     * @ORM\Column(name="lastname", type="string", length=250, nullable=false)
      */
-    private $lastName;
+    private $lastname;
 
     /**
      * @var string|null
@@ -277,26 +277,26 @@ class Users implements UserInterface
         return $this->userRoles;
     }
 
-    public function getFirstName(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->firstName;
+        return $this->firstname;
     }
 
-    public function setFirstName(string $firstName): self
+    public function setFirstname(string $firstname): self
     {
-        $this->firstName = $firstName;
+        $this->firstname = $firstname;
 
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getLastname(): ?string
     {
-        return $this->lastName;
+        return $this->lastname;
     }
 
-    public function setLastName(string $lastName): self
+    public function setLastname(string $lastname): self
     {
-        $this->lastName = $lastName;
+        $this->lastname = $lastname;
 
         return $this;
     }
