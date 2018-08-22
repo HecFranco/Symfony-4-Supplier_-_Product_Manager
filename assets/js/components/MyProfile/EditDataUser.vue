@@ -113,7 +113,7 @@
                           v-model="password"
                           name="password"    
                           v-validate
-                          data-vv-rules="required|min:6"
+                          data-vv-rules="required|min:4"
                           ref="password"                                                                          
                         >
                         <span
@@ -166,7 +166,7 @@
                         <div class="col-9">
                           <button 
                             id="submit_form_update_data_user"
-                            v-on:click="sendFormDataUser"
+                            v-on:click="handleSubmitUpdateDataUser"
                             type="submit" 
                             class="btn btn-accent m-btn m-btn--air m-btn--custom"
                             :disabled="errors.any() || !isComplete"
@@ -196,7 +196,8 @@ import { mapActions, mapGetters } from "vuex";
 import * as myProfileTypes from "../../types/myProfile";
 // NProgress System
 var NProgress = require("../../libraries/nprogress.js");
-
+// Component Show Notifications
+import VueNotifications from 'vue-notifications';
 export default {
   name: "EditDataUserComponent",
   data() {
@@ -211,6 +212,29 @@ export default {
   props: {
     userData: Object
   },
+  // Notifications System
+  notifications: {
+    showSuccessMsg: {
+      type: VueNotifications.types.success,
+      title: "",
+      message: ""
+    },
+    showInfoMsg: {
+      type: VueNotifications.types.info,
+      title: "",
+      message: ""
+    },
+    showWarnMsg: {
+      type: VueNotifications.types.warn,
+      title: "",
+      message: ""
+    },
+    showErrorMsg: {
+      type: VueNotifications.types.error,
+      title: "",
+      message: ""
+    }
+  },    
   computed: {
     ...mapGetters({
       userEditData: myProfileTypes.USER
@@ -281,9 +305,23 @@ export default {
     }
   },
   methods: {
-    sendFormDataUser() {
-      this.$emit("sendFormDataUser");
-    },
+    handleSubmitUpdateDataUser: function() {
+      // Start progress Bar      
+      NProgress.start();
+      NProgress.set(0.4);    
+      this.showInfoMsg({ message: "Form Submitted!", title: "" });
+      // Todo
+      this.$store.dispatch(myProfileTypes.SEND_FORM_DATA_USER)
+        .then(result =>{
+          NProgress.done();
+          this.showSuccessMsg({ message: "User updated!", title: "" });
+        })
+        .catch(error => {
+          NProgress.done();
+          this.showWarnMsg({ message: "Error with API", title: "" });
+        });
+      // Finally progress Bar      
+    }, 
     validateBeforeSubmit() {
       this.$validator.validateAll().then(result => {
         if (!result) {

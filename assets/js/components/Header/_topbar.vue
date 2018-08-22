@@ -96,7 +96,7 @@ export default {
     },
     logout() {
       // console.log("logout done...!");
-      this.$store.dispatch(authTypes.ACTION_LOGOUT);
+      this.$store.dispatch(authTypes.LOGOUT);
       // redirect to route
       this.$router.replace(this.$route.query.redirect || "/login");
     },

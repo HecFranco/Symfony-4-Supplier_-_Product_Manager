@@ -21,6 +21,75 @@
     border-left-color: #4F1A41;
   }
 /* End::NProgress ***************************************************************************************/
+/* Begin::Loading System Animation **********************************************************************/
+  .square{
+    display: table;
+    /*width: 100vw;*/
+    /*height: 100vh;*/
+  }
+  .square-cell{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+  }
+  .loader{
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    position: relative;
+    animation: rotate 20s 0s linear infinite;
+  }
+  .loader > span{
+    display: block;
+    width: 50%;
+    height: 50%;
+    background-color: white;
+    position: absolute;
+    border-radius: 10px;
+    transform: scale(0);
+  }
+  @keyframes rotate {
+    0% {
+      transform: rotateZ(0deg);
+    }
+    100%{
+      transform: rotateZ(360deg);
+    }
+  }
+  @keyframes scale {
+    from {
+      transform: scale(0);
+    }
+
+    to {
+      transform: scale(.95);
+    }
+  }
+  .loader > span:nth-child(1){
+    background-color: rgb(231,77,125);
+    top: 0;
+    left: 0;
+    animation: scale 1.75s 2s linear infinite alternate;
+  }
+  .loader > span:nth-child(2){
+    background-color: rgb(23,202,223);
+    top: 0;
+    right: 0;
+    animation: scale 1.5s 1.8s linear infinite alternate;
+  }
+  .loader > span:nth-child(3){
+    background-color: rgb(44,46,62);
+    bottom: 0;
+    left: 0;
+    animation: scale 1s 1.75s linear infinite alternate;
+  }
+  .loader > span:nth-child(4){
+    background-color: rgb(113,106,202);
+    bottom: 0;
+    right: 0;
+    animation: scale 1.5s 1.25s linear infinite alternate;
+  }
+/* End::Loading System Animation **********************************************************************/
 $acceVerde: #84a640;
 $acceAzul: #396696;
 

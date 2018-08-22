@@ -7,7 +7,9 @@ import * as globalTypes from '../../types/global';
 const state = {
   processing: {
     refresh_token: false,
-    update_user: false,
+    get_data_user: false,
+    get_data_business: false,
+    get_permissions: false,
     action_login: false,    
   },  
   user: {
@@ -16,6 +18,8 @@ const state = {
     email: null,
     password: null,
   },
+  permissions: {},
+  business: {},
   // convert to boolean the _token in localStorage
   logged: !!window.localStorage.getItem('_token'),
   auth_type: null,
@@ -33,6 +37,12 @@ const getters = {
   [authTypes.USER]: state => {
     return state.user;
   },
+  [authTypes.PERMISSIONS]: state => {
+    return state.permissions;
+  },
+  [authTypes.BUSINESS]: state => {
+    return state.business;
+  },  
   [authTypes.LOGGED]: state => {
     return state.logged;
   },
@@ -47,16 +57,28 @@ const mutations = {
   [authTypes.START_PROCESSING_REFRESH_TOKEN]: (state) => {
     state.processing.refresh_token = true;
   },    
-  [authTypes.STOP_PROCESSING_UPDATE_USER]: (state) => {
-    state.processing.update_user = false;
+  [authTypes.STOP_PROCESSING_GET_DATA_USER]: (state) => {
+    state.processing.get_data_user = false;
   },
-  [authTypes.START_PROCESSING_UPDATE_USER]: (state) => {
-    state.processing.update_user = true;
+  [authTypes.START_PROCESSING_GET_DATA_USER]: (state) => {
+    state.processing.get_data_user = true;
+  },  
+  [authTypes.STOP_PROCESSING_GET_PERMISSIONS]: (state) => {
+    state.processing.get_permissions = false;
+  },
+  [authTypes.START_PROCESSING_GET_PERMISSIONS]: (state) => {
+    state.processing.get_permissions = true;
+  },      
+  [authTypes.STOP_PROCESSING_GET_DATA_BUSINESS]: (state) => {
+    state.processing.get_permissions = false;
   },    
-  [authTypes.STOP_PROCESSING_ACTION_LOGIN]: (state) => {
+  [authTypes.START_PROCESSING_GET_DATA_BUSINESS]: (state) => {
+    state.processing.get_permissions = true;
+  },      
+  [authTypes.STOP_PROCESSING_LOGIN]: (state) => {
     state.processing.action_login = false;
   },
-  [authTypes.START_PROCESSING_ACTION_LOGIN]: (state) => {
+  [authTypes.START_PROCESSING_LOGIN]: (state) => {
     state.processing.action_login = true;
   },     
   // to establish the user's status
@@ -83,14 +105,21 @@ const mutations = {
       password: ''
     };
   },
-  [authTypes.MUTATE_SET_USER]: (state, payload) => {
+  [authTypes.MUTATE_SET_DATA_USER]: (state, payload) => {
     state.logged = true;
     state.user = payload.user;
+  },
+  [authTypes.MUTATE_SET_DATA_BUSINESS]: (state, payload) => {
+    state.logged = true;
+    state.business = payload.business;
+  },  
+  [authTypes.MUTATE_SET_PERMISSIONS]: (state, payload) => {
+    state.logged = true;
+    state.permissions = payload.permissions;
   },
   [authTypes.MUTATE_TYPE_AUTHENTICATION]: (state, payload) => {
     state.auth_type = payload;
   },
-
 };
 const actions = {
   [authTypes.UPDATE_USER_FIRSTNAME]: ({ commit }, payload) => {
@@ -105,8 +134,8 @@ const actions = {
   [authTypes.UPDATE_USER_PASSWORD]: ({ commit }, payload) => {
     commit(authTypes.MUTATE_USER_PASSWORD, payload);
   },
-  [authTypes.UPDATE_USER]: ({ commit, dispatch }) => {
-    commit(authTypes.START_PROCESSING_UPDATE_USER);    
+  [authTypes.GET_DATA_USER]: ({ commit, dispatch }) => {
+    commit(authTypes.START_PROCESSING_GET_DATA_USER);    
     return new Promise((resolve, reject) => {
       axios
         .get(
@@ -114,8 +143,8 @@ const actions = {
           { headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem('_token') } }
         )
         .then(response => {
-          // console.log('getDataUser...!!!', response.data.result);
-          commit(authTypes.MUTATE_SET_USER, { user: response.data.result });
+          // console.log('get_data_user...!!!', response.data.result);
+          commit(authTypes.MUTATE_SET_DATA_USER, { user: response.data.result });
           resolve(response);
         })
         .catch(error => {
@@ -126,10 +155,58 @@ const actions = {
           reject(error);
         })
         .finally(() => {
-          commit(authTypes.STOP_PROCESSING_UPDATE_USER);          
+          commit(authTypes.STOP_PROCESSING_GET_DATA_USER);          
         })
     });
   },
+  [authTypes.GET_DATA_BUSINESS]: ({ commit, dispatch }) => {
+    commit(authTypes.START_PROCESSING_GET_DATA_BUSINESS);    
+    return new Promise((resolve, reject) => {
+      axios
+        .get(
+          globalSettings.http + 'api/auth/get_data_business',
+          { headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem('_token') } }
+        )
+        .then(response => {
+          // console.log('get_data_business...!!!', response.data.result);
+          commit(authTypes.MUTATE_SET_DATA_BUSINESS, { business: response.data.result });
+          resolve(response);
+        })
+        .catch(error => {
+          if (error.response.data.message === 'Expired JWT Token') {
+            dispatch(authTypes.REFRESH_TOKEN);
+          }
+          // we capture the error in the component
+          reject(error);
+        })
+        .finally(() => {
+          commit(authTypes.STOP_PROCESSING_GET_DATA_BUSINESS);          
+        })
+    });
+  },  
+  [authTypes.GET_PERMISSIONS]: ({ commit, dispatch }) => {
+    commit(authTypes.START_PROCESSING_GET_PERMISSIONS);    
+    return new Promise((resolve, reject) => {
+      axios
+        .get(
+          globalSettings.http + 'api/auth/get_permissions',
+          { headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem('_token') } }
+        )
+        .then(response => {
+          // console.log('get_permissions...!!!', response.data.result);
+          commit(authTypes.MUTATE_SET_PERMISSIONS, { permissions: response.data.result });
+          resolve(response);
+        })
+        .catch(error => {
+          // Todo
+          // we capture the error in the component
+          reject(error);
+        })
+        .finally(() => {
+          commit(authTypes.STOP_PROCESSING_GET_PERMISSIONS);          
+        })
+    });
+  },  
   [authTypes.REFRESH_TOKEN]: ({ commit, dispatch }) => {
     commit(authTypes.START_PROCESSING_REFRESH_TOKEN);    
     return new Promise((resolve, reject) => {
@@ -144,12 +221,12 @@ const actions = {
         .then(response => {
           window.localStorage['_refresh_token'] = response.data['refresh_token'];
           window.localStorage['_token'] = response.data['token'];
-          dispatch(authTypes.UPDATE_USER);
+          dispatch(authTypes.GET_DATA_USER);
           resolve(response);
         })
         .catch(error => {
           if (error.response.data.message === 'Expired JWT Token') {
-            dispatch(authTypes.ACTION_LOGOUT);
+            dispatch(authTypes.LOGOUT);
           }
           // we capture the error in the component
           reject(error);
@@ -159,11 +236,11 @@ const actions = {
         })
     });
   },
-  [authTypes.ACTION_LOGOUT]: ({ commit }) => {
+  [authTypes.LOGOUT]: ({ commit }) => {
     commit(authTypes.MUTATE_LOGOUT);
   },
-  [authTypes.ACTION_LOGIN]: ({ commit, dispatch }) => {
-    commit(authTypes.START_PROCESSING_ACTION_LOGIN);
+  [authTypes.LOGIN]: ({ commit, dispatch }) => {
+    commit(authTypes.START_PROCESSING_LOGIN);
     // console.log('mutate login working...!!!');
     return new Promise((resolve, reject) => {
       axios
@@ -190,7 +267,7 @@ const actions = {
               "_refresh_token",
               response.data.refresh_token
             );
-            dispatch(authTypes.UPDATE_USER);
+            dispatch(authTypes.GET_DATA_USER);
           }
           resolve(response);
         })
@@ -199,7 +276,7 @@ const actions = {
           reject(error);
         })
         .finally(() => {
-          commit(authTypes.STOP_PROCESSING_ACTION_LOGIN);
+          commit(authTypes.STOP_PROCESSING_LOGIN);
         })
     })
   },

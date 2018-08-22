@@ -359,7 +359,7 @@ export default {
       // Start progress Bar      
       NProgress.start();
       NProgress.set(0.4);
-      this.$store.dispatch(authTypes.ACTION_LOGIN)
+      this.$store.dispatch(authTypes.LOGIN)
         .then(result =>{
           this.$router.push('/');
           NProgress.done();

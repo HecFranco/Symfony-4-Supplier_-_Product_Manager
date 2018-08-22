@@ -48,7 +48,7 @@ export default {
     ...mapActions({
       handleSize: globalTypes.UPDATE_WINDOW_DATA_RESIZE,
       handleScroll: globalTypes.UPDATE_WINDOW_DATA_SCROLL,
-      handleSettings: globalTypes.UPDATE_SETTINGS
+      handleSettings: globalTypes.GET_SETTINGS
     }),    
   },
   methods: {
@@ -62,7 +62,17 @@ export default {
       this.processingMyProfile
     },
     loadingLogo(){
-      return "<img src='assets/images/default/loading.gif'>"
+      // return "<img src='assets/images/default/loading.gif'>"
+      return `<div class="square" style="margin:20px;">
+                <div class="square-cell">
+                  <div class="loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+              </div>`
     },
   },
   created() {
@@ -74,8 +84,8 @@ export default {
     // Start progress Bar
     NProgress.start();
     NProgress.set(0.4);
-    this.$store.dispatch(globalTypes.UPDATE_SETTINGS);
-    this.$store.dispatch(globalTypes.UPDATE_TRANSLATIONS)
+    this.$store.dispatch(globalTypes.GET_SETTINGS);
+    this.$store.dispatch(globalTypes.GET_TRANSLATIONS)
       .then(response =>{
         // we reload translations from the database.
         for ( var languages in response.result){
@@ -84,7 +94,9 @@ export default {
         }
       });    
     if (this.$store.state.authentication.logged === true) {
-      this.$store.dispatch(authTypes.UPDATE_USER);
+      this.$store.dispatch(authTypes.GET_DATA_USER);
+      this.$store.dispatch(authTypes.GET_PERMISSIONS);
+      this.$store.dispatch(authTypes.GET_DATA_BUSINESS);
     }
     // Finally progress Bar
     NProgress.done();

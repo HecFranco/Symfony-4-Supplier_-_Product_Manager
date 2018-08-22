@@ -1,6 +1,12 @@
-user_getData:
+user_getDataUser:
     path: /auth/get_data_user
     controller: App\Controller\UserController::getDataUser
+user_getPermissions:
+    path: /auth/get_permissions
+    controller: App\Controller\UserController::getPermissions  
+user_getDataBusiness:
+    path: /auth/get_data_business
+    controller: App\Controller\UserController::getDataBusiness 
 user_updateData:
     path: /auth/update_data_user
     controller: App\Controller\UserController::updateDataUser    

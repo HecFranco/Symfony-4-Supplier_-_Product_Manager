@@ -36,8 +36,8 @@ export default {
   },
   methods: {
     urlImgLogo: function() {
-      if (this.$store.state.authentication.user.business !== undefined) {
-        return this.$store.state.authentication.user.business.image;
+      if (this.$store.state.authentication.business !== undefined) {
+        return this.$store.state.authentication.business.image;
       }
     },
     urlImageUser: function() {

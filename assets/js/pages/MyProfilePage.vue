@@ -24,7 +24,6 @@
         <!-- Begin::Edit User Data -->
           <edit-data-user-component
             :userData = "userData"
-            @sendFormDataUser = "handleSubmitUpdateDataUser"
           >
           </edit-data-user-component>
         <!-- Begin::Edit User Data -->
@@ -67,21 +66,7 @@ export default {
       } else {
         return this.$store.state.authentication.user.image;
       }
-    },
-    handleSubmitUpdateDataUser: function() {
-      // Start progress Bar      
-      NProgress.start();
-      NProgress.set(0.4);    
-      // Todo
-      this.$store.dispatch(myProfileTypes.SEND_FORM_DATA_USER)
-        .then(result =>{
-          NProgress.done();
-        })
-        .catch(error => {
-          NProgress.done();
-        });
-      // Finally progress Bar      
-    },    
+    },   
   }
 };
 </script>

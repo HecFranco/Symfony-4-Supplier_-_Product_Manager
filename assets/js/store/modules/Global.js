@@ -44,16 +44,16 @@ const getters = {
   },   
 };
 const mutations = {
-  [globalTypes.STOP_PROCESSING_UPDATE_SETTINGS]: (state) => {
+  [globalTypes.STOP_PROCESSING_GET_SETTINGS]: (state) => {
     state.processing.update_settings = false;
   },
-  [globalTypes.START_PROCESSING_UPDATE_SETTINGS]: (state) => {
+  [globalTypes.START_PROCESSING_GET_SETTINGS]: (state) => {
     state.processing.update_settings = true;
   }, 
-  [globalTypes.STOP_PROCESSING_UPDATE_TRANSLATIONS]: (state) => {
+  [globalTypes.STOP_PROCESSING_GET_TRANSLATIONS]: (state) => {
     state.processing.update_translations = false;
   },
-  [globalTypes.START_PROCESSING_UPDATE_TRANSLATIONS]: (state) => {
+  [globalTypes.START_PROCESSING_GET_TRANSLATIONS]: (state) => {
     state.processing.update_translations = true;
   },      
   [globalTypes.MUTATE_WINDOW_DATA_RESIZE]: (state) => {
@@ -78,8 +78,8 @@ const actions = {
   [globalTypes.UPDATE_WINDOW_DATA_SCROLL]: ({ commit }) => {
     commit(globalTypes.MUTATE_WINDOW_DATA_SCROLL);
   },   
-  [globalTypes.UPDATE_SETTINGS]: ({ commit }) => {
-    commit(globalTypes.START_PROCESSING_UPDATE_SETTINGS);
+  [globalTypes.GET_SETTINGS]: ({ commit }) => {
+    commit(globalTypes.START_PROCESSING_GET_SETTINGS);
     return new Promise((resolve, reject) => {
       axios
         .get(
@@ -95,14 +95,14 @@ const actions = {
           reject(error);
         })
         .finally(() => {
-          commit(globalTypes.STOP_PROCESSING_UPDATE_SETTINGS);
+          commit(globalTypes.STOP_PROCESSING_GET_SETTINGS);
         })
     })
   },  
-  [globalTypes.UPDATE_TRANSLATIONS]: ({ commit }) => {
+  [globalTypes.GET_TRANSLATIONS]: ({ commit }) => {
     // Todo
     // api/get_translations
-    commit(globalTypes.START_PROCESSING_UPDATE_TRANSLATIONS);
+    commit(globalTypes.START_PROCESSING_GET_TRANSLATIONS);
     return new Promise((resolve, reject) => {
       axios
         .get(
@@ -118,7 +118,7 @@ const actions = {
           reject(error);
         })
         .finally(() => {
-          commit(globalTypes.STOP_PROCESSING_UPDATE_TRANSLATIONS);
+          commit(globalTypes.STOP_PROCESSING_GET_TRANSLATIONS);
         })
     })    
   },    

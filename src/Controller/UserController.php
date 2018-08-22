@@ -36,6 +36,35 @@ class UserController extends Controller
     // return new Response($serializer->serialize($result, "json"));
     return new JsonResponse($result);
   }
+
+  public function getPermissions( 
+    Request $request
+   )
+  {
+    // Get User
+    $userId = $this->getUser()->getId(); 
+    // Load Entity Manager
+    $em = $this->getDoctrine()->getManager(); 
+    // Load User_repo
+    $user_repo = $em->getRepository(Users::class);      
+    $userPermissions = $user_repo->getPermissions($userId);
+    $result = ['result'=> $userPermissions];
+    return new JsonResponse($result);
+  }    
+
+  public function getDataBusiness( Request $request )
+  {
+    // Load Entity Manager
+    $em = $this->getDoctrine()->getManager();
+    // Get User
+    $userId = $this->getUser()->getId();
+    // Load User_repo
+    $user_repo = $em->getRepository(Users::class);
+    $dataBusiness = $user_repo->getDataBusiness($userId);
+    $result = ['result'=>$dataBusiness];
+    return new JsonResponse($result);
+  }  
+
   public function updateDataUser( 
     Request $request,
     UserPasswordEncoderInterface $encoder
@@ -76,5 +105,5 @@ class UserController extends Controller
       ]
     ];
     return new JsonResponse($response);
-  }    
+  }      
 }
