@@ -3,17 +3,48 @@
   <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general m-stack--fluid">
     <div class="m-stack__item m-topbar__nav-wrapper">
       <ul class="m-topbar__nav m-nav m-nav--inline">
+        <li 
+          id="flag-menu"
+          class="m-nav__item m-topbar__languages m-dropdown m-dropdown--small m-dropdown--arrow m-dropdown--align-right m-dropdown--mobile-full-width"
+          v-on:click="userMenuFlagToggler()"
+        >
+          <a href="#" class="m-nav__link m-dropdown__toggle">
+            <span class="m-nav__link-text">
+              <img class="flag m-topbar__language-selected-img" :src="urlImageLanguageSelected()">	
+            </span>
+          </a>
+          <div class="m-dropdown__wrapper" style="z-index: 101;">
+            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust" style="left: auto; right: 5px;"></span>
+            <div class="m-dropdown__inner">
+              <div class="m-dropdown__header m--align-center" style="background: url(); background-size: cover;">
+                <span class="m-dropdown__header-subtitle">{{ $t("navigation.select_language") }}</span>
+              </div>
+              <div class="m-dropdown__body">
+                <div class="m-dropdown__content">
+                  <ul class="m-nav m-nav--skin-light">
+                    <li v-for="(lang, index) in listLanguages()" :key="index" class="m-nav__item m-nav__item--active" style="cursor: pointer;">
+                      <a @click.prevent="changeLanguage(index)" class="m-nav__link m-nav__link--active">
+                        <span class="m-nav__link-icon"><img class="flag m-topbar__language-img" :src="lang._image"></span>
+                        <span class="m-nav__link-title m-topbar__language-text m-nav__link-text">{{index}}</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>        
         <li
           id="user-menu"
           class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
-          v-on:click="userMenuToggler()"
-          >
+          v-on:click="userMenuUserToggler()"
+        >
           <a class="m-nav__link m-dropdown__toggle">
           <span class="m-topbar__userpic">
-          <img :src="urlImageUser" class="m--img-rounded m--marginless" alt=""/>
+            <img :src="urlImageUser" class="m--img-rounded m--marginless" alt=""/>
           </span>
           <span class="m-topbar__username m--hide">
-          {{userData.firstName}}
+            {{userData.firstName}}
           </span>
           </a>
           <div class="m-dropdown__wrapper">
@@ -84,6 +115,7 @@
 
 <script>
 import * as authTypes from "../../types/authentication";
+import * as globalTypes from "../../types/global";
 import { mapGetters } from "vuex";
 export default {
   name: "Topbar",
@@ -91,8 +123,29 @@ export default {
       urlImageUser: String,
   },
   methods: {
-    userMenuToggler: function(){
+    userMenuUserToggler: function(){
       document.getElementById('user-menu').classList.toggle('m-dropdown--open');
+      document.getElementById('flag-menu').classList.remove('m-dropdown--open');
+    },
+    userMenuFlagToggler: function(){
+      document.getElementById('flag-menu').classList.toggle('m-dropdown--open');
+      document.getElementById('user-menu').classList.remove('m-dropdown--open');      
+    },        
+    urlImageLanguageSelected(){
+      let langSelected = this.$store.state.global.language;
+      if(this.$store.state.global.translations[langSelected]){
+        return this.$store.state.global.translations[langSelected]._image;
+      }else{
+        return 'assets/images/languages/default.png';
+      }
+    },
+    changeLanguage(lang){
+      this.$store.dispatch(globalTypes.SET_LANGUAGE, lang);
+      this.$i18n.locale = lang;
+    },
+    listLanguages(){
+      let translations = this.$store.state.global.translations      
+      return translations
     },
     logout() {
       // console.log("logout done...!");
@@ -109,4 +162,8 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.flag {
+  width: 26px;
+  border-radius: 50% !important;
+}
 </style>

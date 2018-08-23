@@ -29,6 +29,13 @@ class ListLanguages
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=150, nullable=false)
+     */
+    private $image;    
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
@@ -51,6 +58,18 @@ class ListLanguages
 
         return $this;
     }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }    
 
     public function getCreatedOn(): ?\DateTimeInterface
     {

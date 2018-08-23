@@ -19,9 +19,8 @@ const state = {
     url_img_logo_horizontal: '',
     dismiss_secs_alerts: '',
   },
-  translations: {
-
-  },
+  translations: {},
+  language: navigator.language,
 };
 const getters = {
   [globalTypes.PROCESSING]: state => {
@@ -41,7 +40,10 @@ const getters = {
   },
   [globalTypes.TRANSLATIONS]: state => {
     return state.translations;
-  },   
+  },
+  [globalTypes.LANGUAGE]: state => {
+    return state.language;
+  },     
 };
 const mutations = {
   [globalTypes.STOP_PROCESSING_GET_SETTINGS]: (state) => {
@@ -70,6 +72,10 @@ const mutations = {
   [globalTypes.MUTATE_TRANSLATIONS]: (state, {apiResponse}) => {
     state.translations = apiResponse.result;
   },
+  [globalTypes.MUTATE_LANGUAGE]: (state, payload) => {
+    console.log(payload);
+    state.language = payload;
+  },  
 };
 const actions = {
   [globalTypes.UPDATE_WINDOW_DATA_RESIZE]: ({ commit }) => {
@@ -121,7 +127,11 @@ const actions = {
           commit(globalTypes.STOP_PROCESSING_GET_TRANSLATIONS);
         })
     })    
-  },    
+  }, 
+  [globalTypes.SET_LANGUAGE]: ({ commit }, payload) => {
+    console.log(payload);
+    commit(globalTypes.MUTATE_LANGUAGE, payload);
+  },      
 };
 
 export default {

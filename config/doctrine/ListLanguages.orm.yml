@@ -21,6 +21,12 @@ App\Entity\ListLanguages:
             length: 10
             options:
                 fixed: false
+        image:
+            type: string
+            nullable: false
+            length: 150
+            options:
+                fixed: false                
         createdOn:
             type: datetime
             nullable: false

@@ -33,7 +33,7 @@ class TranslationsRepository extends ServiceEntityRepository
     {
         // we extract the complete list of settings
         $qb = $this->createQueryBuilder('t')
-            ->select('t.translation', 'lTL.name as language', 'lTC.name as content', 'lTS.name as section')
+            ->select('t.translation', 'lTL.name as language', 'lTL.image as image', 'lTC.name as content', 'lTS.name as section')
             ->innerJoin('t.language', 'lTL', 'lTL.id = t.language')
             ->innerJoin('t.content', 'lTC', 'lTC.id = t.content')
             ->innerJoin('lTC.section', 'lTS', 'lTS.id = t.section')
@@ -41,7 +41,9 @@ class TranslationsRepository extends ServiceEntityRepository
             ->getQuery();
         $query = $qb->execute();
         // $translationsData = $this->getStructureLanguages();
+        $translationsData = [];
         foreach ( $query as $key => $value ){
+            $translationsData[$value['language']]['_image'] = $value['image'];
             $translationsData[$value['language']][$value['section']][$value['content']] = $value['translation'];
         }
         return $translationsData;

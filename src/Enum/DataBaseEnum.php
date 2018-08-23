@@ -27,9 +27,9 @@ abstract class DataBaseEnum
         [
             'name'=>'url_img_logo_vertical',
             'description'=> NULL ,
-            'value'=>'/assets/images/logo_default_dark.png',
+            'value'=>'/assets/images/logo/main_logo.jpg',
             'auth'=> false
-        ],
+        ],       
         [
             'name'=>'url_img_logo_horizontal',
             'description'=> NULL ,
@@ -45,6 +45,7 @@ abstract class DataBaseEnum
     ];
     public const LISTTRANSLATIONS = [
         'es-ES' => [
+            'image'=>'assets/images/languages/es-ES.jpg',
             'authentication' => [
                 'sign_in_to_admin' => 'Iniciar sesión en el Administrador',
                 'remember_me' => 'Recuérdame',
@@ -63,7 +64,8 @@ abstract class DataBaseEnum
             ],
             'navigation'=>[
                 'logout' => 'Salir',
-                'my_profile' => 'Mi Perfil'
+                'my_profile' => 'Mi Perfil',
+                'select_language' => 'Seleccione un Lenguaje'
             ],
             'my_profile'=>[
                 'title' => 'Mi Perfil',
@@ -73,6 +75,7 @@ abstract class DataBaseEnum
                 'first_name' => 'Nombe',
                 'last_name' => 'Apellidos',
                 'email' => 'Email',
+                'birthdate' => 'Cumpleaños',                 
                 'password' => 'Password',
                 'save_changes' => 'Guadar cambios',
                 'cancel' => 'Cancelar',                
@@ -83,11 +86,17 @@ abstract class DataBaseEnum
                 'password_required' => 'Campo password requerido',
                 'password_confirmation_confirmed' => 'El password no coincide',
             ],
+            'notifications'=>[
+                'form_submitted'=>'Formulario enviado',
+                'user_updated'=>'Usuario actualizado!',
+                'error_with_api'=>'Error con la API',
+            ],
             'messages'=>[
                 'processing' => 'Procesando datos...',
             ],
         ],
         'en'=>[
+            'image'=>'assets/images/languages/en.jpg',            
             'authentication'=>[
                 'sign_in_to_admin' => 'Sign In To Admin',
                 'remember_me' => 'Remember me',
@@ -106,7 +115,8 @@ abstract class DataBaseEnum
             ],
             'navigation'=>[
                 'logout' => 'Logout',
-                'my_profile' => 'My Profile'
+                'my_profile' => 'My Profile',
+                'select_language' => 'Select language'
             ],
             'my_profile'=>[
                 'title' => 'My Profile',
@@ -116,6 +126,7 @@ abstract class DataBaseEnum
                 'first_name' => 'First Name',
                 'last_name' => 'Last Name',
                 'email' => 'Email',
+                'birthdate' => 'Bithdate',                
                 'password' => 'Password',  
                 'save_changes' => 'Save changes',
                 'cancel' => 'Cancel',        
@@ -126,6 +137,11 @@ abstract class DataBaseEnum
                 'password_required' => 'Password field required',
                 'password_confirmation_confirmed' => 'The password does not match',
             ],
+            'notifications'=>[
+                'form_submitted'=>'Form Submitted!',
+                'user_updated'=>'User updated!',
+                'error_with_api'=>'Error with API',
+            ],            
             'messages'=>[
                 'processing' => 'Processing data...',
             ],        

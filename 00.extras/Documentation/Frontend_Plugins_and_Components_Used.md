@@ -2,8 +2,9 @@
 1. [Animate.scss](#animatecss)
 2. [Nprogress](#nprogress)
 3. [Vee Validate]()
-3. [Vue Notifications]()
-
+3. [Vue Notifications](#vue-notiffications)
+4. [vue2-datepicker](#vue2-datepicker)
+5. [vue-picture-input](#vue-picture-input)
 ---------------------------------------------------------------------------------------
 
 <div style="text-align: right"><a href="#summary-plugins-and-components">Return to <strong>Summary Steps</strong></a></div>
@@ -159,3 +160,22 @@ npm i vue-notifications --save
 
 ##### Official sources :
         *  [Export HTML Table to Excel & CSV using jQuery](https://w3lessons.info/2015/07/13/export-html-table-to-excel-csv-json-pdf-png-using-jquery/)
+
+
+---------------------------------------------------------------------------------------
+
+### Vue2 Datepicker
+
+---------------------------------------------------------------------------------------
+
+##### Official sources :
+        *  [vue2-datepicker](https://www.npmjs.com/package/vue2-datepicker)
+
+---------------------------------------------------------------------------------------
+
+### Vue Picture Input
+
+---------------------------------------------------------------------------------------
+
+##### Official sources :
+        *  [vue-picture-input](https://www.npmjs.com/package/vue-picture-input)

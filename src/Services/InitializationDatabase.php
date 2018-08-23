@@ -107,44 +107,53 @@ class InitializationDatabase
             if ( !$existLanguage ) {
                 $newLanguage = new ListLanguages();
                 $newLanguage->setName($keyLanguage);
-                $newLanguage->setCreatedOn(new \DateTime());
-                $this->em->persist($newLanguage);
-                $this->em->flush();
-                $language = $newLanguage;
+								$newLanguage->setCreatedOn(new \DateTime());
+								$this->em->persist($newLanguage);
+								$this->em->flush();								
+                // we will persist with the image
             }
             foreach ( $valueLanguage as $keySection => $valueSection) {
-                $section = $listSections_repo->findOneBy(array('name'=>$keySection));
-                $existSection = ( $section === NULL )? false : true ;
-                if ( !$existSection ) {
-                    $newSection = new ListSections();
-                    $newSection->setName($keySection);
-                    $newSection->setCreatedOn(new \DateTime());
-                    $this->em->persist($newSection);
-                    $this->em->flush();
-                    $section = $newSection;
-                }
-                foreach ( $valueSection as $keyContent => $valueContent) {
-                    $content = $listContents_repo->findOneBy(array('name'=>$keyContent, 'section'=>$section));
-                    $existContent = ( $content === NULL )? false : true ;
-                    if ( !$existContent ) {
-                        $newContent = new ListContents();
-                        $newContent->setName($keyContent);
-                        $newContent->setSection($section);                        
-                        $newContent->setCreatedOn(new \DateTime());
-                        $this->em->persist($newContent);
+                if($keySection === 'image'){
+									// we will persist with the image
+									$newLanguage = $listLanguages_repo->findOneByName($keyLanguage);
+									$newLanguage->setImage($valueSection);
+									$this->em->persist($newLanguage);
+									$this->em->flush();
+									$language = $newLanguage;									
+                }else{
+                    $section = $listSections_repo->findOneBy(array('name'=>$keySection));
+                    $existSection = ( $section === NULL )? false : true ;
+                    if ( !$existSection ) {
+                        $newSection = new ListSections();
+                        $newSection->setName($keySection);
+                        $newSection->setCreatedOn(new \DateTime());
+                        $this->em->persist($newSection);
                         $this->em->flush();
-                        $content = $newContent;
+                        $section = $newSection;
                     }
-                    $translation = $translations_repo->findOneBy(array('language'=>$language, 'content'=>$content));
-                    $existTranslation = ( $translation === NULL )? false : true ;
-                    if ( !$existTranslation ) {
-                        $newTranslation = new Translations();
-                        $newTranslation->setTranslation($valueContent);
-                        $newTranslation->setContent($content); 
-                        $newTranslation->setLanguage($language);                                               
-                        $this->em->persist($newTranslation);
-                        $this->em->flush();
-                    }                    
+                    foreach ( $valueSection as $keyContent => $valueContent) {
+                        $content = $listContents_repo->findOneBy(array('name'=>$keyContent, 'section'=>$section));
+                        $existContent = ( $content === NULL )? false : true ;
+                        if ( !$existContent ) {
+                            $newContent = new ListContents();
+                            $newContent->setName($keyContent);
+                            $newContent->setSection($section);                        
+                            $newContent->setCreatedOn(new \DateTime());
+                            $this->em->persist($newContent);
+                            $this->em->flush();
+                            $content = $newContent;
+                        }
+                        $translation = $translations_repo->findOneBy(array('language'=>$language, 'content'=>$content));
+                        $existTranslation = ( $translation === NULL )? false : true ;
+                        if ( !$existTranslation ) {
+                            $newTranslation = new Translations();
+                            $newTranslation->setTranslation($valueContent);
+                            $newTranslation->setContent($content); 
+                            $newTranslation->setLanguage($language);                                               
+                            $this->em->persist($newTranslation);
+                            $this->em->flush();
+                        }                    
+                    }
                 }
             }
         }
@@ -171,10 +180,8 @@ class InitializationDatabase
             }
             foreach ( $allRoles as $keyRole => $valueRole){
                 $rolePermission = $rolesPermissions_repo->findOneBy(array('role'=>$valueRole, 'permission'=>$permission));
-                var_dump($rolePermission);
                 $existRolePermission = ( $rolePermission === NULL )? false : true ;
                 if ( !$existRolePermission ) {
-                    var_dump(!$existPermission);
                     $newRolePermission = new RolesPermissions();
                     $newRolePermission->setRole($valueRole);
                     $newRolePermission->setPermission($permission);

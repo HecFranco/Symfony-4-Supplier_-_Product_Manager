@@ -93,10 +93,14 @@ export default {
           // console.log(this.$i18n.messages)
         }
       });    
-    if (this.$store.state.authentication.logged === true) {
-      this.$store.dispatch(authTypes.GET_DATA_USER);
-      this.$store.dispatch(authTypes.GET_PERMISSIONS);
-      this.$store.dispatch(authTypes.GET_DATA_BUSINESS);
+    if (this.$store.state.authentication.logged === true){
+      if(this.$store.state.authentication.authenticated === true) {
+        this.$store.dispatch(authTypes.GET_DATA_USER);
+        this.$store.dispatch(authTypes.GET_PERMISSIONS);
+        this.$store.dispatch(authTypes.GET_DATA_BUSINESS);
+      }else if(this.$store.state.authentication.authenticated !== true){
+        this.$store.dispatch(authTypes.REFRESH_TOKEN);
+      }
     }
     // Finally progress Bar
     NProgress.done();

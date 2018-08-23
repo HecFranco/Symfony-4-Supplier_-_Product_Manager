@@ -8,7 +8,6 @@ const state = {
   processing: {
     refresh_token: false,
     get_data_user: false,
-    get_data_business: false,
     get_permissions: false,
     action_login: false,    
   },  
@@ -22,6 +21,7 @@ const state = {
   business: {},
   // convert to boolean the _token in localStorage
   logged: !!window.localStorage.getItem('_token'),
+  authenticated: null,
   auth_type: null,
 };
 const getters = {
@@ -46,6 +46,9 @@ const getters = {
   [authTypes.LOGGED]: state => {
     return state.logged;
   },
+  [authTypes.AUTHENTICATED]: state => {
+    return state.authenticated;
+  },
   [authTypes.TYPE_AUTHENTICATION]: state => {
     return state.auth_type;
   },
@@ -68,13 +71,7 @@ const mutations = {
   },
   [authTypes.START_PROCESSING_GET_PERMISSIONS]: (state) => {
     state.processing.get_permissions = true;
-  },      
-  [authTypes.STOP_PROCESSING_GET_DATA_BUSINESS]: (state) => {
-    state.processing.get_permissions = false;
-  },    
-  [authTypes.START_PROCESSING_GET_DATA_BUSINESS]: (state) => {
-    state.processing.get_permissions = true;
-  },      
+  },           
   [authTypes.STOP_PROCESSING_LOGIN]: (state) => {
     state.processing.action_login = false;
   },
@@ -116,6 +113,9 @@ const mutations = {
   [authTypes.MUTATE_SET_PERMISSIONS]: (state, payload) => {
     state.logged = true;
     state.permissions = payload.permissions;
+  },
+  [authTypes.MUTATE_AUTHENTICATED]: (state, payload) => {
+    state.authenticated = true;
   },
   [authTypes.MUTATE_TYPE_AUTHENTICATION]: (state, payload) => {
     state.auth_type = payload;
@@ -159,8 +159,7 @@ const actions = {
         })
     });
   },
-  [authTypes.GET_DATA_BUSINESS]: ({ commit, dispatch }) => {
-    commit(authTypes.START_PROCESSING_GET_DATA_BUSINESS);    
+  [authTypes.GET_DATA_BUSINESS]: ({ commit, dispatch }) => {   
     return new Promise((resolve, reject) => {
       axios
         .get(
@@ -179,8 +178,7 @@ const actions = {
           // we capture the error in the component
           reject(error);
         })
-        .finally(() => {
-          commit(authTypes.STOP_PROCESSING_GET_DATA_BUSINESS);          
+        .finally(() => {        
         })
     });
   },  
@@ -222,6 +220,9 @@ const actions = {
           window.localStorage['_refresh_token'] = response.data['refresh_token'];
           window.localStorage['_token'] = response.data['token'];
           dispatch(authTypes.GET_DATA_USER);
+          dispatch(authTypes.GET_PERMISSIONS);
+          dispatch(authTypes.GET_DATA_BUSINESS);
+          commit(authTypes.MUTATE_AUTHENTICATED);
           resolve(response);
         })
         .catch(error => {

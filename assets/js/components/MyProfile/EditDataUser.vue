@@ -102,6 +102,18 @@
                     </div>  
                     <div class="form-group m-form__group row">
                       <label for="example-text-input" class="col-3 col-form-label">
+                      {{ $t("my_profile.birthdate") }}
+                      </label>
+                      <div class="col-9">                    
+                        <datepicker-component 
+                          v-model="birthdate" 
+                          :first-day-of-week="1"
+                        >
+                        </datepicker-component>  
+                      </div>                      
+                    </div>                                           
+                    <div class="form-group m-form__group row">
+                      <label for="example-text-input" class="col-3 col-form-label">
                       {{ $t("my_profile.password") }}
                       </label>
                       <div class="col-9">
@@ -198,8 +210,12 @@ import * as myProfileTypes from "../../types/myProfile";
 var NProgress = require("../../libraries/nprogress.js");
 // Component Show Notifications
 import VueNotifications from 'vue-notifications';
+import DatePicker from 'vue2-datepicker';
 export default {
   name: "EditDataUserComponent",
+  components: {
+    "datepicker-component": DatePicker,
+  },
   data() {
     return {
       errors_form: {
@@ -281,6 +297,20 @@ export default {
         this.$store.commit(myProfileTypes.MUTATE_USER_EMAIL, value);
       }
     },
+    birthdate: {
+      get() {
+        if (this.userEditData.birthdate === null) {
+          this.$store.commit(
+            myProfileTypes.MUTATE_USER_BIRTHDATE,
+            this.userData.birthdate
+          );
+        }
+        return this.userEditData.birthdate;
+      },
+      set(value) {
+        this.$store.commit(myProfileTypes.MUTATE_USER_BIRTHDATE, value);
+      }
+    },    
     password: {
       get() {
         return this.userEditData.password;
@@ -309,16 +339,18 @@ export default {
       // Start progress Bar      
       NProgress.start();
       NProgress.set(0.4);    
-      this.showInfoMsg({ message: "Form Submitted!", title: "" });
+      let lang = this.$store.state.global.language;
+      let notifications = this.$store.state.global.translations[lang].notifications;
+      this.showInfoMsg({ message: notifications.form_submitted, title: "" });
       // Todo
       this.$store.dispatch(myProfileTypes.SEND_FORM_DATA_USER)
         .then(result =>{
           NProgress.done();
-          this.showSuccessMsg({ message: "User updated!", title: "" });
+          this.showSuccessMsg({ message: notifications.user_updated, title: "" });
         })
         .catch(error => {
           NProgress.done();
-          this.showWarnMsg({ message: "Error with API", title: "" });
+          this.showWarnMsg({ message: notifications.error_with_api, title: "" });
         });
       // Finally progress Bar      
     }, 

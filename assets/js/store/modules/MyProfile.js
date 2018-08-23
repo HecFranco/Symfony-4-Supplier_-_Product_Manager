@@ -12,6 +12,7 @@ const state = {
     firstname: null,
     lastname: null,
     email: null,
+    birthdate: null,
     password: null,
     passwordConfirmation: null,
   },
@@ -47,6 +48,9 @@ const mutations = {
   [myProfileTypes.MUTATE_USER_EMAIL]: (state, payload) => {
     state.updateDataUser.email = payload;
   },
+  [myProfileTypes.MUTATE_USER_BIRTHDATE]: (state, payload) => {
+    state.updateDataUser.birthdate = payload;
+  },  
   [myProfileTypes.MUTATE_USER_PASSWORD]: (state, payload) => {
     state.updateDataUser.password = payload;
   },

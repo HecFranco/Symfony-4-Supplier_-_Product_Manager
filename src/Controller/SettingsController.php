@@ -50,8 +50,8 @@ class SettingsController extends Controller
         // Load Entity Manager
         $em = $this->getDoctrine()->getManager();
         // Load User_repo
-        $listSettings_repo = $em->getRepository(Translations::class);
-        $settings = $listSettings_repo->getTranslationsRefactored();
+        $translations_repo = $em->getRepository(Translations::class);
+        $settings = $translations_repo->getTranslationsRefactored();
         $result = [
             'result'=>$settings,
         ];
