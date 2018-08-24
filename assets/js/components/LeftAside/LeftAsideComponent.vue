@@ -38,18 +38,18 @@
           </h4>
           <i class="m-menu__section-icon flaticon-more-v3"></i>
         </li>
-        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  m-menu-submenu-toggle="hover">
-          <a  href="javascript:;" class="m-menu__link m-menu__toggle">
-          <i class="m-menu__link-icon flaticon-layers"></i>
-          <span class="m-menu__link-text">
-          Base
-          </span>
-          <i class="m-menu__ver-arrow la la-angle-right"></i>
+        <li class="m-menu__item  m-menu__item--submenu">
+          <a  v-on:click.prevent="toggleMenu" class="m-menu__link m-menu__toggle">
+            <i class="m-menu__link-icon flaticon-layers"></i>
+              <span class="m-menu__link-text">
+              Base
+              </span>
+            <i class="m-menu__ver-arrow la la-angle-right"></i>
           </a>
           <div class="m-menu__submenu ">
             <span class="m-menu__arrow"></span>
             <ul class="m-menu__subnav">
-              <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true" >
+              <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true">
                 <span class="m-menu__link">
                 <span class="m-menu__link-text">
                 Base
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+// Begin::Component
 export default {
   name: "LeftAsideComponent",
   methods: {
@@ -85,6 +86,10 @@ export default {
       return this.$store.state.global.window_data.window_width < 1025
         ? true
         : false;
+    },
+    toggleMenu: function(event) {
+      //  m-menu__item--open
+      console.log(event.target);
     }
   },
   created() {
@@ -92,6 +97,7 @@ export default {
     window.addEventListener("resize", this.isTablet);
   }
 };
+// Begin::Component
 </script>
 <style scoped lang="scss">
 .view_tablet {

@@ -27,7 +27,7 @@ abstract class DataBaseEnum
         [
             'name'=>'url_img_logo_vertical',
             'description'=> NULL ,
-            'value'=>'/assets/images/logo/main_logo.jpg',
+            'value'=>'/assets/images/default/logo_default.jpg',
             'auth'=> false
         ],       
         [

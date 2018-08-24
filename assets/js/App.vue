@@ -13,7 +13,9 @@
         <router-view></router-view>      
       </div>
       <router-view v-if="!viewToolBar()"></router-view>
-      <locale-changer-component></locale-changer-component>    
+      <!--
+        <locale-changer-component></locale-changer-component>    
+      -->
     </div>
   </div>
 </template>

@@ -73,7 +73,7 @@ const mutations = {
     state.translations = apiResponse.result;
   },
   [globalTypes.MUTATE_LANGUAGE]: (state, payload) => {
-    console.log(payload);
+    // console.log(payload);
     state.language = payload;
   },  
 };
@@ -129,7 +129,7 @@ const actions = {
     })    
   }, 
   [globalTypes.SET_LANGUAGE]: ({ commit }, payload) => {
-    console.log(payload);
+    // console.log(payload);
     commit(globalTypes.MUTATE_LANGUAGE, payload);
   },      
 };

@@ -18,7 +18,8 @@ const messages = {
         },
         navigation: {
             logout: 'Salir',
-            my_profile: 'Mi Perfil'
+            my_profile: 'Mi Perfil',
+            select_language: 'Seleccione Lenguaje',
         },
         my_profile: {
             title: 'Mi Perfil',
@@ -27,6 +28,7 @@ const messages = {
             personal_details: 'Detalles Personales',
             first_name:'Nombe',
             last_name:'Apellidos',
+            birthdate: 'Nacimiento',            
             email:'Email',
             password:'Password',
             save_changes:'Guadar cambios',
@@ -61,7 +63,8 @@ const messages = {
         },
         navigation: {
             logout: 'Logout',
-            my_profile: 'My Profile'
+            my_profile: 'My Profile',
+            select_language: 'Select Language',            
         },
         my_profile: {
             title: 'My Profile',
@@ -70,6 +73,7 @@ const messages = {
             personal_details: 'Personal Details',
             first_name:'First Name',
             last_name:'Last Name',
+            birthdate: 'Birthdate',
             email:'Email',
             password:'Password',  
             save_changes:'Save changes',
