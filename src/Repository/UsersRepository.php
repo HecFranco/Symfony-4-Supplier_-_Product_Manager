@@ -28,7 +28,7 @@ class UsersRepository extends ServiceEntityRepository
     {
         // we extract the complete list of dataUser
         $result = $this->createQueryBuilder('u')
-            ->select('u.email, u.image, u.firstname, u.lastname')
+            ->select('u.email, u.image, u.firstname, u.lastname, u.birthdate' )
             ->where('u.id =:userId')
             ->setParameter('userId', $userId)
             ->getQuery()

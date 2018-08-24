@@ -169,7 +169,8 @@ npm i vue-notifications --save
 ---------------------------------------------------------------------------------------
 
 ##### Official sources :
-        *  [vue2-datepicker](https://www.npmjs.com/package/vue2-datepicker)
+        * [Examples](https://mengxiong10.github.io/vue2-datepicker/demo/index.html)
+        * [vue2-datepicker](https://www.npmjs.com/package/vue2-datepicker)
 
 ---------------------------------------------------------------------------------------
 
@@ -179,3 +180,7 @@ npm i vue-notifications --save
 
 ##### Official sources :
         *  [vue-picture-input](https://www.npmjs.com/package/vue-picture-input)
+
+---------------------------------------------------------------------------------------
+
+npm install vue-moment

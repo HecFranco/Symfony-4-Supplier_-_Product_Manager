@@ -108,6 +108,9 @@
                         <datepicker-component 
                           v-model="birthdate" 
                           :first-day-of-week="1"
+                          type="datetime"
+                          lang="es"
+                          format="DD-MM-YYYY"
                         >
                         </datepicker-component>  
                       </div>                      
@@ -211,6 +214,7 @@ var NProgress = require("../../libraries/nprogress.js");
 // Component Show Notifications
 import VueNotifications from 'vue-notifications';
 import DatePicker from 'vue2-datepicker';
+// BEGIN::
 export default {
   name: "EditDataUserComponent",
   components: {
@@ -222,6 +226,15 @@ export default {
         firstname: false,
         lastname: false,
         passwordConfirmation: false
+      },
+      lang: {
+        days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
+        placeholder: {
+          date: 'Select Date',
+          dateRange: 'Select Date Range',
+        },
       }
     };
   },
@@ -305,7 +318,11 @@ export default {
             this.userData.birthdate
           );
         }
-        return this.userEditData.birthdate;
+        if(this.userData.birthdate !== undefined){
+          console.log(this.userData.birthdate.date);
+          console.log(Datejs);
+        }
+        // return new Date(this.userData.birthdate.date).toString("DD-MM-YYYY");
       },
       set(value) {
         this.$store.commit(myProfileTypes.MUTATE_USER_BIRTHDATE, value);
