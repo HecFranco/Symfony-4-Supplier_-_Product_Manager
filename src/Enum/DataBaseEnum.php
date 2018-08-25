@@ -75,6 +75,7 @@ abstract class DataBaseEnum
                 'first_name' => 'Nombe',
                 'last_name' => 'Apellidos',
                 'email' => 'Email',
+                'image' => 'Image',
                 'birthdate' => 'Cumpleaños',                 
                 'password' => 'Password',
                 'save_changes' => 'Guadar cambios',
@@ -85,6 +86,7 @@ abstract class DataBaseEnum
                 'email_required' => 'Campo de email requerido',
                 'password_required' => 'Campo password requerido',
                 'password_confirmation_confirmed' => 'El password no coincide',
+                'date_format' => 'Formato de fecha incorrecto',
             ],
             'notifications'=>[
                 'form_submitted'=>'Formulario enviado',
@@ -93,6 +95,21 @@ abstract class DataBaseEnum
             ],
             'messages'=>[
                 'processing' => 'Procesando datos...',
+            ],
+            'dropZone'=>[
+                'dict_default_message' => 'Deje caer los archivos aquí o haga clic para cargarlos.',
+                'dict_fallback_message' => '',
+                'dict_fallback_text' => '',
+                'dict_file_too_big' => '',
+                'dict_invalid_file_type' => '',
+                'dict_response_error' => '',
+                'dict_cancel_upload' => '',
+                'dict_upload_canceled' => '',
+                'dict_cancel_upload_confirmation' => '',
+                'dict_remove_file' => '',
+                'dict_remove_file_confirmation' => '',
+                'dict_max_files_exceeded' => '',
+                'dict_file_size_units' => '',
             ],
         ],
         'en'=>[
@@ -126,6 +143,7 @@ abstract class DataBaseEnum
                 'first_name' => 'First Name',
                 'last_name' => 'Last Name',
                 'email' => 'Email',
+                'image' => 'Image',
                 'birthdate' => 'Bithdate',                
                 'password' => 'Password',  
                 'save_changes' => 'Save changes',
@@ -136,6 +154,7 @@ abstract class DataBaseEnum
                 'email_required' => 'Email field required',
                 'password_required' => 'Password field required',
                 'password_confirmation_confirmed' => 'The password does not match',
+                'date_format' => 'Wrong date format',
             ],
             'notifications'=>[
                 'form_submitted'=>'Form Submitted!',
@@ -144,7 +163,22 @@ abstract class DataBaseEnum
             ],            
             'messages'=>[
                 'processing' => 'Processing data...',
-            ],        
+            ],     
+            'dropZone'=>[
+                'dict_default_message'=> 'Drop files here o click to upload.',
+                'dict_fallback_message' => '',
+                'dict_fallback_text' => '',
+                'dict_file_too_big' => '',
+                'dict_invalid_file_type' => '',
+                'dict_response_error' => '',
+                'dict_cancel_upload' => '',
+                'dict_upload_canceled' => '',
+                'dict_cancel_upload_confirmation' => '',
+                'dict_remove_file' => '',
+                'dict_remove_file_confirmation' => '',
+                'dict_max_files_exceeded' => '',
+                'dict_file_size_units' => '',                
+            ],   
         ]     
     ];  
     public const LISTPERMISSIONS = [

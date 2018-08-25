@@ -10,7 +10,7 @@ namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-
+use Symfony\Component\Validator\Constraints\DateTime;
 use App\Entity\Users;
 use App\Entity\Business;
 use App\Entity\UsersRoles;
@@ -32,7 +32,7 @@ class UsersRepository extends ServiceEntityRepository
             ->where('u.id =:userId')
             ->setParameter('userId', $userId)
             ->getQuery()
-            ->getSingleResult();;
+            ->getSingleResult();
         return $result;
     }
 

@@ -30,6 +30,7 @@ const messages = {
             last_name:'Apellidos',
             birthdate: 'Nacimiento',            
             email:'Email',
+            image: 'Image',
             password:'Password',
             save_changes:'Guadar cambios',
             cancel:'Cancelar',                
@@ -39,10 +40,14 @@ const messages = {
             email_required: 'Campo de email requerido',
             password_required: 'Campo password requerido',
             password_confirmation_confirmed: 'El password no coincide',
+            date_format: 'Formato de fecha incorrecto',
         },
         messages: {
             processing: 'Procesando datos...',
         },
+        dropZone: {
+            dict_default_message : 'Deje caer los archivos aquí o haga clic para cargarlos.',
+        }        
     },
     en: {
         authentication: {
@@ -75,6 +80,7 @@ const messages = {
             last_name:'Last Name',
             birthdate: 'Birthdate',
             email:'Email',
+            image: 'Image',            
             password:'Password',  
             save_changes:'Save changes',
             cancel:'Cancel',        
@@ -84,10 +90,14 @@ const messages = {
             email_required: 'Email field required',
             password_required: 'Password field required',
             password_confirmation_confirmed: 'The password does not match',
+            date_format: 'Wrong date format',            
         },
         messages: {
             processing: 'Processing data...',
-        },        
+        },     
+        dropZone: {
+            dict_default_message : 'Drop files here o click to upload.',
+        }
     }
 };
 export default messages;

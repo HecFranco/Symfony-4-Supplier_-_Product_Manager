@@ -1,7 +1,8 @@
 import axios from 'axios';
+import Moment from 'moment';
+
 import globalSettings from '../../settings';
 import * as authTypes from '../../types/authentication';
-
 import * as globalTypes from '../../types/global';
 
 const state = {
@@ -15,7 +16,7 @@ const state = {
     firstname: null,
     lastname: null,
     email: null,
-    password: null,
+    birthdate: null,
   },
   permissions: {},
   business: {},
@@ -105,6 +106,10 @@ const mutations = {
   [authTypes.MUTATE_SET_DATA_USER]: (state, payload) => {
     state.logged = true;
     state.user = payload.user;
+    // we reformat the date to use with javascript
+    state.user.birthdate = new Date( state.user.birthdate.date )
+    // Wed Aug 22 2018 00:00:00 GMT+0200 (Central European Summer Time)
+
   },
   [authTypes.MUTATE_SET_DATA_BUSINESS]: (state, payload) => {
     state.logged = true;

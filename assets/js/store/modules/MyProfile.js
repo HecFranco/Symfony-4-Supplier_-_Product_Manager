@@ -13,6 +13,10 @@ const state = {
     lastname: null,
     email: null,
     birthdate: null,
+    image: {
+      url: null,
+      name: null
+    },
     password: null,
     passwordConfirmation: null,
   },
@@ -51,6 +55,12 @@ const mutations = {
   [myProfileTypes.MUTATE_USER_BIRTHDATE]: (state, payload) => {
     state.updateDataUser.birthdate = payload;
   },  
+  [myProfileTypes.MUTATE_USER_IMAGE_URL]: (state, payload) => {
+    state.updateDataUser.image.url = payload;
+  }, 
+  [myProfileTypes.MUTATE_USER_IMAGE_NAME]: (state, payload) => {
+    state.updateDataUser.image.name = payload;
+  },    
   [myProfileTypes.MUTATE_USER_PASSWORD]: (state, payload) => {
     state.updateDataUser.password = payload;
   },
@@ -78,6 +88,12 @@ const actions = {
   [myProfileTypes.UPDATE_USER_PASSWORD]: ({ commit }, payload) => {
     commit(myProfileTypes.MUTATE_USER_PASSWORD, payload);
   },
+  [myProfileTypes.UPDATE_USER_PASSWORD_CONFIRMATION]: ({ commit }, payload) => {
+    commit(myProfileTypes.MUTATE_USER_PASSWORD_CONFIRMATION, payload);
+  },  
+  [myProfileTypes.UPDATE_USER_BIRTHDATE]: ({ commit }, payload) => {
+    commit(myProfileTypes.MUTATE_USER_BIRTHDATE, payload);
+  },   
   /* End::Synchronize form **************************************************************/  
   [myProfileTypes.INITIALIZE_USER]: ({ commit }, user) => {
     commit(myProfileTypes.MUTATE_USER, user);
@@ -92,6 +108,8 @@ const actions = {
             firstname: state.updateDataUser.firstname,
             lastname: state.updateDataUser.lastname,
             email: state.updateDataUser.email,
+            birthdate: state.updateDataUser.birthdate,
+            image: state.updateDataUser.image,
             password: state.updateDataUser.password            
           },          
           { headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem('_token') } }

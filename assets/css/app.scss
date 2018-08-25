@@ -90,6 +90,16 @@
     animation: scale 1.5s 1.25s linear infinite alternate;
   }
 /* End::Loading System Animation **********************************************************************/
+/* Begin::Form ****************************************************************************************/
+.text_danger {
+  color: red;
+  display: block;
+  position:absolute;
+}
+.input_error {
+  border-color: red;
+}
+/* End::Form ******************************************************************************************/
 $acceVerde: #84a640;
 $acceAzul: #396696;
 

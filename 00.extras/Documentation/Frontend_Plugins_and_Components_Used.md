@@ -174,12 +174,13 @@ npm i vue-notifications --save
 
 ---------------------------------------------------------------------------------------
 
-### Vue Picture Input
+### Vue DropzoneJs
 
 ---------------------------------------------------------------------------------------
 
 ##### Official sources :
-        *  [vue-picture-input](https://www.npmjs.com/package/vue-picture-input)
+        *  [vue Dropzone](https://www.npmjs.com/package/dropzone)
+        *  [Dropzone JS](https://www.dropzonejs.com/)        
 
 ---------------------------------------------------------------------------------------
 

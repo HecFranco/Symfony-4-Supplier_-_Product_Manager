@@ -4,13 +4,13 @@
     id="user-menu"
     class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
     v-on:click="userMenuUserToggler()"
-    >
+  >
     <a class="m-nav__link m-dropdown__toggle">
     <span class="m-topbar__userpic">
     <img :src="urlImageUser()" class="m--img-rounded m--marginless" alt=""/>
     </span>
     <span class="m-topbar__username m--hide">
-    {{userData.firstName}}
+    {{userData.firstname}}
     </span>
     </a>
     <div class="m-dropdown__wrapper">
@@ -24,7 +24,7 @@
             </div>
             <div class="m-card-user__details">
               <span class="m-card-user__name m--font-weight-500">
-              {{userData.firstName}} {{userData.lastName}}
+              {{userData.firstname}} {{userData.lastname}}
               </span>
               <a href="" class="m-card-user__email m--font-weight-300 m-link">
               {{userData.email}}

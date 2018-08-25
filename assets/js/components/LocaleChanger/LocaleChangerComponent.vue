@@ -15,8 +15,8 @@ import * as globalTypes from "../../types/global";
 export default {
   name: "LocaleChangerComponent",
   data () {
-            return { langs: ['es-ES', 'en'] }
-		},
+    return { langs: ['es-ES', 'en'] }
+	},
   computed: {
     changeLanguage: {
       get() {

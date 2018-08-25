@@ -40,12 +40,15 @@
                         <input
                           id="myProfileInput_firstname"
                           class="form-control m-input"
+                          v-bind:class="{ input_error: errors.has('firstName') }"
                           type="text"
                           v-model="firstname"
-                          name="firstName"                      
+                          name="firstName" 
+                          v-validate
+                          data-vv-rules="alpha"                     
                         >
                         <span
-                          v-show="errors_form.firstName === true"
+                          v-show="errors.has('firstName')"
                           class="text_danger"
                         >    
                           {{ $t("errors_form.string_required") }}
@@ -60,12 +63,15 @@
                         <input
                           id="myProfileInput_lastname"
                           class="form-control m-input"
+                          v-bind:class="{ input_error: errors.has('lastName') }"
                           type="text"
                           v-model="lastname"
-                          name="lastName"                                                 
+                          name="lastName" 
+                          v-validate
+                          data-vv-rules="alpha"                                                
                         >
                         <span
-                          v-show="errors_form.lastName === true"
+                          v-show="errors.has('lastName')"
                           class="text_danger"
                         >    
                           {{ $t("errors_form.string_required") }}
@@ -80,20 +86,15 @@
                         <input
                           id="myProfileInput_email"
                           class="form-control m-input"
+                          v-bind:class="{ input_error: errors.has('email') }"
                           type="text"
                           v-model="email"
                           name="email"     
                           v-validate
                           data-vv-rules="required|email"                                                                       
-                        >
+                        >                       
                         <span
                           v-show="errors.has('email')"
-                          class="text-danger"
-                        >
-                          {{ errors.first('email') }}
-                        </span>                        
-                        <span
-                          v-show="errors_form.email === true"
                           class="text_danger"
                         >    
                           {{ $t("errors_form.email_required") }}
@@ -106,15 +107,24 @@
                       </label>
                       <div class="col-9">                    
                         <datepicker-component 
-                          v-model="birthdate" 
-                          :first-day-of-week="1"
-                          type="datetime"
-                          lang="es"
-                          format="DD-MM-YYYY"
+                          id="birthdate"
+                          v-model = "birthdate" 
+                          name = "dateFormatFieldBirthdate"
+                          v-bind:class="{ input_error: errors.has('dateFormatFieldBirthdate') }"
+                          type = "date"
+                          lang = "es"
+                          format = "DD/MM/YYYY"
+                          v-validate = "'date_format:DD/MM/YYYY'"
                         >
-                        </datepicker-component>  
+                        </datepicker-component>                 
+                        <span
+                          v-show="errors.has('dateFormatFieldBirthdate')"
+                          class="text_danger"
+                        >    
+                          {{ $t("errors_form.date_format") }}
+                        </span>                          
                       </div>                      
-                    </div>                                           
+                    </div>   
                     <div class="form-group m-form__group row">
                       <label for="example-text-input" class="col-3 col-form-label">
                       {{ $t("my_profile.password") }}
@@ -124,21 +134,16 @@
                           autocomplete="off"
                           id="myProfileInput_password"
                           class="form-control m-input"
+                          v-bind:class="{ input_error: errors.has('password') }"
                           type="password"
                           v-model="password"
                           name="password"    
                           v-validate
                           data-vv-rules="required|min:4"
                           ref="password"                                                                          
-                        >
+                        >                      
                         <span
                           v-show="errors.has('password')"
-                          class="text-danger"
-                        >
-                          {{ errors.first('password') }}
-                        </span>                        
-                        <span
-                          v-show="errors_form.password === true"
                           class="text_danger"
                         >    
                           {{ $t("errors_form.password_required") }}
@@ -154,25 +159,35 @@
                           autocomplete="off"
                           id="myProfileInput_password_confirmation"
                           class="form-control m-input"
+                          v-bind:class="{ input_error: errors.has('passwordConfirmation') }"
                           type="password"
                           v-model="passwordConfirmation"
                           name="passwordConfirmation"     
                           v-validate="'required|confirmed:password'"                                                                         
-                        >
+                        >                      
                         <span
                           v-show="errors.has('passwordConfirmation')"
-                          class="text-danger"
-                        >
-                          {{ errors.first('passwordConfirmation') }}
-                        </span>                        
-                        <span
-                          v-show="errors_form.passwordConfirmation === true"
                           class="text_danger"
                         >    
                           {{ $t("errors_form.password_confirmation_confirmed") }}
                         </span>                                            
                       </div>                      
-                    </div>                                                    
+                    </div>  
+                    <div class="form-group m-form__group row">
+                      <label for="example-text-input" class="col-3 col-form-label">
+                      {{ $t("my_profile.image") }}
+                      </label>
+                      <div class="col-9">
+                        <vue-dropzone-component 
+                          ref="dropzoneImage"
+                          id="dropzone" 
+                          :options="dropzoneOptions"
+                          @vdropzone-complete="uploadFileImage"
+                          @vdropzone-removed-file="removeFileImage"
+                          >
+                        </vue-dropzone-component>                         
+                      </div>
+                    </div>                                                                      
                   </div>
                   <div class="m-portlet__foot m-portlet__foot--fit">
                     <div class="m-form__actions">
@@ -209,37 +224,36 @@
 import { mapActions, mapGetters } from "vuex";
 // Types
 import * as myProfileTypes from "../../types/myProfile";
+import * as globalTypes from "../../types/global";
 // NProgress System
 var NProgress = require("../../libraries/nprogress.js");
 // Component Show Notifications
-import VueNotifications from 'vue-notifications';
-import DatePicker from 'vue2-datepicker';
-// BEGIN::
+import VueNotifications from "vue-notifications";
+import DatePicker from "vue2-datepicker";
+import vue2Dropzone from "vue2-dropzone";
+import "vue2-dropzone/dist/vue2Dropzone.min.css";
+// BEGIN:: component
 export default {
   name: "EditDataUserComponent",
   components: {
     "datepicker-component": DatePicker,
-  },
-  data() {
-    return {
-      errors_form: {
-        firstname: false,
-        lastname: false,
-        passwordConfirmation: false
-      },
-      lang: {
-        days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
-        placeholder: {
-          date: 'Select Date',
-          dateRange: 'Select Date Range',
-        },
-      }
-    };
+    "vue-dropzone-component": vue2Dropzone
   },
   props: {
     userData: Object
+  },
+  data: function() {
+    return {
+      dropzoneOptions: {
+        url: "https://httpbin.org/post",
+        thumbnailWidth: 150,
+        maxFilesize: 0.5,
+        uploadMultiple: false ,
+        addRemoveLinks: true,
+        maxFiles: 1,
+        dictDefaultMessage: this.dropZoneDefaultMessage(),
+      }
+    };
   },
   // Notifications System
   notifications: {
@@ -263,10 +277,11 @@ export default {
       title: "",
       message: ""
     }
-  },    
+  },
   computed: {
     ...mapGetters({
-      userEditData: myProfileTypes.USER
+      userEditData: myProfileTypes.USER,
+      lang: globalTypes.LANGUAGE
     }),
     firstname: {
       get() {
@@ -315,19 +330,21 @@ export default {
         if (this.userEditData.birthdate === null) {
           this.$store.commit(
             myProfileTypes.MUTATE_USER_BIRTHDATE,
+            //Moment( this.userData.birthdate.date ).format('DD/MM/YYYY')
             this.userData.birthdate
           );
         }
-        if(this.userData.birthdate !== undefined){
-          console.log(this.userData.birthdate.date);
-          console.log(Datejs);
-        }
-        // return new Date(this.userData.birthdate.date).toString("DD-MM-YYYY");
+        return this.userEditData.birthdate;
       },
       set(value) {
-        this.$store.commit(myProfileTypes.MUTATE_USER_BIRTHDATE, value);
+        console.log(value);
+        // this.$store.commit( myProfileTypes.MUTATE_USER_BIRTHDATE, Moment(value).format('DD/MM/YYYY') );
+        this.$store.commit(
+          myProfileTypes.MUTATE_USER_BIRTHDATE,
+          new Date(value)
+        );
       }
-    },    
+    },   
     password: {
       get() {
         return this.userEditData.password;
@@ -347,33 +364,83 @@ export default {
         );
       }
     },
-    isComplete () {
-      return this.firstname && this.lastname && this.email && this.password && this.passwordConfirmation;
+    isComplete() {
+      return (
+        this.firstname &&
+        this.lastname &&
+        this.email &&
+        this.password &&
+        this.passwordConfirmation
+      );
     }
   },
   methods: {
+    uploadFileImage(file) {
+      this.$store.commit(
+        myProfileTypes.MUTATE_USER_IMAGE_URL,
+        file.dataURL
+      );
+      this.$store.commit(
+        myProfileTypes.MUTATE_USER_IMAGE_NAME,
+        file.name
+      );
+      // console.log(this.$refs.dropzoneImage.getQueuedFiles());
+      // console.log(this.$refs.dropzoneImage.processQueue());
+    },  
+    removeFileImage(file) {
+      this.$store.commit(
+        myProfileTypes.MUTATE_USER_IMAGE_URL,
+        ''
+      );
+      this.$store.commit(
+        myProfileTypes.MUTATE_USER_IMAGE_NAME,
+        ''
+      );
+      // console.log(this.$refs.dropzoneImage.getQueuedFiles());
+      // console.log(this.$refs.dropzoneImage.processQueue());
+    },       
+    dropZoneDefaultMessage: function(){
+      let message;
+      let langSelected = this.$store.state.global.language;
+      let translations = this.$store.state.global.translations[langSelected];
+      if(translations !== undefined ){
+        message = translations.dropZone.dict_default_message;
+      }else {
+        message = 'loading...';
+      }
+      return message;
+    },
     handleSubmitUpdateDataUser: function() {
-      // Start progress Bar      
+      // Start progress Bar
       NProgress.start();
-      NProgress.set(0.4);    
+      NProgress.set(0.4);
       let lang = this.$store.state.global.language;
-      let notifications = this.$store.state.global.translations[lang].notifications;
+      let notifications = this.$store.state.global.translations[lang]
+        .notifications;
       this.showInfoMsg({ message: notifications.form_submitted, title: "" });
       // Todo
-      this.$store.dispatch(myProfileTypes.SEND_FORM_DATA_USER)
-        .then(result =>{
+      this.$store
+        .dispatch(myProfileTypes.SEND_FORM_DATA_USER)
+        .then(result => {
           NProgress.done();
-          this.showSuccessMsg({ message: notifications.user_updated, title: "" });
+          this.showSuccessMsg({
+            message: notifications.user_updated,
+            title: ""
+          });
         })
         .catch(error => {
           NProgress.done();
-          this.showWarnMsg({ message: notifications.error_with_api, title: "" });
+          this.showWarnMsg({
+            message: notifications.error_with_api,
+            title: ""
+          });
         });
-      // Finally progress Bar      
-    }, 
+      // Finally progress Bar
+    },
     validateBeforeSubmit() {
       this.$validator.validateAll().then(result => {
         if (!result) {
+          console.log(result);
           //hay errores
         } else {
           this.$emit("sendFormDataUser");
@@ -384,11 +451,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.text_danger {
-  color: red;
-  display: block;
-}
-.input_error {
-  border-color: red;
+.mx-input {
+  height: calc(2.25rem + 2px);
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
 }
 </style>
