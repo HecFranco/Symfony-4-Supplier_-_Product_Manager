@@ -8,7 +8,7 @@ Download the executable file of the application (it is portable) and save it to 
 
 > We will use [00.extras/Plugins](./00.extras/Plugins/).
 
-**Donwolad here, [Donwload Ngrok](https://ngrok.com/download).**
+**Download here, [Download Ngrok](https://ngrok.com/download).**
 
 ### USING NGROK
 
